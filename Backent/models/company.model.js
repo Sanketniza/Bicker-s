@@ -2,21 +2,25 @@ const mongoose = require('mongoose');
 
 // Define the Company Schema
 const companySchema = new mongoose.Schema({
+
     name: {
         type: String,
         required: true,
         trim: true,
     },
+
     description: {
         type: String,
         required: true,
         maxlength: 1000, // Description of the company
     },
+
     ownerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the shop owner (User Model)
         required: true,
     },
+
     contactDetails: {
         phone: {
             type: String,
@@ -36,14 +40,17 @@ const companySchema = new mongoose.Schema({
             country: { type: String, trim: true, default: '' },
         },
     },
+
     logo: {
         type: String, // URL for company logo
         default: '',
     },
+
     createdAt: {
         type: Date,
         default: Date.now,
     },
+
 }, {
     timestamps: true, // Automatically creates 'createdAt' and 'updatedAt' fields
 });
