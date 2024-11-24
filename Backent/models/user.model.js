@@ -54,10 +54,15 @@ const userSchema = new mongoose.Schema({
         linkedin: { type: String, trim: true, default: '' },
     },
 
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
+    // verificationToken: {
+    //     type: String,
+    //     default: '',
+    // },
+
+    // isVerified: {
+    //     type: Boolean,
+    //     default: true
+    // },
 
     paymentInfo: {
         bankAccount: { type: String, trim: true, default: '' },
@@ -81,8 +86,5 @@ const userSchema = new mongoose.Schema({
 });
 
 // Create the User Model
-// const User = mongoose.model('User', userSchema);
-
-// module.exports = User;
-
-export default mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;

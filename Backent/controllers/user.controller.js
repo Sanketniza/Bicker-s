@@ -3,11 +3,15 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/datauri");
+const Product = require("../models/product.model");
+
+
+// const sendVerificationEmail = require("../Middlewares/emailVerification");
+// const crypto = require('crypto');
+
 
 exports.register = async(req, res) => {
-
     try {
-
         const { fullname, email, password, phone, role, address } = req.body;
 
         if (!fullname || !email || !password || !phone || !role || !address) {
@@ -26,39 +30,50 @@ exports.register = async(req, res) => {
             });
         }
 
-        const file = req.file;
-
-        const dataUri = getDataUri(file);
-
-        const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
+        let profileUrl = '';
+        if (req.file) {
+            const dataUri = getDataUri(req.file);
+            const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
+            profileUrl = cloudResponse.secure_url;
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await User.create({
+
+        // const verificationToken = crypto.randomBytes(32).toString('hex');
+
+        const user = await User.create({
             fullname,
             email,
             password: hashedPassword,
             phone,
             role,
             address,
-            profile: cloudResponse.secure_url,
+            profile: profileUrl,
+            // verificationToken // Add the verification token
         });
 
+        // Send verification email
+        // await sendVerificationEmail(email, verificationToken);
+
         return res.status(201).json({
-            message: "User registered successfully",
             success: true,
+            user,
+            message: "User registered successfully. Please check your email to verify your account.",
+            // verificationToken // Include this for testing purposes
         });
 
     } catch (error) {
-        console.log(error.User.message);
+        console.log(error);
         console.log("Error in register controller");
-
         return res.status(500).json({
             message: "Internal server error",
             success: false,
+            error: error.message
         });
     }
 };
+
 
 exports.login = async(req, res) => {
 
@@ -92,12 +107,12 @@ exports.login = async(req, res) => {
         }
 
         // check if user is verified
-        if (!user.isVerified) {
-            return res.status(400).json({
-                message: "User is not verified",
-                success: false,
-            });
-        }
+        // if (!user.isVerified) {
+        //     return res.status(400).json({
+        //         message: "User is not verified",
+        //         success: false,
+        //     });
+        // }
 
         // check for role
         if (user.role !== role) {
@@ -113,7 +128,7 @@ exports.login = async(req, res) => {
         };
 
         // generate token
-        const token = jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" });
 
         // remove password and token from response
         user = { // send only these fields to client
@@ -152,8 +167,15 @@ exports.login = async(req, res) => {
 exports.logout = async(req, res) => {
 
     try {
+        // Get user details from database using the ID from JWT
+        const user = await User.findById(req.user.id);
 
-        const user = req.user;
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false,
+            });
+        }
 
         return res.status(200).cookie("token", "", {
             httpOnly: true,
@@ -161,7 +183,7 @@ exports.logout = async(req, res) => {
             sameSite: "strict",
             maxAge: 0,
         }).json({
-            message: `${user.fullname} , you have logged out successfully`,
+            message: `${user.fullname} has logged out successfully`,
             success: true,
         });
 
@@ -177,7 +199,7 @@ exports.logout = async(req, res) => {
 
 };
 
-export const updateProfile = async(req, res) => {
+exports.updateProfile = async(req, res) => {
 
     try {
 
@@ -191,7 +213,7 @@ export const updateProfile = async(req, res) => {
 
         // update user
 
-        const userId = req._id;
+        const userId = req.user.id;
         let user = await User.findById(userId);
 
         if (!user) {
@@ -238,3 +260,81 @@ export const updateProfile = async(req, res) => {
     }
 
 };
+
+exports.deleteProfile = async(req, res) => {
+
+    try {
+
+        const { userId } = req.params; // User ID to delete (passed in URL params)
+        const requesterId = req.user.id; // ID of the authenticated user (from isAuthorized middleware)
+        const requesterRole = req.user.role; // Role of the requester (admin or normal user)
+
+        // Fetch user to delete
+        const userToDelete = await User.findById(userId);
+        if (!userToDelete) {
+            return res.status(404).json({
+                message: 'User not found',
+            });
+        }
+
+        // Check if the requester is the owner or an admin
+        if (userToDelete._id.toString() !== requesterId && requesterRole !== 'admin') {
+            return res.status(403).json({
+                message: 'Access denied! You can only delete your own account.',
+            });
+        }
+
+        // Delete associated data (e.g., products posted by the user)
+        await Product.deleteMany({ userId: userToDelete._id });
+
+        // Delete the user account
+        await userToDelete.deleteOne();
+
+        return res.status(200).json({
+            message: 'User account and associated data deleted successfully.',
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        console.log("Error in deleteProfile controller");
+
+        return res.status(500).json({
+            message: 'An error occurred while deleting the user account.',
+            error: error.message
+        });
+    }
+
+};
+
+// exports.verifyUser = async(req, res) => {
+//     try {
+//         const { token } = req.params;
+
+//         // Find user with verification token
+//         const user = await User.findOne({ verificationToken: token });
+
+//         if (!user) {
+//             return res.status(400).json({
+//                 message: "Invalid verification token",
+//                 success: false
+//             });
+//         }
+
+//         // Update user verification status
+//         user.isVerified = true;
+//         user.verificationToken = undefined; // Clear the token after verification
+//         await user.save();
+
+//         return res.status(200).json({
+//             message: "Email verified successfully",
+//             success: true
+//         });
+
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({
+//             message: "Error verifying email",
+//             success: false
+//         });
+//     }
+// };

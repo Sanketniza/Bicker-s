@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./utils/db');
 const app = express();
 
+const userRoutes = require('./routes/user.route');
+
 dotenv.config(); // Load environment variables
 
 //* Middleware
@@ -19,6 +21,9 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Enable CORS with options
 
 const PORT = process.env.PORT || 3000;
+
+//* Routes
+app.use('/api/v1/user', userRoutes);
 
 
 //* database connection
