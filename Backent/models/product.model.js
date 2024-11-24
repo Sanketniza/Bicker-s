@@ -26,14 +26,14 @@ const productSchema = new mongoose.Schema({
     },
 
     images: [{
-        type: String,
-        required: true,
-    }, ],
+        type: String, // URLs for images
+        required: false,
+    }],
 
     videos: [{
-        type: String,
+        type: String, // URLs for videos
         required: false,
-    }, ],
+    }],
 
     shopOwnerId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -41,10 +41,10 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
 
-    userId: {
+    companyId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: false, // Only needed if you plan to track user interactions with the product
+        ref: 'Company',
+        required: true,
     },
 
     category: {
@@ -59,16 +59,35 @@ const productSchema = new mongoose.Schema({
         default: 'active',
     },
 
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    views: {
+        type: Number,
+        default: 0,
+    },
+
+    ratings: {
+        average: {
+            type: Number,
+            default: 0,
+        },
+        count: {
+            type: Number,
+            default: 0,
+        },
+    },
+
+    tags: [{
+        type: String,
+        required: false,
+    }],
+
+    stock: {
+        type: Number,
+        required: true,
+        default: 0,
     },
 
 }, {
     timestamps: true,
 });
-
-// const Product = mongoose.model('Product', productSchema);
-// module.exports = Product;
 
 module.exports = mongoose.model('Product', productSchema);

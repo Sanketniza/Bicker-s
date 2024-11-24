@@ -70,6 +70,7 @@ exports.createCompany = async(req, res) => {
         });
     } catch (error) {
         console.error("Error in createCompany:", error.message);
+        console.log("error at company controller createCompany");
         return res.status(500).json({
             message: "Internal server error.",
             success: false,
@@ -79,7 +80,9 @@ exports.createCompany = async(req, res) => {
 };
 
 exports.getCompanyById = async(req, res) => {
+
     try {
+
         const { companyId } = req.params;
 
         const company = await Company.findById(companyId).populate("ownerId", "fullname email role");
@@ -95,8 +98,10 @@ exports.getCompanyById = async(req, res) => {
             success: true,
             company,
         });
+
     } catch (error) {
         console.error("Error in getCompanyById:", error.message);
+        console.log("error at company controller getCompanyById");
         return res.status(500).json({
             message: "Internal server error.",
             success: false,
@@ -106,7 +111,9 @@ exports.getCompanyById = async(req, res) => {
 };
 
 exports.updateCompany = async(req, res) => {
+
     try {
+
         const { companyId } = req.params;
         const { name, description, contactDetails } = req.body;
 
@@ -150,8 +157,10 @@ exports.updateCompany = async(req, res) => {
             success: true,
             company,
         });
+
     } catch (error) {
         console.error("Error in updateCompany:", error.message);
+        console.log("error at company controller updateCompany");
         return res.status(500).json({
             message: "Internal server error.",
             success: false,
@@ -161,7 +170,9 @@ exports.updateCompany = async(req, res) => {
 };
 
 exports.deleteCompany = async(req, res) => {
+
     try {
+
         const { companyId } = req.params;
 
         const company = await Company.findById(companyId);
@@ -186,8 +197,10 @@ exports.deleteCompany = async(req, res) => {
             message: "Company deleted successfully.",
             success: true,
         });
+
     } catch (error) {
         console.error("Error in deleteCompany:", error.message);
+        console.log("error at company controller deleteCompany");
         return res.status(500).json({
             message: "Internal server error.",
             success: false,

@@ -7,7 +7,7 @@ const app = express();
 
 const userRoutes = require('./routes/user.route');
 const companyRoutes = require('./routes/company.route');
-
+const productRoutes = require('./routes/product.route');
 
 dotenv.config(); // Load environment variables
 
@@ -27,6 +27,7 @@ const PORT = process.env.PORT || 3000;
 //* Routes
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/company', companyRoutes);
+app.use('/api/v1/product', productRoutes);
 
 
 //* database connection

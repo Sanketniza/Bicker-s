@@ -3,10 +3,10 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
+    if (file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/')) {
         cb(null, true);
     } else {
-        cb(new Error('Not an image! Please upload an image.'), false);
+        cb(new Error('Invalid file type! Please upload only images or videos.'), false);
     }
 };
 
@@ -14,12 +14,19 @@ const upload = multer({
     storage,
     fileFilter,
     limits: {
-        fileSize: 2 * 1024 * 1024 // 2MB limit
+        fileSize: 10 * 1024 * 1024 // 10MB limit
     }
 });
 
+// For product uploads (multiple files)
+const productUpload = upload.fields([
+    { name: 'images', maxCount: 5 },
+    { name: 'videos', maxCount: 2 }
+]);
+
+// For single file uploads
 const singleUpload = upload.single('file');
-const uploadMiddleware = upload.single('logo');
+const logoUpload = upload.single('logo');
 
 // Wrapper function to handle multer errors
 const handleUpload = (uploadType) => {
@@ -44,5 +51,6 @@ const handleUpload = (uploadType) => {
 
 module.exports = {
     singleUpload: handleUpload(singleUpload),
-    uploadMiddleware: handleUpload(uploadMiddleware)
+    uploadMiddleware: handleUpload(logoUpload),
+    productUpload: handleUpload(productUpload)
 };
