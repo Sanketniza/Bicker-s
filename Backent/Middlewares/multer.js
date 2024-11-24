@@ -10,32 +10,39 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-const singleUpload = multer({
+const upload = multer({
     storage,
     fileFilter,
     limits: {
         fileSize: 2 * 1024 * 1024 // 2MB limit
     }
-}).single('profile'); // Change 'file' to 'profile'
+});
+
+const singleUpload = upload.single('file');
+const uploadMiddleware = upload.single('logo');
 
 // Wrapper function to handle multer errors
-const uploadMiddleware = (req, res, next) => {
-    singleUpload(req, res, (err) => {
-
-        if (err instanceof multer.MulterError) {
-            return res.status(400).json({
-                message: "File upload error",
-                error: err.message,
-                success: false
-            });
-        } else if (err) {
-            return res.status(400).json({
-                message: err.message || "Unknown error occurred",
-                success: false
-            });
-        }
-        next();
-    });
+const handleUpload = (uploadType) => {
+    return (req, res, next) => {
+        uploadType(req, res, (err) => {
+            if (err instanceof multer.MulterError) {
+                return res.status(400).json({
+                    message: "File upload error",
+                    error: err.message,
+                    success: false
+                });
+            } else if (err) {
+                return res.status(400).json({
+                    message: err.message || "Unknown error occurred",
+                    success: false
+                });
+            }
+            next();
+        });
+    };
 };
 
-module.exports = { singleUpload };
+module.exports = {
+    singleUpload: handleUpload(singleUpload),
+    uploadMiddleware: handleUpload(uploadMiddleware)
+};

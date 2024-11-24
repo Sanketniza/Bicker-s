@@ -6,6 +6,7 @@ const companySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
         trim: true,
     },
 
@@ -60,4 +61,4 @@ const companySchema = new mongoose.Schema({
 
 // module.exports = Company;
 
-export default mongoose.model('Company', companySchema);
+module.exports = mongoose.model('Company', companySchema);
