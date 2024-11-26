@@ -1,11 +1,13 @@
 const Order = require("../models/order.model");
 const Product = require("../models/product.model");
+const User = require("../models/user.model");
 
 
 // Create a new order
 exports.createOrder = async(req, res) => {
     try {
         const { productId, shopOwnerId, message } = req.body;
+        const userId = req.user.id;
 
         // Validate required fields
         if (!productId || !shopOwnerId) {
@@ -47,7 +49,7 @@ exports.createOrder = async(req, res) => {
 
         // Create a new order
         const order = await Order.create({
-            userId: req.user.id,
+            userId,
             productId,
             shopOwnerId,
             message: message || "",
@@ -62,6 +64,7 @@ exports.createOrder = async(req, res) => {
             success: true,
             order,
         });
+
     } catch (error) {
         console.error("Error in createOrder:", error.message);
         return res.status(500).json({

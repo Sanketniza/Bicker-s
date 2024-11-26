@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 // Define the Transaction Schema
 const transactionSchema = new mongoose.Schema({
 
-    applicationId: {
+    orderId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Application',
+        ref: 'Order',
         required: true,
     },
+
 
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -39,8 +40,13 @@ const transactionSchema = new mongoose.Schema({
 
     paymentMethod: {
         type: String,
-        enum: ['credit card', 'debit card', 'paypal', 'bank transfer'],
+        enum: ['credit card', 'debit card', 'paypal', 'bank transfer', 'upi'],
         default: 'credit card',
+    },
+
+    paymentDetails: {
+        type: Object,
+        default: {},
     },
 
 }, {
@@ -51,4 +57,4 @@ const transactionSchema = new mongoose.Schema({
 
 // module.exports = Transaction;
 
-export default mongoose.model('Transaction', transactionSchema);
+module.exports = mongoose.model('Transaction', transactionSchema);
