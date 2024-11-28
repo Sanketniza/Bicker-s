@@ -41,6 +41,11 @@ const productSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User model (shop owner)
+        required: true,
+    },
 
     companyId: {
         type: mongoose.Schema.Types.ObjectId,
