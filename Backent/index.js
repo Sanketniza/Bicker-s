@@ -11,6 +11,8 @@ const productRoutes = require('./routes/product.route');
 const orderRoutes = require('./routes/order.route');
 const paymentRoutes = require('./routes/payment.route');
 const notificationRoutes = require('./routes/notification.route');
+const cart = require('./routes/cart.route')
+
 dotenv.config(); // Load environment variables
 
 //* Middleware
@@ -33,6 +35,7 @@ app.use('/api/v1/product', productRoutes);
 app.use('/api/v1/order', orderRoutes);
 app.use('/api/v1/payment', paymentRoutes);
 app.use('/api/v1/notification', notificationRoutes);
+app.use('/api/v1/cart', cart)
 
 
 //* database connection
