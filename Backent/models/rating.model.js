@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Define the Review Schema
-const reviewSchema = new mongoose.Schema({
+const ratingSchema = new mongoose.Schema({
 
     productId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +18,7 @@ const reviewSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: true,
+        default: 0,
         min: 1,
         max: 5,
     },
@@ -41,4 +42,4 @@ const reviewSchema = new mongoose.Schema({
 
 // module.exports = Review;
 
-export default mongoose.model('Review', reviewSchema);
+module.exports = mongoose.model('Rating', ratingSchema);
