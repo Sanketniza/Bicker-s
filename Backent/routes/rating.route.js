@@ -16,6 +16,8 @@ router.post('/add', authenticate, addRating);
 router.get('/:productId', authenticate, getRatingsByProduct);
 router.get('/average/:productId', authenticate, getAverageRating);
 router.put('/update', authenticate, updateRating);
-router.delete('/delete', authenticate, deleteRating);
+// router.delete('/delete', authenticate, deleteRating);
+router.delete('/:ratingId', authenticate, deleteRating);
 
 module.exports = router;
+

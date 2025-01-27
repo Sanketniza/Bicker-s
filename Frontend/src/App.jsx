@@ -1,18 +1,41 @@
+import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
+import './App.css';
+// import { Toaster } from "./components/ui/sonner";
 
-import './App.css'
-import { Button } from './components/ui/button'
+// components
+import Login from './components/shared/Login';
+import Signup from './components/shared/Signup';
+import Home from './components/shared/Home'; // Uncomment if Home component is needed
 
 function App() {
-  
+    const appRouter = createBrowserRouter([
+        {
+            path: '/',
+            element: <Home/> 
+        }
+    ]);
 
-  return (
+    return (
         <>
+            <RouterProvider router={appRouter} />
+            {/* <Toaster /> */}
 
-            <h1>Hello World</h1>
-            <Button/>
-
+            <Routes>
+                <Route path="/sign-up" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                {/* 
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }
+                /> 
+                */}
+            </Routes>
         </>
-    )
+    );
 }
 
 export default App;
