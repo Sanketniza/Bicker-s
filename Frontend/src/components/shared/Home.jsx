@@ -4,9 +4,8 @@ function Home() {
     return (
 
         <>
-           <h1>sanket</h1>
 
-           {/* <Navbar /> */}
+           <Navbar />
         </>
     )
 }

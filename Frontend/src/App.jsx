@@ -1,4 +1,4 @@
-import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './App.css';
 // import { Toaster } from "./components/ui/sonner";
 
@@ -11,29 +11,23 @@ function App() {
     const appRouter = createBrowserRouter([
         {
             path: '/',
-            element: <Home/> 
+            element: <Home/>
+        },
+        {
+            path: '/sign-up',
+            element: <Signup/>
+        },
+        {
+            path: '/login',
+            element: <Login/>
         }
+        // Add more routes here if needed
     ]);
 
     return (
         <>
             <RouterProvider router={appRouter} />
             {/* <Toaster /> */}
-
-            <Routes>
-                <Route path="/sign-up" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                {/* 
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                /> 
-                */}
-            </Routes>
         </>
     );
 }
