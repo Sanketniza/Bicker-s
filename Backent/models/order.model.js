@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema({
 
     message: {
         type: String,
-        maxlength: 500,
+        maxlength: 5000,
         default: '', // Optional message from the user to the shop owner
     },
 

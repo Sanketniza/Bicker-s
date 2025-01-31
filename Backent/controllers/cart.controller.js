@@ -126,7 +126,11 @@ exports.removeItemFromCart = async(req, res) => {
 
     } catch (error) {
         console.error('Error removing item from cart:', error.message);
-        return res.status(500).json({ success: false, message: 'Internal server error.', error: error.message });
+        return res.status(500).json({ 
+            success: false, 
+            message: 'Internal server error.', 
+            error: error.message 
+        });
     }
 };
 
@@ -142,7 +146,10 @@ exports.updateItemQuantity = async(req, res) => {
 
         const item = cart.items.find((item) => item.productId.toString() === productId);
         if (!item) {
-            return res.status(404).json({ success: false, message: 'Product not found in cart.' });
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Product not found in cart.' 
+            });
         }
 
         // Update the total price
@@ -154,6 +161,7 @@ exports.updateItemQuantity = async(req, res) => {
         await cart.save();
 
         return res.status(200).json({ success: true, message: 'Item quantity updated.', cart });
+
     } catch (error) {
         console.error('Error updating item quantity:', error.message);
         return res.status(500).json({ success: false, message: 'Internal server error.', error: error.message });

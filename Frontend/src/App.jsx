@@ -14,12 +14,12 @@ function App() {
             element: <Home/>
         },
         {
-            path: '/sign-up',
-            element: <Signup/>
+            // path: '/sign-up',
+            // element: <Signup/>
         },
         {
-            path: '/login',
-            element: <Login/>
+            // path: '/login',
+            // element: <Login/>
         }
         // Add more routes here if needed
     ]);
@@ -28,6 +28,8 @@ function App() {
         <>
             <RouterProvider router={appRouter} />
             {/* <Toaster /> */}
+
+            <Login />
         </>
     );
 }
