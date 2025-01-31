@@ -33,6 +33,7 @@ function Login() {
                         <div className="p-3 bg-red-500 rounded-full">
                             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-6 8h6m-6 4h6m-6 4h6m-6-8h6m-6 4h6m-6 4h6"></path>
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
                             </svg>
                           </div>
                           <div className="mt-2">
