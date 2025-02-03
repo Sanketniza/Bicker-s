@@ -6,26 +6,28 @@ import email from '../../assets/icons/email (1).png';
 import password from '../../assets/icons/pass.png';
 import { motion } from "motion/react";
 import {Link}  from 'react-router-dom';
+import Navbar from './Navbar';
 
 function Login() {
     return (
         <>
             <div>
-                <h1> Login </h1>
+                
+                <Navbar />
+
                 <div className="flex items-center justify-center min-h-screen px-2 text-white md:px-0">
                     <div className="flex flex-col items-center space-x-10 md:flex-row md:items-start">
                         
                         <div className="space-y-4 md:mr-6">
                             
-                            <motion.div 
+                        <motion.div 
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 transition={{ duration: 0.2 }}
-                                className="flex flex-col items-start space-y-2 pl-3 pr-6 py-3 w-[90vw] max-w-[400px] h-[120px] bg-[#0D0D0D] border-2 border-transparent rounded-lg hover:border-t-[#2D334A] hover:border-l-[#2D334A] hover:border-b-transparent hover:border-r-transparent cursor-pointer"
+                                className="flex flex-col items-start space-y-2 pl-3 pr-6 py-3 w-[90vw] max-w-[400px] h-[120px] border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#00ccff] hover:border-l-[#00ccff] hover:border-b-transparent hover:border-r-transparent cursor-pointer"
                             >
-                                
                                 <motion.div 
-                                    className="p-3 bg-[#2D334A] rounded-full"
+                                    className="p-3 bg-[#00ccff] rounded-full"
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
                                     transition={{ duration: 0.2 }}
@@ -35,9 +37,10 @@ function Login() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#7689D0]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#00ccff]">Learn: Access 100+ Courses</h3>
                                 </div>
                             </motion.div>
+                            
                             <motion.div 
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}

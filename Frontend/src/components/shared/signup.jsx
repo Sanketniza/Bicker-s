@@ -8,13 +8,16 @@ import phone from '../../assets/icons/phone.png';
 // import cycle from '../../assets/icons/cycling.gif';
 import { motion } from "motion/react";
 import {Link}  from 'react-router-dom';
+import Navbar from './Navbar';
 
 function SignUp() {
     return (
         <>
 
             <div>
-                <h1> Sign Up </h1>
+                
+                <Navbar />
+
                 <div className="flex items-center justify-center min-h-screen px-3 text-white md:px-0">
                     <div className="flex flex-col items-center space-x-10 md:flex-row md:items-start md:space-y-0">
                         
@@ -62,6 +65,7 @@ function SignUp() {
                                     <h3 className="text-lg font-semibold text-[#00ccff]">Learn: Access 100+ Courses</h3>
                                 </div>
                             </motion.div>
+                            
                             <motion.div 
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
