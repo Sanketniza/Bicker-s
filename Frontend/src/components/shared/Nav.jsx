@@ -13,25 +13,38 @@ const Navbar = () => {
 
   const [openDropdown, setOpenDropdown] = useState(null);
 
+  let closeTimeout;
+
+  const handleMouseEnter = (index) => {
+    clearTimeout(closeTimeout); // Clear timeout to prevent accidental closing
+    setOpenDropdown(index);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimeout = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 100); // Small delay to avoid accidental closing
+  };
+
   return (
     <div className="sticky top-0 z-50 w-full bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] shadow-[0px_10px_10px_-5px_rgba(102,116,204,0.5)]">
       <nav className="flex items-center justify-center h-14 max-w-screen-xl px-5 mx-auto mb-0">
         {menuItems.map((item, index) => (
-          <div key={index} className="relative group mx-4">
-            <button 
-              className="text-white font-semibold hover:text-blue-400"
-              onMouseEnter={() => setOpenDropdown(index)}
-            >
+          <div 
+            key={index} 
+            className="relative group mx-4"
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button className="text-white font-semibold hover:text-blue-400">
               {item.name} ▼
-            </button>
+            </button>   
             {openDropdown === index && (
               <motion.div 
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="absolute left-0 mt-1 w-48 bg-gray-900 text-white shadow-lg rounded-md border border-gray-700 opacity-100 visible transition-opacity duration-300"
-                onMouseEnter={() => setOpenDropdown(index)}
-                onMouseLeave={() => setOpenDropdown(null)}
+                className="absolute left-0 mt-1 w-48 bg-gray-900 text-white shadow-lg rounded-md border border-gray-700"
               >
                 <div className="rounded-t-lg bg-orange-500 p-2 text-center text-white font-bold">
                   {item.name}
