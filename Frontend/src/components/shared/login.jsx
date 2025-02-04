@@ -8,6 +8,8 @@ import { motion } from "motion/react";
 import {Link}  from 'react-router-dom';
 import Navbar from './Navbar';
 
+import '../../css/Login.css'
+
 function Login() {
     return (
         <>
@@ -18,7 +20,7 @@ function Login() {
                 <div className="flex items-center justify-center min-h-screen px-2 text-white md:px-0">
                     <div className="flex flex-col items-center space-x-10 md:flex-row md:items-start">
                         
-                        <div className="space-y-4 md:mr-6">
+                       {/*  <div className="space-y-4 md:mr-6">
                             
                         <motion.div 
                                 whileHover={{ scale: 1.1 }}
@@ -85,6 +87,7 @@ function Login() {
                                     <h3 className="text-lg font-semibold text-[#EF4444]">Learn: Access 100+ Courses</h3>
                                 </div>
                             </motion.div>
+
                             <motion.div 
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
@@ -106,7 +109,93 @@ function Login() {
                                     <h3 className="text-lg font-semibold text-[#22C55E]">Learn: Access 100+ Courses</h3>
                                 </div>
                             </motion.div>
-                        </div>
+                        </div> */}
+
+
+                          <div className="cards  ">
+
+                            {/* <div style={{width: '300px', height: '120px'}} className="card red ">
+                              <p className="tip">Hover Me</p>
+                              <p className="second-text">Lorem Ipsum</p>
+                            </div>
+
+                            <div style={{width: '300px', height: '120px'}} className="card blue">
+                              <p className="tip">Hover Me</p>
+                              <p className="second-text">Lorem Ipsum</p>
+                            </div> */}
+
+                            <div style={{width: '300px', height: '120px'}} className="card pink border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#EF4444] hover:border-l-[#EF4444] hover:border-b-transparent hover:border-r-transparent cursor-pointer ">
+                            <motion.div 
+                                    className="p-3 bg-red-500 rounded-full"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-6 8h6m-6 4h6m-6 4h6m-6-8h6m-6 4h6m-6 4h6"></path>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
+                                    </svg>
+                                </motion.div>
+                                <div className="mt-2">
+                                    <h3 className="text-lg font-semibold text-[#EF4444]">Learn: Access 100+ Courses</h3>
+                                </div>
+                            </div>
+
+                            <div style={{width: '300px', height: '120px'}} className="card yellow border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#22C55E] hover:border-l-[#22C55E] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                               <motion.div 
+                                    className="p-3 bg-green-500 rounded-full"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z"></path>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
+                                    </svg>
+                                </motion.div>
+                                <div className="mt-2">
+                                    <h3 className="text-lg font-semibold text-[#22C55E]">Learn: Access 100+ Courses</h3>
+                                </div>
+                            </div>
+
+                            <div style={{width: '300px', height: '120px'}} className="card yellow border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#00ccff] hover:border-l-[#00ccff] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                            <motion.div 
+                                    className="p-3 bg-[#00ccff] rounded-full"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-6 8h6m-6 4h6m-6 4h6m-6-8h6m-6 4h6m-6 4h6"></path>
+                                    </svg>
+                                </motion.div>
+                                <div className="mt-2">
+                                    <h3 className="text-lg font-semibold text-[#00ccff]">Learn: Access 100+ Courses</h3>
+                                </div>
+                            </div>
+
+                            <div style={{width: '300px', height: '120px'}} className="card yellow border-2 border-transparent rounded-lg  bg-[#0D0D0D]  hover:border-t-[#2D334A] hover:border-l-[#2D334A] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                              <motion.div 
+                                    className="p-3 bg-[#2D334A] rounded-full"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-6 8h6m-6 4h6m-6 4h6m-6-8h6m-6 4h6m-6 4h6"></path>
+                                    </svg>
+                                </motion.div>
+                                <div className="mt-2">
+                                    <h3 className="text-lg font-semibold text-[#7689D0]">Learn: Access 100+ Courses</h3>
+                                </div>
+                            </div>
+
+                          </div>
+    
+  
+
+
+
                         
                         <div className="w-full max-w-md p-6 mt-8 rounded-xl shadow-lg bg-[#16171C] md:mt-0">
                             <h2 className="mb-4 text-2xl font-bold">Secure Access Made Simple</h2>
