@@ -138,7 +138,7 @@ function SignUp() {
                             
                             <button style={{width: '80%', margin: '10px auto' }} className="flex items-center justify-center w-full px-4 py-2 text-white bg-transparent border-2 border-gray-700 focus:border-pink-600 rounded-full hover:bg-[#3A3C3F]">
                                 <img src={google} className="w-6 h-6 mr-5" alt="google" />
-                                Continue with Google
+                                Continue with Google 
                             </button>
                             
                             {/* <button style={{width: '80%', margin: '0 auto'}} className="flex items-center justify-center w-full px-4 py-2 mt-3 text-white bg-transparent border-2 border-gray-700 focus:border-pink-600 rounded-full hover:bg-[#3A3C3F]">
