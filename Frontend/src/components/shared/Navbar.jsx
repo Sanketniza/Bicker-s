@@ -48,7 +48,7 @@ function Navbar() {
 	
     return (
 		
-		<div className="sticky top-0 z-50 w-full shadow-[0px_8px_8px_-5px_rgba(102,116,204,0.5)] bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] mb-5">
+		<div className="sticky top-0 z-50 w-full h-16 bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] rounded-b-lg border-b-4 border-[#7c5a36] shadow-lg">
 		
 			<div className='flex items-center justify-between h-16 max-w-screen-xl px-5 mx-auto mb-5'>
 {/* //&------------------------------------------------------------------------------------------  */}
@@ -56,7 +56,7 @@ function Navbar() {
 				<div className="flex items-center ">
 						<div className="flex">
 							<Link to="/">
-								<img className="w-16 h-16 bg-transparent rounded-md" src={logo} alt="logo" />
+								<img className="w-16 h-16 bg-transparent rounded-md " src={logo} alt="logo" />
 							</Link>
 						</div>
 					<h1 className="mx-5 text-3xl font-bold text-white-800">
@@ -68,16 +68,16 @@ function Navbar() {
 
 {/* //&------------------------------------------------------------------------------------------  */}
 
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-4 ">
 
 					<motion.ul 
 						
-						className="flex items-center gap-10">
+						className="flex items-center gap-10 ">
 						<motion.li
 							whileHover={{ color: "#6674CC" }}
 							transition={{ delay: 0.011 }}
 							className="cursor-pointer text-white-800 ">
-							<Link to="/login">
+							<Link to="/">
 								<div className="flex items-center gap-1">
 									<Bike className="w-5 h-5" />
 									<span>Home</span>
