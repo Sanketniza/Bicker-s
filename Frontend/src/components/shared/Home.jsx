@@ -1,6 +1,7 @@
 
 import Navbar from '../shared/Navbar';
 import Nav from '../shared/Nav';
+import Ad from '../Home/Ad';
 function Home() {
     return (
 
@@ -8,6 +9,8 @@ function Home() {
 
            <Navbar />
            <Nav />
+
+           <Ad />
         </>
     )
 }

@@ -20,7 +20,7 @@ function Login() {
                 <div className="flex items-center justify-center min-h-screen px-2 text-white md:px-0">
                     <div className="flex flex-col items-center space-x-10 md:flex-row md:items-start">
                         
-                       {/*  <div className="space-y-4 md:mr-6">
+                        {/*  <div className="space-y-4 md:mr-6">
                             
                         <motion.div 
                                 whileHover={{ scale: 1.1 }}
