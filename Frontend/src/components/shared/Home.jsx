@@ -2,6 +2,8 @@
 import Navbar from '../shared/Navbar';
 import Nav from '../shared/Nav';
 import Ad from '../Home/Ad';
+import BikesSpotlight from '../Home/Bikes';
+import Brand from '../Home/Brand';
 function Home() {
     return (
 
@@ -11,8 +13,12 @@ function Home() {
            <Nav />
 
            <Ad />
+
+           {/* <BikesSpotlight /> */}
+
+           <Brand />
         </>
     )
-}
+} 
 
 export default Home

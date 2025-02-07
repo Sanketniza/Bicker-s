@@ -1,0 +1,136 @@
+const BikeSpotlight = () => {
+
+  return (
+
+    <div className="wrapper max-w-[80%] md:max-w-[80%] lg:max-w-[70%] xl:max-w-[60%] mx-auto px-4 my-10">
+    
+    <div className="max-w-7xl mx-auto px-4 py-8 border border-orange-500 rounded-xl shadow-sm bg-gray-800">
+      {/* Main Heading */}
+      <h2 className="text-2xl md:text-3xl font-bold mb-8 text-white">
+        Bikes in Spotlight
+      </h2>
+
+      {/* Categories Section */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-white">Commuter Bikes</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          {['Sports Bikes', 'Cruiser Bikes', 'Best Mileage Bikes', 'Electric Bikes'].map((category) => (
+            <button
+              key={category}
+              className="p-3 text-left hover:bg-gray-100 rounded-lg transition-colors border border-gray-200"
+            >
+              <span className="text-gray-600">{category}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Bike Listings */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { name: 'TVS Apache RTR 160', price: '₹1.20 - 1.30 Lakh¹' },
+          { name: 'Hero Splendor Plus XTEC', price: '₹81,001 - 84,301¹' },
+          { name: 'Honda SP125', price: '₹92,110 - 1 Lakh¹' },
+          { name: 'Bajaj Pulsar 125', price: '₹83,846 - 91,610²' },
+        ].map((bike, index) => (
+          <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <h4 className="text-lg font-semibold mb-2 text-gray-800">{bike.name}</h4>
+            <p className="text-gray-600 mb-4">{bike.price}</p>
+            <button className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+              View February Offers
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* View All Link */}
+      <div className="mt-8 text-center">
+        <a href="#view-all" className="text-blue-500 hover:text-blue-600 font-medium">
+          View All Commuter Bikes
+        </a>
+      </div>
+    </div>
+
+    </div>
+  );
+};
+
+export default BikeSpotlight;
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+import {  useEffect } from "react";
+import "../../css/bike.css"
+
+const Pricing = () => {
+  useEffect(() => {
+    const cardsContainer = document.querySelector(".cards");
+    const overlay = document.querySelector(".overlay");
+    const cards = Array.from(document.querySelectorAll(".card"));
+
+    const applyOverlayMask = (e) => {
+      const overlayElement = e.currentTarget;
+      const x = e.pageX - cardsContainer.offsetLeft;
+      const y = e.pageY - cardsContainer.offsetTop;
+
+      overlayElement.style = `--opacity: 1; --x: ${x}px; --y:${y}px`;
+    };
+
+    const createOverlayCta = (overlayCard, ctaElement) => {
+      const overlayCta = document.createElement("div");
+      overlayCta.classList.add("cta");
+      overlayCta.textContent = ctaElement.textContent;
+      overlayCta.setAttribute("aria-hidden", true);
+      overlayCard.appendChild(overlayCta);
+    };
+
+    const observer = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const cardIndex = cards.indexOf(entry.target);
+        let width = entry.borderBoxSize[0].inlineSize;
+        let height = entry.borderBoxSize[0].blockSize;
+        if (cardIndex >= 0) {
+          overlay.children[cardIndex].style.width = `${width}px`;
+          overlay.children[cardIndex].style.height = `${height}px`;
+        }
+      });
+    });
+
+    const initOverlayCard = (cardElement) => {
+      const overlayCard = document.createElement("div");
+      overlayCard.classList.add("card");
+      createOverlayCta(overlayCard, cardElement.lastElementChild);
+      overlay.appendChild(overlayCard);
+      observer.observe(cardElement);
+    };
+
+    cards.forEach((card) => initOverlayCard(card));
+    document.body.addEventListener("pointermove", applyOverlayMask);
+  }, []);
+
+  return (
+    <main className="main flow">
+      <h1 className="main-heading">Pricing</h1>
+      <div className="main-cards cards">
+        <div className="cards-inner">
+          <div className="cards-card card">
+            <h2 className="card-heading">Basic</h2>
+            <p className="card-price">$9.99</p>
+            <ul role="list" className="card-bullets flow">
+              <li>Access to standard workouts and nutrition plans</li>
+              <li>Email support</li>
+            </ul>
+            <a href="#" className="card-cta cta">Get Started!</a>
+          </div>
+          <div className="overlay cards-inner"></div>
+        </div>
+      </div>
+    </main>
+  );
+};
+
+export default Pricing;
+
+++++++++++++++++++++++++

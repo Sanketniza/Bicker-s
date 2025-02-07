@@ -6,12 +6,13 @@
 // 	PopoverTrigger,
 // } from "@radix-ui/react-popover";
 
+import '../../css/LogoName.css'
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
 import axios from "axios";
-import { Bike, BookOpenIcon, FolderIcon, HardHat, HomeIcon, ListOrdered } from "lucide-react"
+import { Bike,  HardHat,  ListOrdered } from "lucide-react"
 
- import { useDispatch, useSelector } from "react-redux";
+ import { useDispatch } from "react-redux";
 
 
  import { Link, useNavigate } from "react-router-dom";
@@ -61,7 +62,10 @@ function Navbar() {
 						</div>
 					<h1 className="mx-5 text-3xl font-bold text-white-800">
 						<Link to="/" className="flex items-center gap-1">
-							Student <span className="text-red-500">_Hub</span>{" "}
+							{/* Student <span className="text-red-500">_Hub</span> */}
+							 
+							<a href="#" className="btn-shine text-red-500">Student_Hub</a>
+
 						</Link>
 					</h1>
 				</div>
@@ -114,7 +118,7 @@ function Navbar() {
 
 					<div className="flex items-center gap-4">
 						<button
-							className="px-4 py-2 bg-red-500 rounded-md text-white-800 hover:bg-red-600"
+							className=" bg-red-500 rounded-md text-white-800 hover:bg-red-600"
 							onClick={logoutHandler}
 						>
 							Logout
@@ -123,7 +127,7 @@ function Navbar() {
 					
 					<div className="flex items-center gap-4">
 						<button
-							className="px-4 py-2 bg-[#515DB1] rounded-md text-white-800 hover:bg-[#6674CC]"
+							className="  bg-[#515DB1] rounded-md text-white-800 hover:bg-[#6674CC]"
 							onClick={logoutHandler}
 						>
 							Login
