@@ -1,43 +1,41 @@
-const cardsContainer = document.querySelector('.cards');
-const cardsContainerInner = document.querySelector('.cards-inner');
-const cards = Array.from(document.querySelectorAll('.card'));
-const overlay = document.querySelector('.overlay');
+// Sample company data - replace with actual data source
+export const sampleCompanies = [
+  {
+    id: '1',
+    name: 'Kawasaki Ninja ZX-10R',
+    images: [
+      'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    ],
+    price: 15999
+  },
+  {
+    id: '2',
+    name: 'Ducati Panigale V4',
+    images: [
+      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    ],
+    price: 23995
+  },
+  {
+    id: '3',
+    name: 'BMW S 1000 RR',
+    images: [
+      'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg'
+    ],
+    price: 17995
+  },
+  {
+    id: '4',
+    name: 'Honda CBR1000RR-R',
+    images: [
+      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+      'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg'
+    ],
+    price: 19999
+  },
 
-const applyOverlayMask = (e) => {
-  const overlayElement = e.currentTarget;
-  const x = e.pageX - cardsContainer.offsetLeft;
-  const y = e.pageY - cardsContainer.offsetTop;
-  
-  overlayElement.style = `--opacity: 1; --x: ${x}px; --y:${y}px`
-};
-
-const createOverlayCta = (overlayCard, ctaElement) => {
-  const overlayCta = document.createElement('div');
-  overlayCta.classList.add('cta');
-  overlayCta.textContent = ctaElement.textContent;
-  overlayCta.setAttribute('aria-hidden', true);
-  overlayCard.append(overlayCta);
-};
-
-const observer = new ResizeObserver((entries) => {
-  entries.forEach((entry) => {
-    const cardIndex = cards.indexOf(entry.target);
-    let width = entry.borderBoxSize[0].inlineSize;
-    let height = entry.borderBoxSize[0].blockSize;
-    if(cardIndex >= 0){
-      overlay.children[cardIndex].style.width = `${width}px`;
-      overlay.children[cardIndex].style.height = `${height}px`;
-    }
-  })
-});
-
-const initOverlayCard = (cardElement) => {
-  const overlayCard = document.createElement('div');
-  overlayCard.classList.add('card');
-  createOverlayCta(overlayCard, cardElement.lastElementChild);
-  overlay.append(overlayCard);
-  observer.observe(cardElement);
-};
-
-cards.forEach(card => initOverlayCard(card));
-document.body.addEventListener('pointermove', applyOverlayMask)
+];

@@ -10,14 +10,7 @@
 
 html,
 
-body {
-  display: grid;
-  place-items: center;
-  
-  font-size: 1.1rem;
-  line-height: 1.2;
 
-}
 
 ul {
   list-style: none;
@@ -41,15 +34,15 @@ ul {
 }
 
 .cards-inner {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2.5em;
 }
 
 .card {
   --flow-space: 0.5em;
   --hsl: var(--hue), var(--saturation), var(--lightness);
-  flex: 1 1 250px;
+  flex: 1 1 14rem;
   padding: 1.5em 2em;
   display: grid;
   grid-template-rows: auto auto auto 1fr;

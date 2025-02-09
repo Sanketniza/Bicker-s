@@ -1,62 +1,28 @@
-import "../../css/bike.css";
-import { useEffect } from "react";
+import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
+import { sampleCompanies } from '../../JavaScript/bike';
 
-const PricingCard = () => {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "../../JavaScript/bike.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
+export default function CompaniesPage() {
   return (
-    <>
-      <main className="main flow">
-        <h1 className="main-heading">Pricing</h1>
-        <div className="cards">
-          <div className="cards-inner">
-            <div className="card">
-              <h2 className="card__heading">Basic</h2>
-              <p className="card__price">$9.99</p>
-              <ul role="list" className="card__bullets flow">
-                <li>Access to standard workouts and nutrition plans</li>
-                <li>Email support</li>
-              </ul>
-              <a href="#" className="cta">Get Started!</a>
-            </div>
-            
-            <div className="card">
-              <h2 className="card__heading">Pro</h2>
-              <p className="card__price">$19.99</p>
-              <ul role="list" className="card__bullets flow">
-                <li>Access to advanced workouts and nutrition plans</li>
-                <li>Priority Email support</li>
-                <li>Exclusive access to live Q&A sessions</li>
-              </ul>
-              <a href="#" className="cta">Upgrade to Pro!</a>
-            </div>
-            
-            <div className="card">
-              <h2 className="card__heading">Ultimate</h2>
-              <p className="card__price">$29.99</p>
-              <ul role="list" className="card__bullets flow">
-                <li>Access to all premium workouts and nutrition plans</li>
-                <li>24/7 Priority Email support</li>
-                <li>1 on 1 virtual coaching session every month</li>
-                <li>Exclusive content and early access to new features</li>
-              </ul>
-              <a href="#" className="cta">Go Ultimate!</a>
-            </div>
-          </div>
-          
-          <div className="overlay cards-inner"></div>      
-        </div>
-      </main>
-    </>
-  );
-};
+    <div className="min-h-screen py-1 bg-[#09090B]">
+      <div className="mx-10">
+        <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-7xl bg-black/20 backdrop-blur-sm">
+          {/* Glow effect */}
+          <div 
+            className="absolute inset-0 rounded-lg opacity-30 blur-xl"
+            style={{
+              background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`
+            }}
+          />
 
-export default PricingCard;
+          <h1 className="relative text-4xl font-bold mb-12 text-white">
+            <span className="text-[#6A38C2]">Bikes in Spotlight </span> 
+          </h1>
+
+          <div className="relative">
+            <CompanyCardGrid companies={sampleCompanies} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

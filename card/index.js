@@ -41,3 +41,52 @@ const initOverlayCard = (cardElement) => {
 
 cards.forEach(card => initOverlayCard(card));
 document.body.addEventListener('pointermove', applyOverlayMask)
+
+
+// ----------------------------------------------------
+
+const $cd = document.querySelector('.cd');
+let bounds;
+
+function rotateToMouse(e) {
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+  const leftX = mouseX - bounds.x;
+  const topY = mouseY - bounds.y;
+  const center = {
+    x: leftX - bounds.width / 2,
+    y: topY - bounds.height / 1
+  }
+  const distance = Math.sqrt(center.x**2 + center.y**2);
+  
+  $cd.style.transform = `
+    scale3d(1.07, 1.07, 1.07)
+    rotate3d(
+      ${center.y / 100},
+      ${-center.x / 100},
+      0,
+      ${Math.log(distance)* 2}deg
+    )
+  `;
+  
+  $cd.querySelector('.glow').style.backgroundImage = `
+    radial-gradient(
+      circle at
+      ${center.x * 2 + bounds.width/2}px
+      ${center.y * 2 + bounds.height/2}px,
+     
+    )
+  `;
+}
+
+$cd.addEventListener('mouseenter', () => {
+  bounds = $cd.getBoundingClientRect();
+  document.addEventListener('mousemove', rotateToMouse);
+});
+
+$cd.addEventListener('mouseleave', () => {
+  document.removeEventListener('mousemove', rotateToMouse);
+  $cd.style.transform = '';
+  $cd.style.background = '';
+  
+});

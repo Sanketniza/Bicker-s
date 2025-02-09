@@ -1,24 +1,51 @@
-
 import Navbar from '../shared/Navbar';
 import Nav from '../shared/Nav';
 import Ad from '../Home/Ad';
-import BikesSpotlight from '../Home/Bikes';
 import Brand from '../Home/Brand';
+
+// ----------------------------------------------
+// import { Switch, Route } from "wouter";
+// import { queryClient } from "../../lib/queryClient"; // Corrected import path
+// import { QueryClientProvider } from "@tanstack/react-query";
+// import { Toaster } from "@/components/ui/toaster";
+// import NotFound from "@/pages/not-found";
+// import CompaniesPage from "../Home/Bikes";
+
+import BikesSpotlight from "../Home/Bikes";
+
+// ----------------------------------------------------------------
+
 function Home() {
-    return (
 
-        <>
+//   function Router() {
+//     return (
+//       <Switch>
+//         {/* Add pages below */}
+//         <Route path="/" component={CompaniesPage}/>
+//         {/* Fallback to 404 */}
+//         <Route component={NotFound} />
+//       </Switch>
+//     );
+//   }
 
-           <Navbar />
-           <Nav />
+  return (
+    <>
+      <Navbar />
+      <Nav />
+      <Ad />
+      <BikesSpotlight />
+      <BikesSpotlight />
+      <BikesSpotlight />
+      <Brand />
 
-           <Ad />
 
-           {/* <BikesSpotlight /> */}
+      {/* <QueryClientProvider client={queryClient}>
+        <Router />
+        <Toaster />
+      </QueryClientProvider> */}
 
-           <Brand />
-        </>
-    )
-} 
+    </>
+  );
+}
 
-export default Home
+export default Home;

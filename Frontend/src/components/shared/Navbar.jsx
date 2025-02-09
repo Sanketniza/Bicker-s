@@ -64,7 +64,7 @@ function Navbar() {
 						<Link to="/" className="flex items-center gap-1">
 							{/* Student <span className="text-red-500">_Hub</span> */}
 							 
-							<a href="#" className="btn-shine text-red-500">Student_Hub</a>
+							<a href="#" className="btn-shine text-red-500">Student Hub</a>
 
 						</Link>
 					</h1>

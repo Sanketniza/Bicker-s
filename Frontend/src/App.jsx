@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import './App.css';
+// import './App.css';
 // import { Toaster } from "./components/ui/sonner";
 
 // components
