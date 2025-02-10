@@ -15,7 +15,7 @@ import { Bike,  HardHat,  ListOrdered } from "lucide-react"
  import { useDispatch } from "react-redux";
 
 
- import { Link, useNavigate } from "react-router-dom";
+ import { Link, NavLink, useNavigate } from "react-router-dom";
 // import { User2 } from "lucide-react";
  import { setUser } from "@/store/authSlice";
 import { toast } from "react-toastify";
@@ -81,24 +81,33 @@ function Navbar() {
 							whileHover={{ color: "#6674CC" }}
 							transition={{ delay: 0.011 }}
 							className="cursor-pointer text-white-800 ">
-							<Link to="/">
+
+							<NavLink 
+								to="/"
+								className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+							>
 								<div className="flex items-center gap-1">
 									<Bike className="w-5 h-5" />
 									<span>Home</span>
 								</div>
-							</Link>
+
+							</NavLink>
 						</motion.li>
+
 						<motion.li
 							whileHover={{ color: "#6674CC" }}
 							// transition={{ delay: 0.011 }}
 							className="cursor-pointer text-white-800 ">
 
-							<Link to="/login">
+							<NavLink 
+								to="/login"
+								className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+							>	
 								<div className="flex items-center gap-1">
 									<ListOrdered className="w-5 h-5" />
 									<span>OrderList</span>
 								</div>
-							</Link>
+							</NavLink>
 
 						</motion.li>
 						
@@ -106,12 +115,17 @@ function Navbar() {
 							whileHover={{ color: "#6674CC" }}
 							transition={{ delay: 0.011 }}
 							className="mr-[90px] cursor-pointer text-white-800 md:text-lg">
-							<Link to="/login">
+
+							<NavLink 
+								to="/signup"
+								className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+							>	
 								<div className="flex items-center gap-1">
 									<HardHat className="w-5 h-5" />
 									<span>favorite </span>
 								</div>
-							</Link>
+							</NavLink>
+							
 						</motion.li>
 
 					</motion.ul>
@@ -128,7 +142,7 @@ function Navbar() {
 					<div className="flex items-center gap-4">
 						<button
 							className="  bg-[#515DB1] rounded-md text-white-800 hover:bg-[#6674CC]"
-							onClick={logoutHandler}
+							
 						>
 							Login
 						</button>

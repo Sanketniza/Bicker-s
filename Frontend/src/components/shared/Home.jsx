@@ -14,6 +14,7 @@ import Brand from '../Home/Brand';
 import BikesSpotlight from "../Home/Bikes";
 import BikeDetails from "../../components/Home/Bikes/bike-details";
 import { Route } from 'wouter';
+import Footer from './footer';
 
 
 // ----------------------------------------------------------------
@@ -40,6 +41,7 @@ function Home() {
     
       {/* <Route path="/bike/:id" component={BikeDetails}/> */}
       <Brand />
+      <Footer />
 
 
       {/* <QueryClientProvider client={queryClient}>
