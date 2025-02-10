@@ -2,9 +2,21 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useState } from 'react';
 import { ImageSlider } from './ImageSlider';
 
-export function CompanyCard({ name, images, price }) {
+import { useLocation } from 'wouter';
+import { useNavigate } from 'react-router-dom';
+
+
+export function CompanyCard({ id, name, images, price }) {
 
   const [isHovered, setIsHovered] = useState(false);
+  // const [, setLocation] = useLocation();
+  const navigate = useNavigate();
+
+  // const handleViewDetails = () => {
+  //   navigation(`/bike/${id}`);
+  // };
+
+
 
   // Motion values for 3D rotation
   const x = useMotionValue(0);
@@ -34,6 +46,11 @@ export function CompanyCard({ name, images, price }) {
     x.set(0);
     y.set(0);
   }
+
+  
+  // const handleViewDetails = () => {
+  //   setLocation(`/bike/${id}`);
+  // };
 
   return (
     <motion.div
@@ -86,8 +103,9 @@ export function CompanyCard({ name, images, price }) {
             transition={{
               type: "spring",
               stiffness: 500,
-              damping: 30
+              damping: 30,
             }}
+            onClick={() => navigate(`/description/${id}`)}
           >
             View Details
           </motion.button>

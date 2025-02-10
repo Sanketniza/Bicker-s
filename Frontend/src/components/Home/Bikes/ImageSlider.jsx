@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function ImageSlider({ images, interval = 3000 }) {
+export function ImageSlider({ images, interval = 3000, className = "h-40" }) {
+  
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -15,7 +16,7 @@ export function ImageSlider({ images, interval = 3000 }) {
   }, [images.length, interval]);
 
   return (
-    <div className="relative w-full h-40 overflow-hidden rounded-t-lg">
+    <div className={`relative w-full ${className} overflow-hidden rounded-t-lg`}>
       <AnimatePresence initial={false} mode="wait">
         <motion.img
           key={currentIndex}

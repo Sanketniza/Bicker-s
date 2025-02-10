@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { sampleCompanies } from '@/lib/company-data';
-import { ImageSlider } from '@/components/company-cards/ImageSlider';
+import { sampleCompanies } from '../../../JavaScript/bike';
+import { ImageSlider } from './ImageSlider';
 import { 
   Phone, 
   MapPin, 
-  WhatsappLogo, 
-  Engine, 
-  Gauge, 
+  MessageSquare, 
+  Timer, 
   Power, 
-  CheckCircle2 
+  CheckCircle2,
+  Gauge, 
+  
 } from 'lucide-react';
 
 export default function BikeDetails() {
@@ -49,16 +50,17 @@ export default function BikeDetails() {
           {/* Main Info Section */}
           <div className="grid md:grid-cols-2 gap-8">
             {/* Left Column - Images */}
-            <div className="h-[400px] rounded-lg overflow-hidden">
-              <ImageSlider images={bike.images} interval={5000} />
+            <div className="h-[600px] rounded-lg overflow-hidden">
+            <ImageSlider images={bike.images} interval={5000} className="h-full" />
             </div>
 
             {/* Right Column - Basic Info */}
             <div className="space-y-6">
               <h1 className="text-4xl font-bold text-white">{bike.name}</h1>
-              <p className="text-3xl font-bold text-emerald-500">
+              
+              <h5 className="text-3xl font-bold text-emerald-500">
                 ${bike.price.toLocaleString()}
-              </p>
+              </h5>
               
               {/* Shop Owner Info */}
               <div className="space-y-4 bg-white/5 p-4 rounded-lg">
@@ -73,14 +75,14 @@ export default function BikeDetails() {
                     {bike.shopOwner.phone}
                   </p>
                   <p className="flex items-center gap-2 text-gray-300">
-                    <WhatsappLogo className="h-5 w-5 text-emerald-500" />
+                    <MessageSquare className="h-5 w-5 text-emerald-500" />
                     {bike.shopOwner.whatsapp}
                   </p>
                 </div>
               </div>
 
               <motion.button
-                className="w-full py-3 bg-emerald-500 text-white rounded-md font-medium"
+                className="w-full  bg-emerald-500 text-white rounded-md font-medium text-[22px]"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowForm(!showForm)}
@@ -96,14 +98,14 @@ export default function BikeDetails() {
               <h2 className="text-2xl font-bold text-white">Specifications</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
-                  <Engine className="h-5 w-5 text-emerald-500" />
+                  <Gauge className="h-5 w-5 text-emerald-500" />
                   <div>
                     <p className="text-sm text-gray-400">Engine Type</p>
                     <p className="text-white">{bike.bikeDetails.engineType}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
-                  <Gauge className="h-5 w-5 text-emerald-500" />
+                  <Timer className="h-5 w-5 text-emerald-500" />
                   <div>
                     <p className="text-sm text-gray-400">Displacement</p>
                     <p className="text-white">{bike.bikeDetails.displacement}</p>
@@ -200,7 +202,7 @@ export default function BikeDetails() {
                 </div>
                 <motion.button
                   type="submit"
-                  className="w-full py-3 bg-emerald-500 text-white rounded-md font-medium"
+                  className="w-full py-2 bg-orange-500 text-white rounded-md font-bold text-[20px]"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

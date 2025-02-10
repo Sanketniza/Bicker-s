@@ -13,4 +13,7 @@ export default defineConfig({
     css: {
         postcss: './postcss.config.js',
     },
+    build: {
+        sourcemap: false, // Disable source maps
+    },
 })

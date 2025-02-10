@@ -7,6 +7,7 @@ export function CompanyCardGrid({ companies }) {
         {companies.map((company) => (
           <CompanyCard
             key={company.id}
+            id={company.id}
             name={company.name}
             images={company.images}
             price={company.price}
