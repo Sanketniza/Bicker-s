@@ -7,6 +7,7 @@ import Login from './components/shared/Login';
 import Signup from './components/shared/Signup';
 import Bikedetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home'; // Uncomment if Home component is needed
+import FavoritesPage from './components/user/favorites';
 
 const appRouter = createBrowserRouter([
     {
@@ -27,7 +28,17 @@ const appRouter = createBrowserRouter([
     {
         path: "/description/:id",
         element: <Bikedetails />
-    }
+    },
+
+    {
+        path: "/favorites",
+        element: <FavoritesPage />
+    },
+
+    {
+        path: "*",
+        element: <h1>404 Not Found</h1>
+    },
 
     
 ])

@@ -13,9 +13,12 @@ export const sampleCompanies = [
     shopOwner: {
       name: "Mike's Premium Motorcycles",
       address: "123 Bike Street, Motor City, MC 12345",
-      phone: "+1 (555) 123-4567",
-      whatsapp: "+1 (555) 123-4567"
+      phone: "+(91) 123-4567",
+      whatsapp: "+(91) 123-4567"
     },
+    rating: 4.5,
+    reviewCount: 1140,
+
     bikeDetails: {
       condition: "New",
       type: "Sport Bike",
@@ -43,9 +46,13 @@ export const sampleCompanies = [
     shopOwner: {
       name: "Mike's Premium Motorcycles",
       address: "123 Bike Street, Motor City, MC 12345",
-      phone: "+1 (555) 123-4567",
-      whatsapp: "+1 (555) 123-4567"
+      phone: "(91) 123-4567",
+      whatsapp: "(91) 123-4567"
     },
+
+    rating: 4.5,
+    reviewCount: 1140,
+
     bikeDetails: {
       condition: "New",
       type: "Sport Bike",
@@ -73,9 +80,14 @@ export const sampleCompanies = [
     shopOwner: {
       name: "Mike's Premium Motorcycles",
       address: "123 Bike Street, Motor City, MC 12345",
-      phone: "+1 (555) 123-4567",
-      whatsapp: "+1 (555) 123-4567"
+      phone: "(91) 123-4567",
+      whatsapp: "(91) 123-4567"
     },
+
+    rating: 4.5,
+    reviewCount: 1140,
+
+
     bikeDetails: {
       condition: "New",
       type: "Sport Bike",
@@ -104,9 +116,13 @@ export const sampleCompanies = [
     shopOwner: {
       name: "Mike's Premium Motorcycles",
       address: "123 Bike Street, Motor City, MC 12345",
-      phone: "+1 (555) 123-4567",
-      whatsapp: "+1 (555) 123-4567"
+      phone: "(91) 123-4567",
+      whatsapp: "(91) 123-4567"
     },
+
+    rating: 4.5,
+    reviewCount: 1140,
+
     bikeDetails: {
       condition: "New",
       type: "Sport Bike",

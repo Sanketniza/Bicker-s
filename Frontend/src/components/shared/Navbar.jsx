@@ -117,7 +117,7 @@ function Navbar() {
 							className="mr-[90px] cursor-pointer text-white-800 md:text-lg">
 
 							<NavLink 
-								to="/signup"
+								to="/favorites"
 								className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
 							>	
 								<div className="flex items-center gap-1">

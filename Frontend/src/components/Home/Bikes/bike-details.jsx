@@ -10,10 +10,13 @@ import {
   Timer, 
   Power, 
   CheckCircle2,
+  Share2,
+  Heart,
   Gauge, 
   
 } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
+import { useToast } from '../../../hooks/use-toast';
 
 export default function BikeDetails() {
   const [location] = useLocation();
@@ -25,6 +28,10 @@ export default function BikeDetails() {
     message: ''
   });
 
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const { toast } = useToast();
+
   // Get bike ID from URL
   const bikeId = location.split('/')[2];
   const bike = sampleCompanies.find(b => b.id === bikeId);
@@ -35,11 +42,56 @@ export default function BikeDetails() {
     </div>;
   }
 
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast({
+        title: "Link Copied!",
+        description: "The link has been copied to your clipboard.",
+      });
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      toast({
+        title: "Failed to copy link",
+        description: "Please try again",
+        variant: "destructive",
+      });
+    }
+  };
+  const handleFavorite = () => {
+    // Get existing favorites from localStorage
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (isFavorite) {
+      // Remove from favorites
+      const updatedFavorites = favorites.filter(id => id !== bike.id);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      toast({
+        title: "Removed from favorites",
+        description: "The bike has been removed from your wishlist.",
+      });
+    } else {
+      // Add to favorites
+      if (!favorites.includes(bike.id)) {
+        favorites.push(bike.id);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        toast({
+          title: "Added to favorites",
+          description: "The bike has been added to your wishlist.",
+        });
+      }
+    }
+    setIsFavorite(!isFavorite);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the form data to your backend
     console.log('Form submitted:', formData);
-    alert('Thanks for your interest! The shop owner will contact you soon.');
+    toast({
+        title: "Message Sent!",
+        description: "The shop owner will contact you soon.",
+      });
     setShowForm(false);
   };
 
@@ -59,11 +111,56 @@ export default function BikeDetails() {
 
                         {/* Right Column - Basic Info */}
                         <div className="space-y-6">
-                        <h1 className="text-4xl font-bold text-white">{bike.name}</h1>
+                        {/* <h1 className="text-4xl font-bold text-white">{bike.name}</h1> */}
 
-                        <h5 className="text-3xl font-bold text-emerald-500">
-                            ${bike.price.toLocaleString()}
-                        </h5>
+                       <div className="flex justify-start items-start">
+                            <h1 className="text-4xl font-bold text-white">{bike.name}</h1> 
+                        </div>
+
+                        <div className="flex justify-between items-start">
+
+                            <h5 className="text-3xl font-bold text-emerald-500">
+                                ${bike.price.toLocaleString()}
+                            </h5>
+
+                                <div className="flex gap-2  items-center">
+                                <motion.button
+                                    onClick={handleShare}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <Share2 className="h-5 w-5 text-emerald-500" />
+                                    <span className="text-emerald-500 font-medium">Share</span>
+                                </motion.button>
+                                <motion.button
+                                    onClick={handleFavorite}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors border border-rose-500/30"
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <Heart 
+                                    className={`h-5 w-5 ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-rose-500'}`}
+                                    />
+                                    <span className="text-rose-500 font-medium">Favorite</span>
+                                </motion.button>
+                                </div>
+                           
+                         </div>    
+
+                        
+                      {/* // * Rating and Reviews */}
+
+                      <div className="flex items-center gap-2 text-lg">
+                        <span className="flex items-center gap-1">
+                          <span className="font-semibold">{bike.rating}</span>
+                          <span className="text-yellow-400">★</span>
+                        </span>
+                        <span className="text-gray-400">•</span>
+                        <span className="text-gray-300">
+                          {(bike.reviewCount / 1000).toFixed(2)}k Reviews
+                        </span>
+                      </div>
 
                         {/* Shop Owner Info */}
                         <div className="space-y-4 bg-white/5 p-4 rounded-lg">
