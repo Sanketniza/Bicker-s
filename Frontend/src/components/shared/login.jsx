@@ -112,7 +112,7 @@ function Login() {
                         </div> */}
 
 
-                          <div className="cards  ">
+                          <div className="cards p-12 ">
 
                             {/* <div style={{width: '300px', height: '120px'}} className="card red ">
                               <p className="tip">Hover Me</p>
@@ -124,7 +124,7 @@ function Login() {
                               <p className="second-text">Lorem Ipsum</p>
                             </div> */}
 
-                            <div style={{width: '300px', height: '120px'}} className="card pink border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#EF4444] hover:border-l-[#EF4444] hover:border-b-transparent hover:border-r-transparent cursor-pointer ">
+                            <div style={{width: '300px', height: '120px'}} className="card p-3 pink border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#EF4444] hover:border-l-[#EF4444] hover:border-b-transparent hover:border-r-transparent cursor-pointer ">
                             <motion.div 
                                     className="p-3 bg-red-500 rounded-full"
                                     whileHover={{ scale: 1.1 }}
@@ -137,11 +137,11 @@ function Login() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#EF4444]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#EF4444]">Browse thousands of bikes, all in one place.</h3>
                                 </div>
                             </div>
 
-                            <div style={{width: '300px', height: '120px'}} className="card yellow border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#22C55E] hover:border-l-[#22C55E] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                            <div style={{width: '300px', height: '120px'}} className="card p-3 yellow border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#22C55E] hover:border-l-[#22C55E] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
                                <motion.div 
                                     className="p-3 bg-green-500 rounded-full"
                                     whileHover={{ scale: 1.1 }}
@@ -154,11 +154,11 @@ function Login() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#22C55E]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#22C55E]">Huge selection, find your dream ride.</h3>
                                 </div>
                             </div>
 
-                            <div style={{width: '300px', height: '120px'}} className="card yellow border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#00ccff] hover:border-l-[#00ccff] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                            <div style={{width: '300px', height: '120px'}} className="card p-3 yellow border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#00ccff] hover:border-l-[#00ccff] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
                             <motion.div 
                                     className="p-3 bg-[#00ccff] rounded-full"
                                     whileHover={{ scale: 1.1 }}
@@ -170,11 +170,11 @@ function Login() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#00ccff]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#00ccff]">New and used bikes, catering to every budget.</h3>
                                 </div>
                             </div>
 
-                            <div style={{width: '300px', height: '120px'}} className="card yellow border-2 border-transparent rounded-lg  bg-[#0D0D0D]  hover:border-t-[#2D334A] hover:border-l-[#2D334A] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                            <div style={{width: '300px', height: '120px'}} className="card p-3 yellow border-2 border-transparent rounded-lg  bg-[#0D0D0D]  hover:border-t-[#2D334A] hover:border-l-[#2D334A] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
                               <motion.div 
                                     className="p-3 bg-[#2D334A] rounded-full"
                                     whileHover={{ scale: 1.1 }}
@@ -186,7 +186,7 @@ function Login() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#7689D0]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#7689D0]">Contact us anytime with your questions.</h3>
                                 </div>
                             </div>
 
