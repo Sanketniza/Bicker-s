@@ -222,15 +222,16 @@ function Login() {
                                     <img src={password} className="absolute w-5 h-5 left-3 top-8" alt="email" />
                                     <input type="text" placeholder="Enter your Password" className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" />
                                 </div>
-                                <p className="my-2 text-xs text-center text-white">Do not have an account?  <Link to='/sign-up' className="text-base text-blue-900 hover:underline">Register</Link> </p>
+                                <p className="my-2 text-xs text-center text-white">Do not have an account?  <Link to='/signup' className="text-base text-blue-900 hover:underline">Register</Link> </p>
+                                
                                 <button type='submit' className="w-full">
-                                    <a href="#" className="submit-button">
+                                    <Link to='/login' className="submit-button">
                                         <span></span>
                                         <span></span>
                                         <span></span>                               
                                         <span></span>
                                         Login
-                                    </a>
+                                    </Link>
                                 </button>
                             </form>
                         </div>

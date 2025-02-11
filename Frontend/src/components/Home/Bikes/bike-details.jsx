@@ -113,7 +113,7 @@ export default function BikeDetails() {
                         <div className="space-y-6">
                         {/* <h1 className="text-4xl font-bold text-white">{bike.name}</h1> */}
 
-                       <div className="flex justify-start items-start">
+                       <div className="flex justify-center items-start">
                             <h1 className="text-4xl font-bold text-white">{bike.name}</h1> 
                         </div>
 
