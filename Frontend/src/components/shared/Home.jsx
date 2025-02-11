@@ -12,8 +12,8 @@ import Brand from '../Home/Brand';
 // import CompaniesPage from "../Home/Bikes";
 
 import BikesSpotlight from "../Home/Bikes";
-import BikeDetails from "../../components/Home/Bikes/bike-details";
-import { Route } from 'wouter';
+// import BikeDetails from "../../components/Home/Bikes/bike-details";
+// import { Route } from 'wouter';
 import Footer from './footer';
 
 
@@ -40,6 +40,7 @@ function Home() {
       <BikesSpotlight />
     
       {/* <Route path="/bike/:id" component={BikeDetails}/> */}
+      
       <Brand />
       <Footer />
 

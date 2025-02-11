@@ -41,7 +41,7 @@ function SignUp() {
                                     
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#F6B445]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#F6B445]">Find amazing deals on top brands.</h3>
                                 </div>
                             </motion.div>
                             
@@ -62,7 +62,7 @@ function SignUp() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#00ccff]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#00ccff]">Sell your bike quickly and easily.</h3>
                                 </div>
                             </motion.div>
                             
@@ -83,7 +83,7 @@ function SignUp() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#7689D0]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#7689D0]">Search by brand, type, size, and more.</h3>
                                 </div>
                             </motion.div>
                                 
@@ -106,7 +106,7 @@ function SignUp() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#EF4444]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#EF4444]">Save your favorite bikes for later.</h3>
                                 </div>
                             </motion.div>
                             <motion.div 
@@ -127,7 +127,7 @@ function SignUp() {
                                     </svg>
                                 </motion.div>
                                 <div className="mt-2">
-                                    <h3 className="text-lg font-semibold text-[#22C55E]">Learn: Access 100+ Courses</h3>
+                                    <h3 className="text-lg font-semibold text-[#22C55E]">Save big on your next bike purchase.</h3>
                                 </div>
                             </motion.div>
                         </div>
