@@ -33,25 +33,26 @@ function Home() {
 //   }
 
   return (
-    <>
-      <Navbar />
-      <Nav />
-      <Ad />
-      <BikesSpotlight />
-    
-      {/* <Route path="/bike/:id" component={BikeDetails}/> */}
-      
-      <Brand />
-      <Footer />
+
+        <>
+            <Navbar />
+            <Nav />
+            <Ad />
+            <BikesSpotlight />
+            
+            {/* <Route path="/bike/:id" component={BikeDetails}/> */}
+
+            <Brand />
+            <Footer />
 
 
-      {/* <QueryClientProvider client={queryClient}>
-        <Router />
-        <Toaster />
-      </QueryClientProvider> */}
+            {/* <QueryClientProvider client={queryClient}>
+                <Router />
+                <Toaster />
+            </QueryClientProvider> */}
 
-    </>
-  );
+        </>
+    );
 }
 
 export default Home;
