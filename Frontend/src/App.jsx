@@ -8,6 +8,7 @@ import Signup from './components/shared/Signup';
 import Bikedetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home'; // Uncomment if Home component is needed
 import FavoritesPage from './components/user/favorites';
+import Profile from './components/user/Profile';
 
 const appRouter = createBrowserRouter([
     
@@ -34,6 +35,12 @@ const appRouter = createBrowserRouter([
     {
         path: "/favorites",
         element: <FavoritesPage />
+    },
+
+    {
+        path: "/profile",
+        element: <Profile />
+
     },
 
    

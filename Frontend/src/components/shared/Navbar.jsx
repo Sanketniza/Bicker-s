@@ -99,6 +99,9 @@ function Navbar() {
   };
 
 	
+  const profile = () => {
+	navigate('/profile');
+  }
 
 	
     return (
@@ -217,107 +220,116 @@ function Navbar() {
 				</Button>
 
 				{
-				isAuthenticated ? (
-					<Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-				<SheetTrigger asChild>
-					<Button variant="ghost" className="relative h-8 w-8 rounded-full">
-					<Avatar>
-						<AvatarImage src={user.avatar} alt={user.name} />
-						<AvatarFallback>{user.name[0]}</AvatarFallback>
-					</Avatar>
-					</Button>
-				</SheetTrigger>
-				
-				<SheetContent className="w-[300px]">
-					<SheetHeader>
-						<SheetTitle>Profile</SheetTitle>
-					</SheetHeader>
+					isAuthenticated ? (
+						<Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+
+						<SheetTrigger asChild>
+							<Button variant="ghost" className="relative h-8 w-12 rounded-full">
+								<Avatar>
+									<AvatarImage src={user.avatar} alt={user.name} />
+									<AvatarFallback>{user.name[0]}</AvatarFallback>
+								</Avatar>
+							</Button>
+						</SheetTrigger>
 					
-					<div className="mt-6 space-y-6">
-					<div className="flex items-center gap-4">
-						<Avatar className="h-16 w-16">
-						<AvatarImage src={user.avatar} alt={user.name} />
-						<AvatarFallback>{user.name[0]}</AvatarFallback>
-						</Avatar>
-						<div>
-						<h3 className="font-semibold">{user.name}</h3>
-						<p className="text-sm text-muted-foreground">{user.email}</p>
-						</div>
-					</div>
-
-					<div className="space-y-2">
-
-						<Button 
-						variant="ghost" 
-						className="w-full justify-start" 
-						onClick={() => setLocation('/profile')}
-						>
-						<User className="mr-2 h-4 w-4" />
-						View Profile
-						</Button>
-
-						<Button 
-						variant="ghost" 
-						className="w-full justify-start"
-						onClick={() => setLocation('/orders')}
-						>
-						<Package className="mr-2 h-4 w-4" />
-						Orders History
-						</Button>
-
-						<Button 
-						variant="ghost" 
-						className="w-full justify-start"
-						onClick={() => setLocation('/settings')}
-						>
-						<Settings className="mr-2 h-4 w-4" />
-						Settings
-						</Button>
-
-						<Button 
-						variant="ghost" 
-						className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
-						onClick={handleLogout}
-						>
-						<LogOut className="mr-2 h-4 w-4" />
-						Logout
-						</Button>
-
-					</div>
-
-					{
-						user.orders.length > 0 && (
-							<div className="border-t pt-4">
-								<h4 className="mb-4 text-sm font-medium">Recent Orders</h4>
-								<div className="space-y-3">
-									{user.orders.map(order => (
-									<motion.div
-										key={order.id}
-										className="rounded-lg border p-3"
-										whileHover={{ scale: 1.02 }}
-									>
-										<div className="flex justify-between">
-										<p className="font-medium">{order.bike}</p>
-										<p className="text-sm text-muted-foreground">{order.date}</p>
-										</div>
-									</motion.div>
-									))}
+					<SheetContent className="w-[500px]">
+						<SheetHeader>
+							<SheetTitle>Profile</SheetTitle>
+						</SheetHeader>
+						
+						<div className="mt-6 space-y-6">
+							<div className="flex items-center gap-4">
+								<Avatar className="h-16 w-16">
+									<AvatarImage src={user.avatar} alt={user.name} />
+									<AvatarFallback>{user.name[0]}</AvatarFallback>
+								</Avatar>
+								<div>
+									<h3 className="font-semibold">{user.name}</h3>
+									<p className="text-sm text-muted-foreground">{user.email}</p>
 								</div>
 							</div>
-					)}
-					</div>
-				</SheetContent>
-				</Sheet>
-			) : (
-				<Button
-				variant="default"
-				onClick={handleLogin}
-				className="flex items-center gap-2"
-				>
-				<User className="h-4 w-4" />
-				Login
-				</Button>
-			)}
+
+						<div className="space-y-2">
+
+							<Button 
+								variant="ghost" 
+								className="w-full justify-start hover:bg-red-100/10" 
+								// onClick={() => {
+								// 	setLocation('/profile');
+								// 	setIsDrawerOpen(false);
+								//   }}
+
+								onClick={profile}
+							>
+							<User className="mr-2 h-4 w-4" />
+							View Profile
+							</Button>
+
+							<Button 
+							variant="ghost" 
+							className="w-full justify-start hover:bg-red-100/10"
+							onClick={() => setLocation('/orders')}
+							>
+							<Package className="mr-2 h-4 w-4" />
+							Orders History
+							</Button>
+
+							<Button 
+							variant="ghost" 
+							className="w-full justify-start hover:bg-red-100/10"
+							onClick={() => setLocation('/settings')}
+							>
+							<Settings className="mr-2 h-4 w-4" />
+							Settings
+							</Button>
+
+							<Button 
+							variant="ghost" 
+							className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
+							onClick={handleLogout}
+							>
+							<LogOut className="mr-2 h-4 w-4" />
+							Logout
+							</Button>
+
+						</div>
+
+						{
+							user.orders.length > 0 && (
+								<div className="border-t pt-4">
+									<h4 className="mb-4 text-sm font-medium text-orange-800">Recent Orders</h4>
+									<div className="space-y-3">
+										{
+											user.orders.map(order => (
+
+												<motion.div
+													key={order.id}
+													className="rounded-lg border p-3 border-1 border-[#10B981] "
+													whileHover={{ scale: 1.02 }}
+												>
+													<div className="flex justify-between">
+														<p className="font-medium">{order.bike}</p>
+														<p className="text-sm text-muted-foreground">{order.date}</p>
+													</div>
+												</motion.div>
+											))
+										}
+									</div>
+								</div>
+						)}
+						</div>
+					</SheetContent>
+					</Sheet>
+				) : (
+					<Button
+					variant="default"
+					onClick={handleLogin}
+					className="flex items-center gap-2"
+					>
+					<User className="h-4 w-4" />
+					Login
+					</Button>
+				)}
 
 			</div>
 				
