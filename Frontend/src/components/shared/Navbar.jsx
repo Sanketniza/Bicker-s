@@ -1,11 +1,5 @@
-// import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
-// import { Button } from "@/components/ui/button";
-// import {
-// 	Popover,
-// 	PopoverContent,
-// 	PopoverTrigger,
-// } from "@radix-ui/react-popover";
 
+import { useState, useEffect } from 'react';
 import '../../css/LogoName.css'
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
@@ -16,9 +10,23 @@ import { Bike,  HardHat,  ListOrdered } from "lucide-react"
 
 
  import { Link, NavLink, useNavigate } from "react-router-dom";
-// import { User2 } from "lucide-react";
  import { setUser } from "@/store/authSlice";
 import { toast } from "react-toastify";
+
+import { useLocation } from 'wouter';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+import { Button } from "../ui/button";
+import { Moon, Sun, User, LogOut, Package, Settings } from 'lucide-react';
+
+// import { motion } from 'framer-motion';
 
 function Navbar() {
 
@@ -26,23 +34,69 @@ function Navbar() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	
+	const [, setLocation] = useLocation();
+ 	const [theme, setTheme] = useState('dark');
+  	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
- 	const logoutHandler = async () => {		
-		
- 		try{			
- 			const res = await axios.get('${USER_API_END_POINT}/logout' , {
- 				withCredentials : true
- 			});
- 			if(res.data.success){
- 				dispatch(setUser(null));
- 				navigate('/login');
- 				toast.success(res.data.message);
- 			}
- 		}catch(error) {
- 			console.log("error at navbar logout", error);
- 			toast.error(error.message);
- 		}
- 	}
+ 	//  const [isAuthenticated, setIsAuthenticated] = useState(false);
+ 	//  const [userData, setUserData] = useState(null);
+
+	  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [userData, setUserData] = useState({
+    name: 'John Doe',
+    email: 'john@example.com',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
+    orders: [
+      { id: 1, bike: 'Kawasaki Ninja', date: '2024-02-10' },
+      { id: 2, bike: 'Honda CBR', date: '2024-02-15' }
+    ]
+  });
+
+  useEffect(() => {
+    // Mock authentication check
+    localStorage.setItem('user', JSON.stringify(userData));
+  }, []);
+
+/*   useEffect(() => {
+    // Check authentication status on mount
+    checkAuthStatus();
+  }, []);
+
+  const checkAuthStatus = () => {
+    // Replace with your actual auth check
+    const user = localStorage.getItem('user');
+    if (user) {
+      setIsAuthenticated(true);
+      setUserData(JSON.parse(user));
+    }
+  };
+ */
+
+
+  const user = userData || {
+    name: 'Guest',
+    email: 'guest@example.com',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest',
+    orders: []
+  };
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  const handleLogin = () => {
+    // Add your login logic here
+    setLocation('/login');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    setUserData(null);
+    setLocation('/');
+  };
 
 	
 
@@ -50,7 +104,7 @@ function Navbar() {
     return (
 		
 		<div className="sticky top-0 z-50 w-full h-16 bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] rounded-b-lg border-b-4 border-[#7c5a36] shadow-lg">
-		
+		{/* <div className="sticky h-16 top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"> */}
 			<div className='flex items-center justify-between h-16 max-w-screen-xl px-5 mx-auto mb-5'>
 {/* //&------------------------------------------------------------------------------------------  */}
 
@@ -72,7 +126,7 @@ function Navbar() {
 
 {/* //&------------------------------------------------------------------------------------------  */}
 
-				<div className="flex items-center gap-4 ">
+				<div className="flex items-center gap-04 ">
 
 					<motion.ul 
 						
@@ -130,7 +184,7 @@ function Navbar() {
 
 					</motion.ul>
 
-					<div className="flex items-center gap-4">
+					{/* <div className="flex items-center gap-4">
 						<button
 							className=" bg-red-500 rounded-md text-white-800 hover:bg-red-600"
 							onClick={logoutHandler}
@@ -146,13 +200,126 @@ function Navbar() {
 						>
 							Login
 						</button>
-					</div>
+					</div> */}
 
 				</div>
 
 				{/* //&------------------------------------------------------------------------------------------  */}
+				<div className="flex items-center gap-4">
 
+				<Button
+					variant="ghost"
+					size="icon"
+					onClick={toggleTheme}
+					className="mr-2"
+				>
+					{theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+				</Button>
+
+				{
+				isAuthenticated ? (
+					<Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+				<SheetTrigger asChild>
+					<Button variant="ghost" className="relative h-8 w-8 rounded-full">
+					<Avatar>
+						<AvatarImage src={user.avatar} alt={user.name} />
+						<AvatarFallback>{user.name[0]}</AvatarFallback>
+					</Avatar>
+					</Button>
+				</SheetTrigger>
 				
+				<SheetContent className="w-[300px]">
+					<SheetHeader>
+						<SheetTitle>Profile</SheetTitle>
+					</SheetHeader>
+					
+					<div className="mt-6 space-y-6">
+					<div className="flex items-center gap-4">
+						<Avatar className="h-16 w-16">
+						<AvatarImage src={user.avatar} alt={user.name} />
+						<AvatarFallback>{user.name[0]}</AvatarFallback>
+						</Avatar>
+						<div>
+						<h3 className="font-semibold">{user.name}</h3>
+						<p className="text-sm text-muted-foreground">{user.email}</p>
+						</div>
+					</div>
+
+					<div className="space-y-2">
+
+						<Button 
+						variant="ghost" 
+						className="w-full justify-start" 
+						onClick={() => setLocation('/profile')}
+						>
+						<User className="mr-2 h-4 w-4" />
+						View Profile
+						</Button>
+
+						<Button 
+						variant="ghost" 
+						className="w-full justify-start"
+						onClick={() => setLocation('/orders')}
+						>
+						<Package className="mr-2 h-4 w-4" />
+						Orders History
+						</Button>
+
+						<Button 
+						variant="ghost" 
+						className="w-full justify-start"
+						onClick={() => setLocation('/settings')}
+						>
+						<Settings className="mr-2 h-4 w-4" />
+						Settings
+						</Button>
+
+						<Button 
+						variant="ghost" 
+						className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
+						onClick={handleLogout}
+						>
+						<LogOut className="mr-2 h-4 w-4" />
+						Logout
+						</Button>
+
+					</div>
+
+					{
+						user.orders.length > 0 && (
+							<div className="border-t pt-4">
+								<h4 className="mb-4 text-sm font-medium">Recent Orders</h4>
+								<div className="space-y-3">
+									{user.orders.map(order => (
+									<motion.div
+										key={order.id}
+										className="rounded-lg border p-3"
+										whileHover={{ scale: 1.02 }}
+									>
+										<div className="flex justify-between">
+										<p className="font-medium">{order.bike}</p>
+										<p className="text-sm text-muted-foreground">{order.date}</p>
+										</div>
+									</motion.div>
+									))}
+								</div>
+							</div>
+					)}
+					</div>
+				</SheetContent>
+				</Sheet>
+			) : (
+				<Button
+				variant="default"
+				onClick={handleLogin}
+				className="flex items-center gap-2"
+				>
+				<User className="h-4 w-4" />
+				Login
+				</Button>
+			)}
+
+			</div>
 				
 			</div>
 		</div>
