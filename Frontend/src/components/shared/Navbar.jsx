@@ -208,15 +208,17 @@ function Navbar() {
 				</div>
 
 				{/* //&------------------------------------------------------------------------------------------  */}
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-4 ">
 
 				<Button
 					variant="ghost"
 					size="icon"
 					onClick={toggleTheme}
-					className="mr-2"
+					className=""
 				>
-					{theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+					{
+						theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />
+					}
 				</Button>
 
 				{
@@ -232,14 +234,19 @@ function Navbar() {
 							</Button>
 						</SheetTrigger>
 					
-					<SheetContent className="w-[500px]">
+					<SheetContent 
+						className="w-[500px]"
+						style={{
+							background: `radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.09), transparent 80%)`
+							}}
+					>
 						<SheetHeader>
-							<SheetTitle>Profile</SheetTitle>
+							<SheetTitle className="text-2xl font-semibold text-orange-500">Profile</SheetTitle>
 						</SheetHeader>
 						
 						<div className="mt-6 space-y-6">
 							<div className="flex items-center gap-4">
-								<Avatar className="h-16 w-16">
+								<Avatar className="h-16 w-16  border-2 border-[#10B981] rounded-full">
 									<AvatarImage src={user.avatar} alt={user.name} />
 									<AvatarFallback>{user.name[0]}</AvatarFallback>
 								</Avatar>
@@ -297,7 +304,7 @@ function Navbar() {
 						{
 							user.orders.length > 0 && (
 								<div className="border-t pt-4">
-									<h4 className="mb-4 text-sm font-medium text-orange-800">Recent Orders</h4>
+									<h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>
 									<div className="space-y-3">
 										{
 											user.orders.map(order => (
@@ -307,7 +314,7 @@ function Navbar() {
 													className="rounded-lg border p-3 border-1 border-[#10B981] "
 													whileHover={{ scale: 1.02 }}
 												>
-													<div className="flex justify-between">
+													<div className="flex justify-between items-center">
 														<p className="font-medium">{order.bike}</p>
 														<p className="text-sm text-muted-foreground">{order.date}</p>
 													</div>
@@ -322,9 +329,9 @@ function Navbar() {
 					</Sheet>
 				) : (
 					<Button
-					variant="default"
-					onClick={handleLogin}
-					className="flex items-center gap-2"
+						variant="default"
+						onClick={handleLogin}
+						className="flex items-center"
 					>
 					<User className="h-4 w-4" />
 					Login

@@ -7,9 +7,12 @@ import { Textarea } from '../ui/textarea';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Linkedin, Edit2, Save } from 'lucide-react';
 import Navbar from '../shared/Navbar';
+import { SheetTrigger } from '../ui/sheet';
+import { Avatar } from 'antd';
+import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 
 export default function Profile() {
-    
+
   const [isEditing, setIsEditing] = useState(false);
 
   const [userData, setUserData] = useState({
@@ -59,6 +62,7 @@ export default function Profile() {
                         }}
                     />
                     <div className="relative flex justify-between items-center mb-8">
+                        
                         <h1 className="text-4xl font-bold text-white">
                           <span className="text-emerald-500">My</span> Profile
                         </h1>
