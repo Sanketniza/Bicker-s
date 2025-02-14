@@ -1,6 +1,6 @@
 import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom'; // Use Routes and Route from react-router-dom
-// import './App.css';
-// import { Toaster } from "./components/ui/sonner";
+import { useState, useEffect } from "react";
+import { LoadingScreen } from "../src/components/ui/loading";
 
 // components
 import Login from './components/shared/Login';
@@ -14,81 +14,67 @@ import BikeDetails from './components/Home/Bikes';
 import Electric from './components/user/Electric';
 
 const appRouter = createBrowserRouter([
-    
     {
         path: "/",
         element: <Home />
     },
-
     {
         path: "/signup",
         element: <Signup />
     },
-
     {
         path: "/login",
         element: <Login />
     },
-
     {
         path: "/description/:id",
         element: <Bikedetails />
     },
-
     {
         path: "/favorites",
         element: <FavoritesPage />
     },
-
     {
         path: "/profile",
         element: <Profile />
-
     },
-
     {
         path: "/WishListPage",
         element: <WishlistPage />
     },
-
     {
         path: "/bike",
         element: <BikeDetails />
     },
-
     {
         path: "/electric-zone",
         element: <Electric />
     },
-
     {
         path: "/road-zone",
         element: <BikeDetails />
     }
-
-   
-
-    
-])
+]);
 
 function App() {
-  return (
+    const [isLoading, setIsLoading] = useState(true);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1500);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    return (
         <>
-
-            {/* <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/sign-up" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/description/:id" element={<Bikedetails />} />
-            </Routes> */}
-
-                <RouterProvider router={appRouter}>
-                    {/* <Toaster /> */}
-                </RouterProvider>
-            
+            {isLoading ? (
+                <LoadingScreen />
+            ) : (
+                <RouterProvider router={appRouter} />
+            )}
         </>
-
     );
 }
 

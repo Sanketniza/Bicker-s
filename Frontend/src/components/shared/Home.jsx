@@ -53,12 +53,12 @@ function Home() {
         <>
 
            
-            <div className="">
+            {/* <div className="">
                     {
                         isLoading ? (
                         <LoadingScreen />
 
-                        ) : (
+                        ) : (    */}
                         <>
                               <motion.div
                                 initial={{ opacity: 0 }}
@@ -81,8 +81,8 @@ function Home() {
                                 <Footer />
                             </motion.div>
                         </>
-                    )}
-            </div>
+                    {/* )}
+            </div> */}
 
 
            
