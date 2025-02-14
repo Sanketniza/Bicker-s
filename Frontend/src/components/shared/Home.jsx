@@ -2,6 +2,7 @@ import Navbar from '../shared/Navbar';
 import Nav from '../shared/Nav';
 import Ad from '../Home/Ad';
 import Brand from '../Home/Brand';
+import { motion , useScroll} from 'framer-motion';
 
 // ----------------------------------------------
 // import { Switch, Route } from "wouter";
@@ -21,6 +22,9 @@ import Footer from './footer';
 
 function Home() {
 
+    const scroll = useScroll().scrollYProgress
+    console.log(scroll)
+
 //   function Router() {
 //     return (
 //       <Switch>
@@ -35,23 +39,39 @@ function Home() {
   return (
 
         <>
-            <Navbar />
-            <Nav />
-            <Ad />
-            <BikesSpotlight />
-            <BikesSpotlight />
-            <BikesSpotlight />
-            
-            {/* <Route path="/bike/:id" component={BikeDetails}/> */}
 
-            <Brand />
-            <Footer />
+           
 
 
-            {/* <QueryClientProvider client={queryClient}>
-                <Router />
-                <Toaster />
-            </QueryClientProvider> */}
+
+           
+
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+
+                <Navbar />
+                <Nav />
+                <Ad />
+              
+                <BikesSpotlight />
+                <BikesSpotlight />
+                <BikesSpotlight />
+                
+                {/* <Route path="/bike/:id" component={BikeDetails}/> */}
+
+                <Brand />
+                <Footer />
+            </motion.div>
+
+          
+                {/* <QueryClientProvider client={queryClient}>
+                    <Router />
+                    <Toaster />
+                </QueryClientProvider> */}
 
         </>
     );
