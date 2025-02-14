@@ -39,6 +39,8 @@ function Home() {
             <Nav />
             <Ad />
             <BikesSpotlight />
+            <BikesSpotlight />
+            <BikesSpotlight />
             
             {/* <Route path="/bike/:id" component={BikeDetails}/> */}
 

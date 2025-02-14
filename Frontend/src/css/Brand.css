@@ -94,7 +94,8 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 14px;
+  border-radius: 1px;
+  /* border-radius: 14px; */
   border: 15px solid transparent;
   background: var(--gradient);
   background-attachment: fixed;
@@ -151,7 +152,7 @@ p {
 }
 
 .card-glow .card::before {
-  border-width: 12px;
+  border-width: 8px;
   
 }
 

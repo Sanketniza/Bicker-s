@@ -97,7 +97,7 @@ export function CompanyCard({ id, name, images, price }) {
 
           {/* Animated View Button */}
           <motion.button
-            className="w-full py-2 px-4 bg-emerald-500 text-white rounded-md font-medium"
+            className="w-full py-2 px-4 bg-emerald-500 text-white rounded-md font-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{

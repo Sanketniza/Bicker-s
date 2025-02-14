@@ -9,6 +9,9 @@ import Bikedetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home'; // Uncomment if Home component is needed
 import FavoritesPage from './components/user/favorites';
 import Profile from './components/user/Profile';
+import WishlistPage from './components/user/WishList';
+import BikeDetails from './components/Home/Bikes';
+import Electric from './components/user/Electric';
 
 const appRouter = createBrowserRouter([
     
@@ -42,6 +45,26 @@ const appRouter = createBrowserRouter([
         element: <Profile />
 
     },
+
+    {
+        path: "/WishListPage",
+        element: <WishlistPage />
+    },
+
+    {
+        path: "/bike",
+        element: <BikeDetails />
+    },
+
+    {
+        path: "/electric-zone",
+        element: <Electric />
+    },
+
+    {
+        path: "/road-zone",
+        element: <BikeDetails />
+    }
 
    
 

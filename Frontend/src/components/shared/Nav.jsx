@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+
+  const navigate = useNavigate();
+
   const menuItems = [
     { name: "BIKES", subMenu: ["Sports", "Cruiser", "Off-Road"] },
     { name: "SCOOTERS", subMenu: ["Electric", "Petrol", "Hybrid"] },
@@ -26,6 +30,14 @@ const Navbar = () => {
     }, 100); // Small delay to avoid accidental closing
   };
 
+const handleSubMenuClick = (subItem) => {
+  navigate(`/${subItem.toLowerCase().replace(/ /g, '-')}`);
+};
+
+// Inside the return statement of the `Navbar` component
+
+
+
   return (
     <div className="sticky top-0 z-50 w-full bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] shadow-[0px_10px_10px_-5px_rgba(102,116,204,0.5)]">
       <nav className="flex items-center justify-center h-14 max-w-screen-xl px-5 mx-auto mb-0">
@@ -49,14 +61,18 @@ const Navbar = () => {
                 <div className="rounded-t-lg bg-orange-500 p-2 text-center text-white font-bold">
                   {item.name}
                 </div>
+
                 {item.subMenu.map((subItem, subIndex) => (
-                  <a
-                    key={subIndex}
-                    href="#"
-                    className="block px-4 py-2 hover:bg-orange-600"
-                  >
+
+                  <Link to={subItem.toLowerCase()} key={subIndex} className="block px-4 py-2 hover:bg-orange-600">
                     {subItem}
-                  </a>
+                  </Link>
+                  // <a
+                  //   key={subIndex}
+                  //   className="block px-4 py-2 hover:bg-orange-600"
+                  // >
+                  //   {subItem}
+                  // </a>
                 ))}
               </motion.div>
             )}

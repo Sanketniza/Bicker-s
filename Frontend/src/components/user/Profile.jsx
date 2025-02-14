@@ -1,15 +1,11 @@
 
 import { useState } from 'react';
 import { Button } from '../ui/button';
-import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Linkedin, Edit2, Save } from 'lucide-react';
 import Navbar from '../shared/Navbar';
-import { SheetTrigger } from '../ui/sheet';
-import { Avatar } from 'antd';
-import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 
 export default function Profile() {
 
@@ -77,33 +73,33 @@ export default function Profile() {
                         <div>
                             <label className="text-sm font-medium text-emerald-500">Name</label>
                             <Input 
-                            value={userData.name}
-                            disabled={!isEditing}
-                            className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
+                                value={userData.name}
+                                disabled={!isEditing}
+                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
                             />
                         </div>
                         <div>
                             <label className="text-sm font-medium text-[#F97316]">Email</label>
                             <Input 
-                            value={userData.email}
-                            disabled={!isEditing}
-                            className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
+                                value={userData.email}
+                                disabled={!isEditing}
+                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
                             />
                         </div>
                         <div>
                             <label className="text-sm font-medium text-[#F97316]">Phone</label>
                             <Input 
-                            value={userData.phone}
-                            disabled={!isEditing}
-                            className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
+                                value={userData.phone}
+                                disabled={!isEditing}
+                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
                             />
                         </div>
                         <div>
                             <label className="text-sm font-medium text-[#F97316]">Address</label>
                             <Input 
-                            value={userData.address}
-                            disabled={!isEditing}
-                            className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
+                                value={userData.address}
+                                disabled={!isEditing}
+                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
                             />
                         </div>
                         </div>
@@ -112,16 +108,16 @@ export default function Profile() {
                         <div>
                             <label className="text-sm font-medium text-[#F97316]">Bio</label>
                             <Textarea 
-                            value={userData.bio}
-                            disabled={!isEditing}
-                            className="mt-1 h-32  bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
+                                value={userData.bio}
+                                disabled={!isEditing}
+                                className="mt-1 h-32  bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
                             />
                         </div>
 
                         <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
                             <label className="text-sm font-medium text-emerald-500">Payment Information</label>
                             <div className="mt-1 p-3 bg-black/20 rounded-lg text-white">
-                            <p>{userData.paymentInfo.cardType} **** {userData.paymentInfo.lastFour}</p>
+                                 <p>{userData.paymentInfo.cardType} **** {userData.paymentInfo.lastFour}</p>
                             </div>
                         </div>
 

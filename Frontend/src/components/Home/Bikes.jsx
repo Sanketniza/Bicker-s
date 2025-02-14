@@ -3,7 +3,7 @@ import { sampleCompanies } from '../../JavaScript/bike';
 
 export default function CompaniesPage() {
   return (
-    <div className="min-h-screen py-1 bg-[#09090B]">
+    <div className=" py-1 bg-[#09090B]">
       <div className="mx-10">
         <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-7xl bg-black/20 backdrop-blur-sm">
           {/* Glow effect */}

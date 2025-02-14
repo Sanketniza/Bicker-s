@@ -129,7 +129,7 @@ function Navbar() {
 
 {/* //&------------------------------------------------------------------------------------------  */}
 
-				<div className="flex items-center gap-04 ">
+				<div className="flex items-center justify-between ">
 
 					<motion.ul 
 						
@@ -150,6 +150,23 @@ function Navbar() {
 
 							</NavLink>
 						</motion.li>
+						
+						{/* <motion.li
+							whileHover={{ color: "#6674CC" }}
+							transition={{ delay: 0.011 }}
+							className="cursor-pointer text-white-800 ">
+
+							<NavLink 
+								to="/"
+								className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+							>
+								<div className="flex items-center gap-1">
+									<Bike className="w-5 h-5" />
+									<span>Home</span>
+								</div>
+
+							</NavLink>
+						</motion.li> */}
 
 						<motion.li
 							whileHover={{ color: "#6674CC" }}
@@ -167,23 +184,27 @@ function Navbar() {
 							</NavLink>
 
 						</motion.li>
-						
+
 						<motion.li
 							whileHover={{ color: "#6674CC" }}
 							transition={{ delay: 0.011 }}
 							className="mr-[90px] cursor-pointer text-white-800 md:text-lg">
 
 							<NavLink 
-								to="/favorites"
+								to="/WishListPage"
 								className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
 							>	
 								<div className="flex items-center gap-1">
 									<HardHat className="w-5 h-5" />
-									<span>favorite </span>
+									<span>WishList </span>
 								</div>
 							</NavLink>
 							
 						</motion.li>
+						
+					
+
+						
 
 					</motion.ul>
 

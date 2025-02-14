@@ -56,7 +56,7 @@ const Companies = () => {
 
         <div className="mx-10 mb-10">
 
-            <div className="border rounded-lg shadow-2xl border-emerald-500 max-w-7xl mx-auto">
+            <div className="border rounded-lg max-w-7xl mx-auto border rounded-lg shadow-2xl border-emerald-500/30 max-w-7xl bg-black/20 backdrop-blur-sm">
                 <h1 className='text-4xl font-bold flex items-start justify-start mt-8 pl-8'>
                 <span className='text-[#6A38C2]'>Latest Top </span>&nbsp;
                 Popular Brands
