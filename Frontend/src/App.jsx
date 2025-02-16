@@ -1,13 +1,14 @@
-import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom'; // Use Routes and Route from react-router-dom
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingScreen } from "../src/components/ui/loading";
 import { Toaster } from 'sonner';
+import { ThemeProvider } from './components/theme-provider';
 
 // components
 import Login from './components/shared/Login';
 import Signup from './components/shared/Signup';
 import Bikedetails from './components/Home/Bikes/bike-details';
-import Home from './components/shared/Home'; // Uncomment if Home component is needed
+import Home from './components/shared/Home';
 import FavoritesPage from './components/user/favorites';
 import Profile from './components/user/Profile';
 import WishlistPage from './components/user/WishList';
@@ -74,7 +75,7 @@ function App() {
     }, []);
 
     return (
-        <>
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             {isLoading ? (
                 <LoadingScreen />
             ) : (
@@ -83,7 +84,7 @@ function App() {
                     <Toaster />
                 </>
             )}
-        </>
+        </ThemeProvider>
     );
 }
 

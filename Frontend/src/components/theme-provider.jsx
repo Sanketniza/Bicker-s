@@ -1,18 +1,37 @@
-"use client"; // For Next.js
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { useTheme as useNextTheme } from 'next-themes'
+const ThemeContext = createContext();
 
-export const ThemeProvider = ({ children, ...props }) => {
+export function ThemeProvider({
+  children,
+  defaultTheme = "system",
+  storageKey = "vite-ui-theme",
+  ...props
+}) {
+  const [theme, setTheme] = useState(() => {
+    const storedTheme = localStorage.getItem(storageKey);
+    return storedTheme || defaultTheme;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, theme);
+    if (theme === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      document.documentElement.classList.toggle("dark", systemTheme === "dark");
+    } else {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+    }
+  }, [theme, storageKey]);
+
   return (
-    <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
-    </NextThemesProvider>
+    </ThemeContext.Provider>
   );
-};
+}
 
-export const useTheme = () => {
-    const { setTheme } = useNextTheme()
-    return { setTheme }
+export function useTheme() {
+  return useContext(ThemeContext);
 }

@@ -1,17 +1,9 @@
-
 import { useState, useEffect } from 'react';
 import '../../css/LogoName.css'
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
-import axios from "axios";
 import { Bike,  HardHat,  ListOrdered } from "lucide-react"
-
- import { useDispatch } from "react-redux";
-
-
  import { Link, NavLink, useNavigate } from "react-router-dom";
- import { setUser } from "@/store/authSlice";
-import { toast } from "react-toastify";
 
 import { useLocation } from 'wouter';
 import {
@@ -25,13 +17,13 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Moon, Sun, User, LogOut, Package, Settings } from 'lucide-react';
+import { ModeToggle } from './mode-toggle'; // Import ModeToggle component
 
 // import { motion } from 'framer-motion';
 
 function Navbar() {
 
 	// const {user} = useSelector((store) => store.auth);
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	
 	const [, setLocation] = useLocation();
@@ -231,16 +223,7 @@ function Navbar() {
 				{/* //&------------------------------------------------------------------------------------------  */}
 				<div className="flex items-center gap-4 ">
 
-				<Button
-					variant="ghost"
-					size="icon"
-					onClick={toggleTheme}
-					className=""
-				>
-					{
-						theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />
-					}
-				</Button>
+				<ModeToggle /> {/* Add ModeToggle component here */}
 
 				{
 					isAuthenticated ? (
