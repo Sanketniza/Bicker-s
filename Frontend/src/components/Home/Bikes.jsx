@@ -1,7 +1,11 @@
 import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
 import { sampleCompanies } from '../../JavaScript/bike';
+import List from '../user/List';
 
 export default function CompaniesPage() {
+
+
+
   return (
     <div className=" py-1 bg-[#09090B]">
       <div className="mx-10">
@@ -19,6 +23,7 @@ export default function CompaniesPage() {
           </h1>
 
           <div className="relative">
+            {/* <List companies={sampleCompanies} /> */}
             <CompanyCardGrid companies={sampleCompanies} />
           </div>
         </div>

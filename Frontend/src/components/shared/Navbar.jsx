@@ -151,22 +151,22 @@ function Navbar() {
 							</NavLink>
 						</motion.li>
 						
-						{/* <motion.li
+						<motion.li
 							whileHover={{ color: "#6674CC" }}
 							transition={{ delay: 0.011 }}
 							className="cursor-pointer text-white-800 ">
 
 							<NavLink 
-								to="/"
+								to="/road"
 								className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
 							>
 								<div className="flex items-center gap-1">
 									<Bike className="w-5 h-5" />
-									<span>Home</span>
+									<span>list</span>
 								</div>
 
 							</NavLink>
-						</motion.li> */}
+						</motion.li>
 
 						<motion.li
 							whileHover={{ color: "#6674CC" }}

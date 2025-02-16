@@ -6,9 +6,12 @@ import { Button } from '../ui/button';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import Navbar from '../shared/Navbar';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
+import { toast } from 'sonner';
+
 
 export default function WishlistPage() {
+    
   const [favorites, setFavorites] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -33,10 +36,17 @@ export default function WishlistPage() {
     const updatedFavorites = savedFavorites.filter(id => id !== bikeId);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     loadFavorites();
-    toast({
-      title: "Removed from wishlist",
-      description: "The bike has been removed from your wishlist.",
+    
+    toast.warning("The bike has been removed from your wishlist.", {
+        style: {
+            color: '#10B981',
+            backgroundColor: '#09090B',          
+            fontSize: '20px',
+            borderColor: '#10B981',
+            padding: '10px 20px'
+        }
     });
+    
   };
 
   return (

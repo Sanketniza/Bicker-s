@@ -1,6 +1,7 @@
 import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom'; // Use Routes and Route from react-router-dom
 import { useState, useEffect } from "react";
 import { LoadingScreen } from "../src/components/ui/loading";
+import { Toaster } from 'sonner';
 
 // components
 import Login from './components/shared/Login';
@@ -12,6 +13,7 @@ import Profile from './components/user/Profile';
 import WishlistPage from './components/user/WishList';
 import BikeDetails from './components/Home/Bikes';
 import Electric from './components/user/Electric';
+import List from './components/user/List';
 
 const appRouter = createBrowserRouter([
     {
@@ -53,6 +55,10 @@ const appRouter = createBrowserRouter([
     {
         path: "/road-zone",
         element: <BikeDetails />
+    },
+    {
+        path: "/road",
+        element: <List />
     }
 ]);
 
@@ -72,7 +78,10 @@ function App() {
             {isLoading ? (
                 <LoadingScreen />
             ) : (
-                <RouterProvider router={appRouter} />
+                <>
+                    <RouterProvider router={appRouter} />
+                    <Toaster />
+                </>
             )}
         </>
     );

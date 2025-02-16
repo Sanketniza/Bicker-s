@@ -52,6 +52,8 @@ export function CompanyCard({ id, name, images, price }) {
   //   setLocation(`/bike/${id}`);
   // };
 
+  
+
   return (
     <motion.div
       className="relative w-[290px]"
