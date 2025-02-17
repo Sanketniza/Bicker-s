@@ -6,7 +6,6 @@ import { Label } from '../ui/label';
 import { SlidersHorizontal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { sampleCompanies } from '../../JavaScript/bike'; // Import bike data
-import "../../css/list.css";
 import Navbar from '../shared/Navbar';
 import SearchBar from './Search'; // Import SearchBar component
 

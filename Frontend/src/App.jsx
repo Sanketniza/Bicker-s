@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import  { useState, useEffect } from 'react';
+import {  createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingScreen } from "../src/components/ui/loading";
 import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme-provider';
@@ -58,7 +58,7 @@ const appRouter = createBrowserRouter([
         element: <BikeDetails />
     },
     {
-        path: "/road",
+        path: "/bikes-list",
         element: <List />
     }
 ]);

@@ -105,7 +105,7 @@ function Navbar() {
               transition={{ delay: 0.011 }}
               className="cursor-pointer text-white-800">
               <NavLink 
-                to="/road"
+                to="/bikes-list"
                 className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
               >
                 <div className="flex items-center gap-1">
