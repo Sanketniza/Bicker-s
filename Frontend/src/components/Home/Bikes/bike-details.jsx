@@ -16,7 +16,7 @@ import {
   
 } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
-import { useToast } from '../../../hooks/use-toast';
+import { toast } from 'sonner';
 
 export default function BikeDetails() {
   const [location] = useLocation();
@@ -30,7 +30,6 @@ export default function BikeDetails() {
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const { toast } = useToast();
 
   // Get bike ID from URL
   const bikeId = location.split('/')[2];
@@ -59,39 +58,64 @@ export default function BikeDetails() {
       });
     }
   };
-  const handleFavorite = () => {
-    // Get existing favorites from localStorage
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    if (isFavorite) {
-      // Remove from favorites
-      const updatedFavorites = favorites.filter(id => id !== bike.id);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-      toast({
-        title: "Removed from favorites",
-        description: "The bike has been removed from your wishlist.",
-      });
-    } else {
-      // Add to favorites
-      if (!favorites.includes(bike.id)) {
-        favorites.push(bike.id);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        toast({
-          title: "Added to favorites",
-          description: "The bike has been added to your wishlist.",
-        });
-      }
-    }
-    setIsFavorite(!isFavorite);
-  };
+  
+    const handleFavorite = () => {
+
+        // Get existing favorites from localStorage
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+            if (isFavorite) {
+                // Remove from favorites
+                const updatedFavorites = favorites.filter(id => id !== bike.id);
+                localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+                toast.warning("The bike has been removed from your wishlist.", {
+                    style: {
+                        color: '#10B981',
+                        backgroundColor: '#09090B',          
+                        fontSize: '20px',
+                        borderColor: '#10B981',
+                        padding: '10px 20px'
+                    }
+                });
+            } 
+            else {
+                 // Add to favorites
+                if (!favorites.includes(bike.id)) {
+
+                    favorites.push(bike.id);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    toast.success("The bike has been added to your wishlist.", {
+                        style: {
+                            color: '#10B981',
+                            backgroundColor: '#09090B',          
+                            fontSize: '20px',
+                            borderColor: '#10B981',
+                            padding: '10px 20px'
+                        }
+                    });
+                    // toast.success("Favorites", `${bike.name} has been successfully added to your wishlist. You can view it anytime!`);     
+                }
+            }
+
+        setIsFavorite(!isFavorite);
+    };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the form data to your backend
     console.log('Form submitted:', formData);
     toast({
-        title: "Message Sent!",
-        description: "The shop owner will contact you soon.",
-      });
+      title: "Submission Successful",
+      description: "Your details have been submitted. The shop owner will get in touch with you soon. Thank you for reaching out!",
+      style: {
+        color: '#fff',
+        backgroundColor: '#4A5568',
+        fontSize: '16px',
+        padding: '12px 24px',
+        borderRadius: '8px',
+        border: '1px solid #2D3748',
+      }
+    });
     setShowForm(false);
   };
 
