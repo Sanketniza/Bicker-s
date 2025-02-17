@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
 import { toast } from 'sonner';
+// import toast from "react-hot-toast";
+
 
 export default function BikeDetails() {
   const [location] = useLocation();
@@ -44,18 +46,22 @@ export default function BikeDetails() {
   const handleShare = async () => {
     const url = window.location.href;
     try {
+
       await navigator.clipboard.writeText(url);
-      toast({
-        title: "Link Copied!",
-        description: "The link has been copied to your clipboard.",
+      toast.success("Link Copied!✔️✔️", {
+        duration: 2000,
+        style: {
+          color: '#10B981',
+          backgroundColor: '#09090B',          
+          fontSize: '20px',
+          borderColor: '#10B981',
+          padding: '10px 20px'
+        }
       });
+
     } catch (err) {
       console.error('Failed to copy:', err);
-      toast({
-        title: "Failed to copy link",
-        description: "Please try again",
-        variant: "destructive",
-      });
+      toast("Failed to copy link");
     }
   };
   
@@ -68,15 +74,26 @@ export default function BikeDetails() {
                 // Remove from favorites
                 const updatedFavorites = favorites.filter(id => id !== bike.id);
                 localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-                toast.warning("The bike has been removed from your wishlist.", {
-                    style: {
-                        color: '#10B981',
-                        backgroundColor: '#09090B',          
-                        fontSize: '20px',
-                        borderColor: '#10B981',
-                        padding: '10px 20px'
-                    }
-                });
+                // toast.warning("The bike has been removed from your wishlist.🥲🥲", {
+                //     style: {
+                //         color: '#10B981',
+                //         backgroundColor: '#09090B',          
+                //         fontSize: '20px',
+                //         borderColor: '#10B981',
+                //         padding: '10px 20px'
+                //     }
+                // });
+                toast.success("The bike has been Removed from your wishlist.🥲🥲", {
+                        position: "top-right",
+
+                     style: {
+                            color: '#10B981',
+                            backgroundColor: '#09090B',          
+                            fontSize: '20px',
+                            borderColor: '#10B981',
+                            padding: '10px 20px'
+                        }
+                  })
             } 
             else {
                  // Add to favorites
@@ -84,7 +101,12 @@ export default function BikeDetails() {
 
                     favorites.push(bike.id);
                     localStorage.setItem('favorites', JSON.stringify(favorites));
-                    toast.success("The bike has been added to your wishlist.", {
+
+                    // toast.success("The bike has been added to your wishlist!", {
+                    //     position: "top-right",
+                    //   });
+
+                    toast.success("The bike has been added to your wishlist! ❤️❤️", {
                         style: {
                             color: '#10B981',
                             backgroundColor: '#09090B',          
@@ -93,6 +115,7 @@ export default function BikeDetails() {
                             padding: '10px 20px'
                         }
                     });
+
                     // toast.success("Favorites", `${bike.name} has been successfully added to your wishlist. You can view it anytime!`);     
                 }
             }
@@ -104,17 +127,14 @@ export default function BikeDetails() {
     e.preventDefault();
     // Here you would typically send the form data to your backend
     console.log('Form submitted:', formData);
-    toast({
-      title: "Submission Successful",
-      description: "Your details have been submitted. The shop owner will get in touch with you soon. Thank you for reaching out!",
-      style: {
-        color: '#fff',
-        backgroundColor: '#4A5568',
-        fontSize: '16px',
-        padding: '12px 24px',
-        borderRadius: '8px',
-        border: '1px solid #2D3748',
-      }
+    toast.success("FormSubmission Successfully!❤️❤️ ", {
+        style: {
+            color: '#10B981',
+            backgroundColor: '#09090B',          
+            fontSize: '20px',
+            borderColor: '#10B981',
+            padding: '10px 20px'
+        }
     });
     setShowForm(false);
   };
