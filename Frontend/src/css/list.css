@@ -51,7 +51,7 @@ ul {
   border: 1px solid #eceff133;
   border-radius: 10px;
 }
-
+/* 
 .card:nth-child(1){
   --hue: 165;
   --saturation: 82.26%;
@@ -72,7 +72,7 @@ ul {
 
 .card__bullets {
   line-height: 1.4;
-}
+} */
 
 .card__bullets li::before {
   display: inline-block;
@@ -109,7 +109,7 @@ ul {
   font-weight: 600;
 }
 
-.overlay {
+/* .overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -127,23 +127,23 @@ ul {
   );
   transition: 400ms mask ease;
   will-change: mask;
-}
+} */
 
-.overlay .card {
+/* .overlay .card {
   background-color: hsla(var(--hsl), 0.15);
   border-color: hsla(var(--hsl), 1);
   box-shadow: 0 0 0 1px inset hsl(var(--hsl));
-}
+} */
 
-.overlay .cta {
+/* .overlay .cta {
   display: block;
   grid-row: -1;
   width: 100%;
   background-color: hsl(var(--hsl));
   box-shadow: 0 0 0 1px hsl(var(--hsl));
-}
+} */
 
-:not(.overlay) > .card {
+/* :not(.overlay) > .card {
   transition: 400ms background ease;
   will-change: background;
 }
@@ -151,25 +151,5 @@ ul {
 :not(.overlay) > .card:hover {
   --lightness: 95%;
   background: hsla(var(--hsl), 0.1);
-}
+} */
 
-.rating-button {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.group:hover .rating-button {
-  opacity: 1;
-}
-
-.like-dislike-icons {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
