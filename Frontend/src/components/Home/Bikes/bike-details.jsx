@@ -18,6 +18,8 @@ import {
 import Navbar from '@/components/shared/Navbar';
 import { toast } from 'sonner';
 import Like from '../../user/my-ui/Like';
+import Ratting from '../../user/my-ui/Ratting';
+
 
 export default function BikeDetails() {
   const [location] = useLocation();
@@ -166,11 +168,14 @@ export default function BikeDetails() {
       <Navbar />
       <div className="min-h-screen py-12 bg-[#09090B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <h1 className="text-4xl font-bold text-[#246FAC] mb-10 text-start" style={{ textDecoration: "underline solid #FFB903 0.1em" }}>Bike Details Page :-</h1>
+
           <div className="bg-black/20 backdrop-blur-sm border border-emerald-500/30 rounded-lg shadow-2xl p-6 md:p-8">
             {/* Main Info Section */}
             <div className="grid md:grid-cols-2 gap-8">
               {/* Left Column - Images */}
-              <div className="h-[600px] rounded-lg overflow-hidden">
+              <div className="h-[730px] rounded-lg overflow-hidden">
                 <ImageSlider images={bike.images} interval={5000} className="h-full" />
               </div>
 
@@ -249,8 +254,30 @@ export default function BikeDetails() {
                   Contact Seller
                 </motion.button>
 
-                <div className="flex items-start gap-4">
-                    <Like/>
+                <div className="flex items-center justify-between mx-2 px-4 py-2 bg-white/5 ">
+                    <Like className="md:order-2" />
+
+                    <div>
+                        <div className="flex items-center mt-6 mr-4 ">
+                        <Ratting />
+                        </div>
+
+                        <textarea
+                          name="Your Feedback"
+                          id=""
+                          className="w-full border border-[#10B981] rounded-md p-2 mt-4 mb-2 outline-none"
+                          placeholder="Write your feedback here..."
+                        >
+                        </textarea>
+                        <motion.button
+                          type="submit"
+                          className="w-full bg-emerald-500 text-white rounded-md font-medium text-[13px] my-2"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          Submit Feedback
+                        </motion.button>
+                    </div>
                 </div>
 
               </div>
