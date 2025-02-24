@@ -1,16 +1,114 @@
 import '../../App.css';
 
 import google from '../../assets/icons/google.png';
-import user from '../../assets/icons/user.png';
+import userr from '../../assets/icons/user.png';
 import email from '../../assets/icons/email (1).png';
 import password from '../../assets/icons/pass.png';
 import phone from '../../assets/icons/phone.png';
+import address from '../../assets/icons/location.png';
+
 // import cycle from '../../assets/icons/cycling.gif';
 import { motion } from "motion/react";
-import {Link}  from 'react-router-dom';
+import {Link, useNavigate}  from 'react-router-dom';
 import Navbar from './Navbar';
+import { Input } from '../ui/input';
+import { Label, RadioGroup } from '@radix-ui/react-dropdown-menu';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { USER_API_END_POINT } from '@/utils/api';
+import { setError, setLoading, setUser } from '@/store/authSlice';
+import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
 function SignUp() {
+
+    const [input, setInput] = useState({
+        fullname: '',
+        email: '',
+        password: '',
+        phone: '',
+        address: '',
+        role: '',
+    });
+
+    const {loading, user} = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const changeEventHandler = () => {
+        setInput({
+            ...input,
+            // [e.target.name]: e.target.value,
+        });
+    }
+
+    // const changeFileHandler = (e) => {
+    //     setInput({ 
+    //         ...input, file: e.target.files?.[0] 
+    //     });
+    // }
+
+    const submitHandler = async (e) => {
+
+        e.preventDefault();
+
+        const forData = new FormData();
+        forData.append('name', input.fullname);
+        forData.append('email', input.email);
+        forData.append('password', input.password);
+        forData.append('phone', input.phone);
+        forData.append('address', input.address);
+        forData.append('role', input.role);
+        // if(input.file) {
+        //     forData.append('file', input.file);
+        // }
+
+        try{
+
+            dispatch(setLoading(true));
+
+            const response = await axios.post(`${USER_API_END_POINT}/register`, forData , {
+                
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+
+                withCredentials: true,
+            });
+
+            if(response.data.success) {
+                // dispatch(setUser(response.data.data));
+                navigate('/login');
+                toast.success(response.data.message, {
+                    style: {
+                        color: '#10B981',
+                        backgroundColor: '#09090B',
+                        fontSize: '20px',
+                        borderColor: '#10B981',
+                        padding: '10px 20px'
+                    }
+                });
+            }else {
+                toast.error(response.data.message);
+            }
+
+        }catch(e) {
+            // dispatch(setError(e.response.data.message));
+            toast.error(e.response.data.message);
+        }finally {
+            dispatch(setLoading(false));
+        }
+            
+    }
+
+    useEffect(() => {
+        if(user) {
+            navigate('/');
+        }
+    }, []);
+
+
     return (
         <>
 
@@ -152,12 +250,15 @@ function SignUp() {
                                 <hr className="w-8 h-px bg-[#4A4C51]"/>
                             </div>
                             
-                            <form className="w-full">
+                            <form className="w-full" onSubmit={submitHandler}>
                                 
                                 <div className="relative">
-                                    <img src={user} className="absolute w-5 h-5 left-3 top-8" alt="user" />
+                                    <img src={userr} className="absolute w-5 h-5 left-3 top-8" alt="user" />
                                     <input 
                                         type="text" 
+                                        name="fullname"
+                                        onChange={changeEventHandler}
+                                        value={input.fullname}
                                         placeholder="Enter your username" 
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                     />
@@ -167,6 +268,9 @@ function SignUp() {
                                     <img src={email} className="absolute w-5 h-5 left-3 top-8" alt="email" />
                                     <input 
                                         type="email" 
+                                        name="email"
+                                        onChange={changeEventHandler}
+                                        value={input.email}
                                         placeholder="Enter your email" 
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                     />
@@ -176,7 +280,10 @@ function SignUp() {
                                 <div className="relative">
                                     <img src={password} className="absolute w-5 h-5 left-3 top-8" alt="password" />
                                     <input 
-                                        type="test" 
+                                        type="text"
+                                        name="password"
+                                        onChange={changeEventHandler}
+                                        value={input.password} 
                                         placeholder="Enter your Password" 
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                     />
@@ -186,14 +293,84 @@ function SignUp() {
                                     <img src={phone} className="absolute w-5 h-5 left-3 top-8" alt="phone" />
                                     <input 
                                         type="tel" 
+                                        name="phone"
+                                        onChange={changeEventHandler}
+                                        value={input.phone}
                                         placeholder="+91__________" 
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                         defaultValue="+91"
                                     />
                                 </div>
+
+                                <div className="relative">
+                                    <img src={address} className="absolute w-5 h-5 left-3 top-8" alt="phone" />
+                                    <input 
+                                        type="text" 
+                                        name="address"
+                                        onChange={changeEventHandler}
+                                        value={input.address}
+                                        placeholder="Enter Your Address" 
+                                        className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
+                                        defaultValue="+91"
+                                    />
+                                </div>
+
+                                <div className='flex items-center justify-between'>
+                                    <RadioGroup className="flex items-end gap-4 my-5 w-full">
+
+                                        <div className="flex items-center space-x-2 ">
+                                            <Input
+                                                type="radio"
+                                                name="role"
+                                                value="user"
+                                                checked={input.role === 'user'}
+                                                onChange={changeEventHandler}
+                                                className="cursor-pointer"
+                                            />
+                                            <Label htmlFor="r1">User</Label>
+                                        </div>
+
+                                        <div className="flex items-center space-x-2">
+                                            <Input
+                                                type="radio"
+                                                name="role"
+                                                value="shopOwner"
+                                                checked={input.role === 'shopOwner'}
+                                                onChange={changeEventHandler}
+                                                className="cursor-pointer"
+                                            />
+                                            <Label htmlFor="r2">shopOwner</Label>
+                                        </div>
+
+                                    </RadioGroup>
+                                </div>
                                 
                                 <p className="my-2 text-xs text-center text-white">Do not have an account?  <Link to='/login' className="text-base text-blue-900 hover:underline">Login</Link> </p>
-                                <button type='submit' className="w-full">
+                                {
+                                    loading ? (
+                                        <button className="w-full">
+                                            <div className="submit-button">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <Loader2 className="w-6 h-6 text-white" />
+                                            </div>
+                                            please wait...
+                                        </button>
+                                    ) : (
+                                        <button type='submit' className="w-full">
+                                            <div className="submit-button">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                Register
+                                            </div>
+                                        </button>
+                                    )
+                                }
+                                {/* <button type='submit' className="w-full">
                                     <a href="#" className="submit-button">
                                         <span></span>
                                         <span></span>
@@ -201,7 +378,7 @@ function SignUp() {
                                         <span></span>
                                         Register
                                     </a>
-                                </button>
+                                </button> */}
                             </form>
                         </div>
                     </div>

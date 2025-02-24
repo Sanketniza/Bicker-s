@@ -15,7 +15,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
+/* 
 @layer base {
      :root {
         --background: 0 0% 100%;
@@ -72,4 +72,15 @@
     }
 }
 
+ */
+
+/* @layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+}
+ */
 

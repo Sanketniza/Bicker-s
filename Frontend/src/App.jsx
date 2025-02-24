@@ -15,6 +15,7 @@ import WishlistPage from './components/user/WishList';
 import BikeDetails from './components/Home/Bikes';
 import Electric from './components/user/Electric';
 import List from './components/user/List';
+import CompanyTable from './components/admin/CompanyTable';
 
 const appRouter = createBrowserRouter([
     {
@@ -60,6 +61,16 @@ const appRouter = createBrowserRouter([
     {
         path: "/bikes-list",
         element: <List />
+    },
+
+    {
+        path: "/companytable",
+        element: <CompanyTable />
+    },
+
+    {
+        path: "*",
+        element: <Home />
     }
 ]);
 

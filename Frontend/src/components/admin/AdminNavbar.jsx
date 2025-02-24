@@ -16,46 +16,36 @@ import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Moon, Sun, User, LogOut, Package, Settings } from 'lucide-react';
 import { ModeToggle } from './mode-toggle'; // Import ModeToggle component
-import { USER_API_END_POINT } from '@/utils/api';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'sonner';
-import axios from 'axios';
-import { setUser } from '@/store/authSlice';
 
 function Navbar() {
-
-  const {user} = useSelector((state) => state.auth);  
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-
   const [, setLocation] = useLocation();
-//   const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('dark');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-//   const [isAuthenticated, setIsAuthenticated] = useState(true);
-//   const [userData, setUserData] = useState({
-//     name: 'John Doe',
-//     email: 'john@example.com',
-//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
-//     orders: [
-//       { id: 1, bike: 'Kawasaki Ninja', date: '2024-02-10' },
-//       { id: 2, bike: 'Honda CBR', date: '2024-02-15' }
-//     ]
-//   });
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [userData, setUserData] = useState({
+    name: 'John Doe',
+    email: 'john@example.com',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
+    orders: [
+      { id: 1, bike: 'Kawasaki Ninja', date: '2024-02-10' },
+      { id: 2, bike: 'Honda CBR', date: '2024-02-15' }
+    ]
+  });
 
-//   useEffect(() => {
-//     // Mock authentication check
-//     localStorage.setItem('user', JSON.stringify(userData));
-//   }, []);
+  useEffect(() => {
+    // Mock authentication check
+    localStorage.setItem('user', JSON.stringify(userData));
+  }, []);
 
-//   const userr = userData || {
-//     name: 'Guest',
-//     email: 'guest@example.com',
-//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest',
-//     orders: []
-//   };
+  const user = userData || {
+    name: 'Guest',
+    email: 'guest@example.com',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest',
+    orders: []
+  };
 
 /* 
   const toggleTheme = () => {
@@ -65,41 +55,19 @@ function Navbar() {
   }; */
 
   const handleLogin = () => {
-    navigate('/login');
+    setLocation('/login');
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    setUserData(null);
+    setLocation('/');
+  };
 
   const profile = () => {
     navigate('/profile');
   };
-
-  const logoutHandler = async () => {
-
-    try{
-        //* --> This is used to logout the user.
-        const res = await axios.get(`${USER_API_END_POINT}/logout` , {
-            withCredentials: true
-        });
-
-            if(res.data.success) {
-                dispatch(setUser(null));
-                navigate("/login");
-                toast.success(res.data.message, {
-                    style: {
-                        color: '#10B981',
-                        backgroundColor: '#09090B',
-                        fontSize: '20px',
-                        borderColor: '#10B981',
-                        padding: '10px 20px'
-                    }
-                });
-            }
-            
-    }catch(error){
-        console.log(error)
-        toast.error(error.response.data.message);
-    }
-}
 
   return (
             <>
@@ -120,14 +88,9 @@ function Navbar() {
                 </h1>
                 </div>
 
-
-                
-						
-						
-
-
                 <div className="hidden lg:flex items-center justify-between">
                 <motion.ul className="flex items-center gap-10">
+
                     <motion.li
                     whileHover={{ color: "#6674CC" }}
                     transition={{ delay: 0.011 }}
@@ -142,6 +105,7 @@ function Navbar() {
                         </div>
                     </NavLink>
                     </motion.li>
+
                     <motion.li
                     whileHover={{ color: "#6674CC" }}
                     transition={{ delay: 0.011 }}
@@ -152,23 +116,25 @@ function Navbar() {
                     >
                         <div className="flex items-center gap-1">
                         <Bike className="w-5 h-5" />
-                        <span>list</span>
+                        <span>Company</span>
                         </div>
                     </NavLink>
                     </motion.li>
+
                     <motion.li
                     whileHover={{ color: "#6674CC" }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/signup"
+                        to="/companytable"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                     >  
                         <div className="flex items-center gap-1">
                         <ListOrdered className="w-5 h-5" />
-                        <span>OrderList</span>
+                        <span>Product</span>
                         </div>
                     </NavLink>
                     </motion.li>
+
                     <motion.li
                     whileHover={{ color: "#6674CC" }}
                     transition={{ delay: 0.011 }}
@@ -190,13 +156,13 @@ function Navbar() {
                 <ModeToggle /> {/* Add ModeToggle component here */}
 
                 {
-                    user && user.role == "user" ? (
+                    isAuthenticated ? (
                     <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
                         <SheetTrigger asChild>
                         <Button variant="ghost" className="relative h-8 w-12 rounded-full">
                             <Avatar>
-                            <AvatarImage src={user.email} alt={user.fullname} />
-                            <AvatarFallback className="border-2 border-[#10B981]" >{user.fullname[0]}</AvatarFallback>
+                            <AvatarImage src={user.avatar} alt={user.name} />
+                            <AvatarFallback>{user.name[0]}</AvatarFallback>
                             </Avatar>
                         </Button>
                         </SheetTrigger>
@@ -212,11 +178,11 @@ function Navbar() {
                         <div className="mt-6 space-y-6">
                             <div className="flex items-center gap-4">
                             <Avatar className="h-16 w-16  border-2 border-[#10B981] rounded-full">
-                                <AvatarImage src={user.avatar} alt={user.fullname} />
-                                <AvatarFallback>{user.fullname[0]}</AvatarFallback>
+                                <AvatarImage src={user.avatar} alt={user.name} />
+                                <AvatarFallback>{user.name[0]}</AvatarFallback>
                             </Avatar>
                             <div>
-                                <h3 className="font-semibold">{user.fullname}</h3>
+                                <h3 className="font-semibold">{user.name}</h3>
                                 <p className="text-sm text-muted-foreground">{user.email}</p>
                             </div>
                             </div>
@@ -248,35 +214,35 @@ function Navbar() {
                             <Button 
                                 variant="ghost" 
                                 className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
-                                onClick={logoutHandler}
+                                onClick={handleLogout}
                             >
                                 <LogOut className="mr-2 h-4 w-4" />
                                 Logout
                             </Button>
                             </div>
-                           {/*  {
-                                user.orders.length > 0 && (
-                                    <div className="border-t pt-4">
-                                    <h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>
-                                    <div className="space-y-3">
-                                        {
-                                        user.orders.map(order => (
-                                            <motion.div
-                                            key={order.id}
-                                            className="rounded-lg border p-3 border-1 border-[#10B981] "
-                                            whileHover={{ scale: 1.02 }}
-                                            >
-                                            <div className="flex justify-between items-center">
-                                                <p className="font-medium">{order.bike}</p>
-                                                <p className="text-sm text-muted-foreground">{order.date}</p>
-                                            </div>
-                                            </motion.div>
-                                        ))
-                                        }
-                                    </div>
-                                    </div>
-                                )
-                            } */}
+                            {
+                            user.orders.length > 0 && (
+                                <div className="border-t pt-4">
+                                <h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>
+                                <div className="space-y-3">
+                                    {
+                                    user.orders.map(order => (
+                                        <motion.div
+                                        key={order.id}
+                                        className="rounded-lg border p-3 border-1 border-[#10B981] "
+                                        whileHover={{ scale: 1.02 }}
+                                        >
+                                        <div className="flex justify-between items-center">
+                                            <p className="font-medium">{order.bike}</p>
+                                            <p className="text-sm text-muted-foreground">{order.date}</p>
+                                        </div>
+                                        </motion.div>
+                                    ))
+                                    }
+                                </div>
+                                </div>
+                            )
+                            }
                         </div>
                         </SheetContent>
                     </Sheet>
