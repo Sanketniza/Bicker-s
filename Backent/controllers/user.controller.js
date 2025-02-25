@@ -205,19 +205,10 @@ exports.logout = async(req, res) => {
 
 };
 
-exports.updateProfile = async(req, res) => {
-
+exports.updateProfile = async (req, res) => {
     try {
-
-        const { fullname, phone, address, email, bio, socialMediaLinks, profile, paymentInfo } = req.body;
-
-        const file = req.file; // for profile picture
-
-        const dataUri = getDataUri(file);
-
-        const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
-
-        // update user
+        const { fullname, phone, address, email, bio, socialMediaLinks } = req.body;
+        const file = req.file;
 
         const userId = req.user.id;
         let user = await User.findById(userId);
@@ -229,17 +220,22 @@ exports.updateProfile = async(req, res) => {
             });
         }
 
+        if (file) {
+            const dataUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
+            user.profile = cloudResponse.secure_url;
+        }
+
         if (fullname) user.fullname = fullname;
         if (phone) user.phone = phone;
         if (address) user.address = address;
         if (email) user.email = email;
         if (bio) user.bio = bio;
         if (socialMediaLinks) user.socialMediaLinks = socialMediaLinks;
-        if (profile) user.profile = cloudResponse.secure_url;
 
         await user.save();
 
-        user = { // send only these fields to client
+        user = {
             _id: user._id,
             fullname: user.fullname,
             email: user.email,
@@ -250,21 +246,17 @@ exports.updateProfile = async(req, res) => {
         };
 
         return res.status(200).json({
-            message: `${user.fullname} , your profile has been updated successfully`,
+            message: `${user.fullname}, your profile has been updated successfully`,
             success: true,
             user,
         });
-
     } catch (error) {
-        console.log(error.message);
-        console.log("Error in updateProfile controller");
-
+        console.error("Error in updateProfile controller:", error.message);
         return res.status(500).json({
             message: "Internal server error",
             success: false,
         });
     }
-
 };
 
 exports.deleteProfile = async(req, res) => {

@@ -1,150 +1,146 @@
-
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { motion } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Linkedin, Edit2, Save } from 'lucide-react';
+import { Edit2 } from 'lucide-react';
 import Navbar from '../shared/Navbar';
+import { useSelector } from 'react-redux';
+import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import UpdateProfile from './UpdataProfile'; // Import the new component
 
 export default function Profile() {
-
+  const { user } = useSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [userData, setUserData] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '+1 234 567 8900',
-    address: '123 Bike Street, Motor City, MC 12345',
-    bio: 'Passionate about motorcycles and adventure riding. Been riding for over 10 years and love exploring new trails.',
-    socialMedia: {
-      facebook: 'facebook.com/johndoe',
-      twitter: 'twitter.com/johndoe',
-      instagram: 'instagram.com/johndoe',
-      linkedin: 'linkedin.com/in/johndoe'
-    },
-    paymentInfo: {
-      cardType: 'Visa',
-      lastFour: '4242'
-    }
-  });
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
-  const handleSave = () => {
+  const handleCloseEdit = () => {
     setIsEditing(false);
   };
 
-
-
-  const handleEdit = () => {
-    setIsEditing(!isEditing);
-  };
+  // If user is null, show a loading state or fallback message
+  if (!user) {
+    return (
+      <>
+        <Navbar />
+        <div className="mx-10 my-20 text-center text-white">
+          <h1 className="text-2xl">Loading profile...</h1>
+          <p>Or you might need to log in to view your profile.</p>
+        </div>
+      </>
+    );
+  }
 
   return (
-        <>
-            <Navbar />
+    <>
+      <Navbar />
+      <div className="mx-10">
+        <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
+          {/* Glow effect */}
+          <div
+            className="absolute inset-0 rounded-lg opacity-30 blur-xl"
+            style={{
+              background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
+            }}
+          />
 
-            <div className=" ">
-                <div className="mx-10">
-                    <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-4xl bg-black/20 backdrop-blur-sm"
-                    >
-                    {/* Glow effect */}
-                    <div 
-                        className="absolute inset-0 rounded-lg opacity-30 blur-xl"
-                        style={{
-                        background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`
-                        }}
-                    />
-                    <div className="relative flex justify-between items-center mb-8">
-                        
-                        <h1 className="text-4xl font-bold text-white">
-                          <span className="text-emerald-500">My</span> Profile
-                        </h1>
-                        <Button onClick={handleEdit} variant="outline" className="gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 border-emerald-500/30">
-                            {isEditing ? <Save className="h-4 w-4" /> : <Edit2 className="h-4 w-4" />}
-                            {isEditing ? 'Save Changes' : 'Edit Profile'}
-                        </Button>
-                    </div>
+          {isEditing ? (
+            <UpdateProfile onClose={handleCloseEdit} />
+          ) : (
+            <>
+              <div className="relative flex justify-between items-center mb-8">
+                <h1 className="text-4xl font-bold text-white">
+                  <span className="text-emerald-500">My</span> Profile
+                </h1>
+                <Button
+                  onClick={handleEdit}
+                  variant="outline"
+                  className="gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 border-emerald-500/30"
+                >
+                  <Edit2 className="h-4 w-4" />
+                  Edit Profile
+                </Button>
+              </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                        <div>
-                            <label className="text-sm font-medium text-emerald-500">Name</label>
-                            <Input 
-                                value={userData.name}
-                                disabled={!isEditing}
-                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-[#F97316]">Email</label>
-                            <Input 
-                                value={userData.email}
-                                disabled={!isEditing}
-                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-[#F97316]">Phone</label>
-                            <Input 
-                                value={userData.phone}
-                                disabled={!isEditing}
-                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-[#F97316]">Address</label>
-                            <Input 
-                                value={userData.address}
-                                disabled={!isEditing}
-                                className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
-                            />
-                        </div>
-                        </div>
+              <div className="grid md:grid-cols-2 gap-6 text-white">
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-emerald-500">Name</label>
+                    <p className="mt-1">{user.fullname || 'Not provided'}</p>
+                  </div>
 
-                        <div className="space-y-4">
-                        <div>
-                            <label className="text-sm font-medium text-[#F97316]">Bio</label>
-                            <Textarea 
-                                value={userData.bio}
-                                disabled={!isEditing}
-                                className="mt-1 h-32  bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
-                            />
-                        </div>
+                  <div>
+                    <label className="text-sm font-medium text-[#F97316]">Email</label>
+                    <p className="mt-1">{user.email || 'Not provided'}</p>
+                  </div>
 
-                        <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
-                            <label className="text-sm font-medium text-emerald-500">Payment Information</label>
-                            <div className="mt-1 p-3 bg-black/20 rounded-lg text-white">
-                                 <p>{userData.paymentInfo.cardType} **** {userData.paymentInfo.lastFour}</p>
-                            </div>
-                        </div>
+                  <div>
+                    <label className="text-sm font-medium text-[#F97316]">Phone</label>
+                    <p className="mt-1">{user.phone || 'Not provided'}</p>
+                  </div>
 
-                        <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
-                            <label className="text-sm font-medium text-emerald-500">Social Media</label>
-                            <div className="mt-2 flex gap-4">
-                            <a href={userData.socialMedia.facebook} className="text-blue-600 hover:text-blue-700">
-                                <Facebook />
-                            </a>
-                            <a href={userData.socialMedia.twitter} className="text-sky-500 hover:text-sky-600">
-                                <Twitter />
-                            </a>
-                            <a href={userData.socialMedia.instagram} className="text-pink-600 hover:text-pink-700">
-                                <Instagram />
-                            </a>
-                            <a href={userData.socialMedia.linkedin} className="text-blue-700 hover:text-blue-800">
-                                <Linkedin />
-                            </a>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </motion.div>
+                  <div>
+                    <label className="text-sm font-medium text-[#F97316]">Address</label>
+                    <p className="mt-1">
+                      {user.address
+                        ? `${user.address.street}, ${user.address.city}, ${user.address.state} ${user.address.zip}, ${user.address.country}`
+                        : 'Not provided'}
+                    </p>
+                  </div>
                 </div>
-            </div>
-        </>    
-    );
-}
 
-    
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-[#F97316]">Bio</label>
+                    <p className="mt-1">{user.bio || 'Not provided'}</p>
+                  </div>
+
+                  <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
+                    <label className="text-sm font-medium text-emerald-500">Social Media</label>
+                    <div className="mt-2 flex gap-4">
+                      <a
+                        href={user.socialMediaLinks?.facebook || '#'}
+                        className="text-blue-600 hover:text-blue-700"
+                      >
+                        <Facebook />
+                      </a>
+                      <a
+                        href={user.socialMediaLinks?.twitter || '#'}
+                        className="text-sky-500 hover:text-sky-600"
+                      >
+                        <Twitter />
+                      </a>
+                      <a
+                        href={user.socialMediaLinks?.instagram || '#'}
+                        className="text-pink-600 hover:text-pink-700"
+                      >
+                        <Instagram />
+                      </a>
+                      <a
+                        href={user.socialMediaLinks?.linkedin || '#'}
+                        className="text-blue-700 hover:text-blue-800"
+                      >
+                        <Linkedin />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
+                    <label className="text-sm font-medium text-emerald-500">Payment Information</label>
+                    <p className="mt-1">
+                      {user.paymentInfo?.bankAccount
+                        ? `Bank: ${user.paymentInfo.bankAccount}`
+                        : user.paymentInfo?.upiId
+                        ? `UPI: ${user.paymentInfo.upiId}`
+                        : 'No payment info available'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
