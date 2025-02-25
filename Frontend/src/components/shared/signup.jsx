@@ -2,10 +2,10 @@ import '../../App.css';
 
 import google from '../../assets/icons/google.png';
 import userr from '../../assets/icons/user.png';
-import email from '../../assets/icons/email (1).png';
-import password from '../../assets/icons/pass.png';
-import phone from '../../assets/icons/phone.png';
-import address from '../../assets/icons/location.png';
+import eemail from '../../assets/icons/email (1).png';
+import ppassword from '../../assets/icons/pass.png';
+import pphone from '../../assets/icons/phone.png';
+import aaddress from '../../assets/icons/location.png';
 
 // import cycle from '../../assets/icons/cycling.gif';
 import { motion } from "motion/react";
@@ -22,92 +22,76 @@ import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 
 function SignUp() {
-
     const [input, setInput] = useState({
-        fullname: '',
-        email: '',
-        password: '',
-        phone: '',
-        address: '',
-        role: '',
+      fullname: "",
+      email: "",
+      password: "",
+      phone: "",
+      role: "user",
     });
-
-    const {loading, user} = useSelector(state => state.auth);
+  
+    const { loading, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const changeEventHandler = () => {
+  
+    const changeEventHandler = (e) => {
         setInput({
             ...input,
-            // [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value,
         });
-    }
-
-    // const changeFileHandler = (e) => {
-    //     setInput({ 
-    //         ...input, file: e.target.files?.[0] 
-    //     });
-    // }
-
+    };
+  
     const submitHandler = async (e) => {
 
         e.preventDefault();
-
-        const forData = new FormData();
-        forData.append('name', input.fullname);
-        forData.append('email', input.email);
-        forData.append('password', input.password);
-        forData.append('phone', input.phone);
-        forData.append('address', input.address);
-        forData.append('role', input.role);
-        // if(input.file) {
-        //     forData.append('file', input.file);
-        // }
-
-        try{
+    
+        // Log the input data to debug
+        // console.log("Form Data:", input);
+    
+        try {
 
             dispatch(setLoading(true));
-
-            const response = await axios.post(`${USER_API_END_POINT}/register`, forData , {
-                
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-
-                withCredentials: true,
-            });
-
-            if(response.data.success) {
-                // dispatch(setUser(response.data.data));
-                navigate('/login');
+    
+            const response = await axios.post("http://localhost:8000/api/v1/user/register",input, // Send input directly as JSON
+                {
+                    headers: {
+                    "Content-Type": "application/json", // Set to JSON
+                    },
+                    withCredentials: true,
+                }
+            );
+    
+            if (response.data.success) {
+                //dispatch(setUser(response.data.user)); // Use 'user' as per backend response
+                navigate("/login");
                 toast.success(response.data.message, {
                     style: {
-                        color: '#10B981',
-                        backgroundColor: '#09090B',
-                        fontSize: '20px',
-                        borderColor: '#10B981',
-                        padding: '10px 20px'
-                    }
+                    color: "#10B981",
+                    backgroundColor: "#09090B",
+                    fontSize: "20px",
+                    borderColor: "#10B981",
+                    padding: "10px 20px",
+                    },
                 });
-            }else {
+            } 
+            
+            else {
                 toast.error(response.data.message);
             }
 
-        }catch(e) {
-            // dispatch(setError(e.response.data.message));
-            toast.error(e.response.data.message);
-        }finally {
+        } catch (error) {
+            console.error("Error:", error);
+            toast.error(error.response?.data?.message || "Something went wrong");
+        } finally {
             dispatch(setLoading(false));
         }
-            
-    }
-
+    };
+    
     useEffect(() => {
-        if(user) {
-            navigate('/');
-        }
+      if (user) {
+        navigate("/");
+      }
     }, []);
-
 
     return (
         <>
@@ -265,7 +249,7 @@ function SignUp() {
                                 </div>
                                 
                                 <div className="relative">
-                                    <img src={email} className="absolute w-5 h-5 left-3 top-8" alt="email" />
+                                    <img src={eemail} className="absolute w-5 h-5 left-3 top-8" alt="email" />
                                     <input 
                                         type="email" 
                                         name="email"
@@ -278,7 +262,7 @@ function SignUp() {
                                 
                                 
                                 <div className="relative">
-                                    <img src={password} className="absolute w-5 h-5 left-3 top-8" alt="password" />
+                                    <img src={ppassword} className="absolute w-5 h-5 left-3 top-8" alt="password" />
                                     <input 
                                         type="text"
                                         name="password"
@@ -290,7 +274,7 @@ function SignUp() {
                                 </div>
                                 
                                 <div className="relative">
-                                    <img src={phone} className="absolute w-5 h-5 left-3 top-8" alt="phone" />
+                                    <img src={pphone} className="absolute w-5 h-5 left-3 top-8" alt="phone" />
                                     <input 
                                         type="tel" 
                                         name="phone"
@@ -301,9 +285,9 @@ function SignUp() {
                                         defaultValue="+91"
                                     />
                                 </div>
-
+{/* 
                                 <div className="relative">
-                                    <img src={address} className="absolute w-5 h-5 left-3 top-8" alt="phone" />
+                                    <img src={aaddress} className="absolute w-5 h-5 left-3 top-8" alt="phone" />
                                     <input 
                                         type="text" 
                                         name="address"
@@ -313,7 +297,7 @@ function SignUp() {
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                         defaultValue="+91"
                                     />
-                                </div>
+                                </div> */}
 
                                 <div className='flex items-center justify-between'>
                                     <RadioGroup className="flex items-end gap-4 my-5 w-full">
@@ -370,6 +354,7 @@ function SignUp() {
                                         </button>
                                     )
                                 }
+
                                 {/* <button type='submit' className="w-full">
                                     <a href="#" className="submit-button">
                                         <span></span>
@@ -379,11 +364,13 @@ function SignUp() {
                                         Register
                                     </a>
                                 </button> */}
+
                             </form>
+
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
             
         </>
     )

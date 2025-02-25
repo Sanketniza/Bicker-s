@@ -12,9 +12,10 @@ const Product = require("../models/product.model");
 
 exports.register = async(req, res) => {
     try {
-        const { fullname, email, password, phone,address, role  } = req.body;
+        
+        const { fullname, email, password, phone , role  } = req.body;
 
-        if (!fullname || !email || !password || !phone || !address  || !role ) {
+        if (!fullname || !email || !password || !phone   || !role ) {
             return res.status(400).json({
                 message: "Please provide all required fields",
                 success: false,
@@ -48,7 +49,13 @@ exports.register = async(req, res) => {
             password: hashedPassword,
             phone,
             role,
-            address,
+            // address: {
+            //     street: address.street || '',
+            //     city: address.city || '',
+            //     state: address.state || '',
+            //     zip: address.zip || '',
+            //     country: address.country || ''
+            // },
             // profile: profileUrl,
             // verificationToken // Add the verification token
         });
