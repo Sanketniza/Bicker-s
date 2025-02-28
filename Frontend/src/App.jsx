@@ -64,9 +64,11 @@ const appRouter = createBrowserRouter([
     },
 
     {
-        path: "/companytable",
+        path: "/companytable/:id",
         element: <CompanyTable />
     },
+
+    
 
     {
         path: "*",

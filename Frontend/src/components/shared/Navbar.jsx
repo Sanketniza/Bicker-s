@@ -98,7 +98,7 @@ function Navbar() {
                 </div>
                 <h1 className="mx-5 text-3xl font-bold text-white-800 hidden sm:block">
                     <Link to="/" className="flex items-center gap-1">
-                    <Link to="/" className="btn-shine text-red-500">Biker&apos;s</Link>
+                    <Link to="/" className="btn-shine text-red-500">Student<span className="inline-block w-3 h-1 bg-zinc-500 rounded-full"></span>Hub</Link> 
                     </Link>
                 </h1>
                 </div>
