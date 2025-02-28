@@ -8,12 +8,19 @@ import { Provider } from 'react-redux'
 import { Toaster } from 'sonner';
 // import { Toaster } from 'react-hot-toast';
 
+// void the login at every render or reload
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+const persistor = persistStore(store);
+
 
 createRoot(document.getElementById('root')).render(
     <StrictMode >
         <Provider store={store}>
-        <Toaster />
-            <App />
+            <PersistGate loading={null} persistor={persistor}>
+                <App />
+                <Toaster />
+            </PersistGate>
         </Provider>
     </StrictMode>,
 )
