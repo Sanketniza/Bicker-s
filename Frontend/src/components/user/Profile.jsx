@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Edit2 } from 'lucide-react';
 import Navbar from '../shared/Navbar';

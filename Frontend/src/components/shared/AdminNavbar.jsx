@@ -124,7 +124,7 @@ function AdminNavbar() {
                 </div>
                 <h1 className="mx-5 text-3xl font-bold text-white-800 hidden sm:block">
                     <Link to="/" className="flex items-center gap-1">
-                    <Link to="/" className="btn-shine text-red-500">D-Biker&apos;s</Link>
+                    <Link to="/" className="btn-shine text-red-500">Biker&apos;s</Link>
                     </Link>
                 </h1>
                 </div>
@@ -143,7 +143,7 @@ function AdminNavbar() {
                         className="cursor-pointer text-white-800"
                     >
                             <NavLink 
-                                to="/companytable/45632133654"
+                                to="/"
                                 className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                             >
                                 <div className="flex items-center gap-1">

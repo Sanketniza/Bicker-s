@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
@@ -170,6 +170,7 @@ const UpdateProfile = ({ onClose }) => {
             <label className="text-sm font-medium text-[#F97316]">Email</label>
             <Input
               name="email"
+              type="email"
               value={profileData.email}
               onChange={handleChange}
               disabled={!isEditable}
@@ -181,6 +182,7 @@ const UpdateProfile = ({ onClose }) => {
             <label className="text-sm font-medium text-[#F97316]">Phone</label>
             <Input
               name="phone"
+              type="tel"
               value={profileData.phone}
               onChange={handleChange}
               disabled={!isEditable}
@@ -200,6 +202,7 @@ const UpdateProfile = ({ onClose }) => {
           </div>
         </div>
 
+        {/* Right Column */}
         <div className="space-y-4">
           <div>
             <label className="text-sm font-medium text-[#F97316]">Bio</label>
