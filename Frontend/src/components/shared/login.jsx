@@ -178,10 +178,12 @@ function Login() {
                                 <img src={google} className="w-6 h-6 mr-5" alt="google" />
                                 Continue with Google
                             </button>
-                            <button style={{width: '80%', margin: '0 auto'}} className="flex items-center justify-center w-full px-4 py-2 mt-3 text-white bg-transparent border-2 border-gray-700 focus:border-pink-600 rounded-full hover:bg-[#3A3C3F]">
+
+                            {/* <button style={{width: '80%', margin: '0 auto'}} className="flex items-center justify-center w-full px-4 py-2 mt-3 text-white bg-transparent border-2 border-gray-700 focus:border-pink-600 rounded-full hover:bg-[#3A3C3F]">
                                 <img src={instagram} className="w-6 h-6 mr-5" alt="google" />
                                 Continue with GitHub
-                            </button>
+                            </button> */}
+
                             <div className="flex items-center justify-center my-4">
                                 <hr className="w-8 h-px bg-[#4A4C51]"/>
                                 <p className="px-4 text-sm text-[#4A4C51]">Register/Login with Email</p>
@@ -216,7 +218,7 @@ function Login() {
                                     />
                                 </div>
 
-                                <div className='flex items-center justify-between'>
+                                <div className='flex items-center justify-between mx-2'>
                                     <RadioGroup className="flex items-end gap-4 my-5 w-full">
 
                                         <div className="flex items-center space-x-2 ">

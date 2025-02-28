@@ -16,36 +16,47 @@ import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Moon, Sun, User, LogOut, Package, Settings } from 'lucide-react';
 import { ModeToggle } from './mode-toggle'; // Import ModeToggle component
+import {USER_API_END_POINT } from '@/utils/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'sonner';
+import axios from 'axios';
+import { setUser } from '@/store/authSlice';
 
-function Navbar() {
+function AdminNavbar() {
+
+  const {user} = useSelector((state) => state.auth);  
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
   const [, setLocation] = useLocation();
-  const [theme, setTheme] = useState('dark');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [userData, setUserData] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
-    orders: [
-      { id: 1, bike: 'Kawasaki Ninja', date: '2024-02-10' },
-      { id: 2, bike: 'Honda CBR', date: '2024-02-15' }
-    ]
-  });
+  //   const [theme, setTheme] = useState('dark');
 
-  useEffect(() => {
-    // Mock authentication check
-    localStorage.setItem('user', JSON.stringify(userData));
-  }, []);
+//   const [isAuthenticated, setIsAuthenticated] = useState(true);
+//   const [shopOwnerData, setshopOwnerData] = useState({
+//     name: 'John Doe',
+//     email: 'john@example.com',
+//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
+//     orders: [
+//       { id: 1, bike: 'Kawasaki Ninja', date: '2024-02-10' },
+//       { id: 2, bike: 'Honda CBR', date: '2024-02-15' }
+//     ]
+//   });
 
-  const user = userData || {
-    name: 'Guest',
-    email: 'guest@example.com',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest',
-    orders: []
-  };
+//   useEffect(() => {
+//     // Mock authentication check
+//     localStorage.setItem('shopOwner', JSON.stringify(shopOwnerData));
+//   }, []);
+
+//   const shopOwnerr = shopOwnerData || {
+//     name: 'Guest',
+//     email: 'guest@example.com',
+//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest',
+//     orders: []
+//   };
 
 /* 
   const toggleTheme = () => {
@@ -55,19 +66,49 @@ function Navbar() {
   }; */
 
   const handleLogin = () => {
-    setLocation('/login');
+    navigate('/login');
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    setIsAuthenticated(false);
-    setUserData(null);
-    setLocation('/');
-  };
 
   const profile = () => {
     navigate('/profile');
   };
+
+  const logoutHandler = async () => {
+
+    try{
+        //* --> This is used to logout the shopOwner.
+        const res = await axios.get(`${USER_API_END_POINT}/logout` , {
+            withCredentials: true
+        });
+
+            if(res.data.success) {
+                dispatch(setUser(null));
+                navigate("/login");
+                toast.success(res.data.message, {
+                    style: {
+                        color: '#10B981',
+                        backgroundColor: '#09090B',
+                        fontSize: '20px',
+                        borderColor: '#10B981',
+                        padding: '10px 20px'
+                    }
+                });
+            }
+            
+    }catch(error){
+        console.log(error)
+        toast.error(error.response.data.message, {
+            style: {
+                color: '#f44336',
+                backgroundColor: '#fff',
+                fontSize: '16px',
+                borderColor: '#f44336',
+                padding: '10px 20px'
+            }
+        });
+    }
+}
 
   return (
             <>
@@ -83,58 +124,64 @@ function Navbar() {
                 </div>
                 <h1 className="mx-5 text-3xl font-bold text-white-800 hidden sm:block">
                     <Link to="/" className="flex items-center gap-1">
-                    <a href="#" className="btn-shine text-red-500">Student Hub</a>
+                    <Link to="/" className="btn-shine text-red-500">Biker&apos;s</Link>
                     </Link>
                 </h1>
                 </div>
 
+
+                
+						
+						
+
+
                 <div className="hidden lg:flex items-center justify-between">
                 <motion.ul className="flex items-center gap-10">
-
                     <motion.li
-                    whileHover={{ color: "#6674CC" }}
-                    transition={{ delay: 0.011 }}
-                    className="cursor-pointer text-white-800">
-                    <NavLink 
-                        to="/"
-                        className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                        whileHover={{ color: "#6674CC" }}
+                        transition={{ delay: 0.011 }}
+                        className="cursor-pointer text-white-800"
                     >
-                        <div className="flex items-center gap-1">
-                        <Bike className="w-5 h-5" />
-                        <span>Home</span>
-                        </div>
-                    </NavLink>
+                            <NavLink 
+                                to="/"
+                                className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                            >
+                                <div className="flex items-center gap-1">
+                                <Bike className="w-5 h-5" />
+                                <span>Home</span>
+                                </div>
+                            </NavLink>
                     </motion.li>
 
                     <motion.li
-                    whileHover={{ color: "#6674CC" }}
-                    transition={{ delay: 0.011 }}
-                    className="cursor-pointer text-white-800">
-                    <NavLink 
-                        to="/bikes-list"
-                        className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                        whileHover={{ color: "#6674CC" }}
+                        transition={{ delay: 0.011 }}
+                        className="cursor-pointer text-white-800"
                     >
-                        <div className="flex items-center gap-1">
-                        <Bike className="w-5 h-5" />
-                        <span>Company</span>
-                        </div>
-                    </NavLink>
-                    </motion.li>
+                            <NavLink 
+                                to="/bikes-list"
+                                className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                            >
+                                <div className="flex items-center gap-1">
+                                <Bike className="w-5 h-5" />
+                                <span>Companies</span>
+                                </div>
+                            </NavLink>
+                        </motion.li>
 
                     <motion.li
                     whileHover={{ color: "#6674CC" }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/companytable"
+                        to="/signup"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                     >  
                         <div className="flex items-center gap-1">
                         <ListOrdered className="w-5 h-5" />
-                        <span>Product</span>
+                        <span>OrderList</span>
                         </div>
                     </NavLink>
                     </motion.li>
-
                     <motion.li
                     whileHover={{ color: "#6674CC" }}
                     transition={{ delay: 0.011 }}
@@ -145,7 +192,7 @@ function Navbar() {
                     >  
                         <div className="flex items-center gap-1">
                         <HardHat className="w-5 h-5" />
-                        <span>WishList </span>
+                        <span>Products </span>
                         </div>
                     </NavLink>
                     </motion.li>
@@ -156,13 +203,13 @@ function Navbar() {
                 <ModeToggle /> {/* Add ModeToggle component here */}
 
                 {
-                    isAuthenticated ? (
+                    user && user.role == "shopOwner" ? (
                     <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
                         <SheetTrigger asChild>
                         <Button variant="ghost" className="relative h-8 w-12 rounded-full">
                             <Avatar>
-                            <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback>{user.name[0]}</AvatarFallback>
+                            <AvatarImage src={user.email} alt={user.fullname} />
+                            <AvatarFallback className="border-2 border-[#10B981]" >{user.fullname[0]}</AvatarFallback>
                             </Avatar>
                         </Button>
                         </SheetTrigger>
@@ -178,11 +225,11 @@ function Navbar() {
                         <div className="mt-6 space-y-6">
                             <div className="flex items-center gap-4">
                             <Avatar className="h-16 w-16  border-2 border-[#10B981] rounded-full">
-                                <AvatarImage src={user.avatar} alt={user.name} />
-                                <AvatarFallback>{user.name[0]}</AvatarFallback>
+                                <AvatarImage src={user.avatar} alt={user.fullname} />
+                                <AvatarFallback>{user.fullname[0]}</AvatarFallback>
                             </Avatar>
                             <div>
-                                <h3 className="font-semibold">{user.name}</h3>
+                                <h3 className="font-semibold">{user.fullname}</h3>
                                 <p className="text-sm text-muted-foreground">{user.email}</p>
                             </div>
                             </div>
@@ -214,35 +261,35 @@ function Navbar() {
                             <Button 
                                 variant="ghost" 
                                 className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
-                                onClick={handleLogout}
+                                onClick={logoutHandler}
                             >
                                 <LogOut className="mr-2 h-4 w-4" />
                                 Logout
                             </Button>
                             </div>
-                            {
-                            user.orders.length > 0 && (
-                                <div className="border-t pt-4">
-                                <h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>
-                                <div className="space-y-3">
-                                    {
-                                    user.orders.map(order => (
-                                        <motion.div
-                                        key={order.id}
-                                        className="rounded-lg border p-3 border-1 border-[#10B981] "
-                                        whileHover={{ scale: 1.02 }}
-                                        >
-                                        <div className="flex justify-between items-center">
-                                            <p className="font-medium">{order.bike}</p>
-                                            <p className="text-sm text-muted-foreground">{order.date}</p>
-                                        </div>
-                                        </motion.div>
-                                    ))
-                                    }
-                                </div>
-                                </div>
-                            )
-                            }
+                           {/*  {
+                                shopOwner.orders.length > 0 && (
+                                    <div className="border-t pt-4">
+                                    <h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>
+                                    <div className="space-y-3">
+                                        {
+                                        shopOwner.orders.map(order => (
+                                            <motion.div
+                                            key={order.id}
+                                            className="rounded-lg border p-3 border-1 border-[#10B981] "
+                                            whileHover={{ scale: 1.02 }}
+                                            >
+                                            <div className="flex justify-between items-center">
+                                                <p className="font-medium">{order.bike}</p>
+                                                <p className="text-sm text-muted-foreground">{order.date}</p>
+                                            </div>
+                                            </motion.div>
+                                        ))
+                                        }
+                                    </div>
+                                    </div>
+                                )
+                            } */}
                         </div>
                         </SheetContent>
                     </Sheet>
@@ -349,4 +396,4 @@ function Navbar() {
     );
 }
 
-export default Navbar;
+export default AdminNavbar;

@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '@/store/authSlice';
+import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
 
 function Navbar() {
 
@@ -30,39 +31,8 @@ function Navbar() {
 
 
   const [, setLocation] = useLocation();
-//   const [theme, setTheme] = useState('dark');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-//   const [isAuthenticated, setIsAuthenticated] = useState(true);
-//   const [userData, setUserData] = useState({
-//     name: 'John Doe',
-//     email: 'john@example.com',
-//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
-//     orders: [
-//       { id: 1, bike: 'Kawasaki Ninja', date: '2024-02-10' },
-//       { id: 2, bike: 'Honda CBR', date: '2024-02-15' }
-//     ]
-//   });
-
-//   useEffect(() => {
-//     // Mock authentication check
-//     localStorage.setItem('user', JSON.stringify(userData));
-//   }, []);
-
-//   const userr = userData || {
-//     name: 'Guest',
-//     email: 'guest@example.com',
-//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest',
-//     orders: []
-//   };
-
-/* 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    document.documentElement.classList.toggle('dark');
-  }; */
 
   const handleLogin = () => {
     navigate('/login');
@@ -97,9 +67,22 @@ function Navbar() {
             
     }catch(error){
         console.log(error)
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message, {
+            style: {
+                color: '#f44336',
+                backgroundColor: '#fff',
+                fontSize: '16px',
+                borderColor: '#f44336',
+                padding: '10px 20px'
+            }
+        });
     }
 }
+
+  // Conditionally render AdminNavbar if user.role is shopOwner
+  if (user && user.role === "shopOwner") {
+    return <AdminNavbar />;
+  }
 
   return (
             <>
@@ -115,7 +98,7 @@ function Navbar() {
                 </div>
                 <h1 className="mx-5 text-3xl font-bold text-white-800 hidden sm:block">
                     <Link to="/" className="flex items-center gap-1">
-                    <a href="#" className="btn-shine text-red-500">Student Hub</a>
+                    <Link to="/" className="btn-shine text-red-500">Biker&apos;s</Link>
                     </Link>
                 </h1>
                 </div>

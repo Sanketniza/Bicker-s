@@ -101,9 +101,9 @@ function SignUp() {
                 <Navbar />
 
                 <div className="flex items-center justify-center min-h-screen px-3 text-white md:px-0">
-                    <div className="flex flex-col items-center space-x-10 md:flex-row md:items-start md:space-y-0">
+                    <div className="flex flex-col items-center space-x-10 md:flex-row md:items-start md:space-y-5 md:space-x-5 ">
                         
-                        <div className="space-y-5 p-3 md:mr-6">
+                        <div className="space-y-5 p-12 md:mr-6 ">
                             
                             <motion.div 
                                 whileHover={{ scale: 1.1 }}
