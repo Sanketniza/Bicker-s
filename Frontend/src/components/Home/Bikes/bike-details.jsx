@@ -19,9 +19,18 @@ import Navbar from '@/components/shared/Navbar';
 import { toast } from 'sonner';
 import Like from '../../user/my-ui/Like';
 import Ratting from '../../user/my-ui/Ratting';
+import { useSelector } from 'react-redux';
 
 
 export default function BikeDetails() {
+
+  const {product} = useSelector(state => state.product);
+  const {loading} = useSelector(state => state.product);
+
+  console.log('====================================');
+  console.log(product?.title);
+  console.log('====================================');
+
   const [location] = useLocation();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -47,7 +56,7 @@ export default function BikeDetails() {
     {
       name: "Jane Smith",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
-      rating: 4,
+      rating: 2,
       date: "2024-02-19",
       comment: "Great value for money, but could improve the seat comfort."
     }

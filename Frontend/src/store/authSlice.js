@@ -6,10 +6,35 @@ export const counterSlice = createSlice({
 
     name: 'auth',
     
-    initialState: {
-        loading : false,
-        user :null,
-        error : null,
+     initialState : {
+        loading: false,
+        user: {
+            _id: null,
+            fullname: '',
+            email: '',
+            phone: '',
+            address: {
+                street: '',
+                city: '',
+                state: '',
+                zip: '',
+                country: ''
+            },
+            bio: '',
+            socialMediaLinks: {
+                facebook: '',
+                twitter: '',
+                instagram: '',
+                linkedin: ''
+            },
+            paymentInfo: {
+                bankAccount: '',
+                upiId: ''
+            },
+            profile: '',
+            role: 'user'
+        },
+        error: null
     },
 
     reducers: {

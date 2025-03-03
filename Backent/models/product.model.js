@@ -36,6 +36,19 @@ const productSchema = new mongoose.Schema({
         required: false,
     }],
 
+    features: [{
+        type: String,
+        trim: true,
+        required: true,
+    }],
+
+    specifications: [{
+        EngineType:{type: String, required: true , default: ''},
+        Displacement:{type: String, required: true , default: ''},
+        Power:{type: String,  required: true , default: ''},
+        Condition:{type: String,  required: true , default: ''},
+    }],
+
     shopOwnerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

@@ -16,11 +16,10 @@ import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Moon, Sun, User, LogOut, Package, Settings } from 'lucide-react';
 import { ModeToggle } from './mode-toggle'; // Import ModeToggle component
-import { USER_API_END_POINT } from '@/utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { setUser } from '@/store/authSlice';
+import { setUser } from '../../store/authSlice';
 import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
 
 function Navbar() {
@@ -43,31 +42,30 @@ function Navbar() {
     navigate('/profile');
   };
 
-  const logoutHandler = async () => {
+    const logoutHandler = async () => {
+        try {
+                const res = await axios.get("http://localhost:8000/api/v1/user/logout", {
+                withCredentials: true
+            });
 
-    try{
-        //* --> This is used to logout the user.
-        const res = await axios.get(`${USER_API_END_POINT}/logout` , {
-            withCredentials: true
-        });
+                if (res.data.success) {
 
-            if(res.data.success) {
                 dispatch(setUser(null));
                 navigate("/login");
+
                 toast.success(res.data.message, {
                     style: {
-                        color: '#10B981',
-                        backgroundColor: '#09090B',
-                        fontSize: '20px',
-                        borderColor: '#10B981',
-                        padding: '10px 20px'
+                    color: '#10B981',
+                    backgroundColor: '#09090B',
+                    fontSize: '20px',
+                    borderColor: '#10B981',
+                    padding: '10px 20px'
                     }
                 });
             }
-            
-    }catch(error){
-        console.log(error)
-        toast.error(error.response.data.message, {
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response?.data?.message ||"An error occurred", {
             style: {
                 color: '#f44336',
                 backgroundColor: '#fff',
@@ -75,9 +73,9 @@ function Navbar() {
                 borderColor: '#f44336',
                 padding: '10px 20px'
             }
-        });
+            });
+        }
     }
-}
 
   // Conditionally render AdminNavbar if user.role is shopOwner
   if (user && user.role === "shopOwner") {

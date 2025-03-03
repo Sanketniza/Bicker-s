@@ -6,10 +6,10 @@ const cloudinary = require("../utils/cloudinary");
 // Create Product
 exports.createProduct = async(req, res) => {
     try {
-        const { title, description, price, stock, location, category, tags, companyId } = req.body;
+        const { title, description, price, stock, location, category, tags, companyId , specifications , features} = req.body;
 
         // Validate required fields
-        if (!title || !description || !price || !stock || !location || !category || !companyId) {
+        if (!title || !description || !price || !stock || !location || !category || !companyId || !features || !specifications) {
             return res.status(400).json({
                 message: "Please provide all required fields.",
                 success: false,
@@ -82,6 +82,8 @@ exports.createProduct = async(req, res) => {
             tags: parsedTags,
             shopOwnerId: req.user.id,
             companyId,
+            specifications,
+            features,
             images: imageUrls,
             videos: videoUrls,
         });
@@ -171,7 +173,7 @@ exports.getAllProducts = async(req, res) => {
 exports.updateProduct = async(req, res) => {
     try {
         const { productId } = req.params;
-        const { companyId, title, description, price, stock, location, category, tags } = req.body;
+        const { companyId, title, description, price, stock, location, category, tags , specifications , features } = req.body;
 
         // Validate required fields
         if (!companyId || !productId) {
@@ -231,6 +233,10 @@ exports.updateProduct = async(req, res) => {
         if (location) product.location = location;
         if (category) product.category = category;
         if (tags) product.tags = tags;
+        if (specifications) product.specifications = specifications;
+        if (features) product.features = features;
+
+
 
         // Handle image and video updates
         if (req.files) {

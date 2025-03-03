@@ -4,11 +4,22 @@ import { Edit2 } from 'lucide-react';
 import Navbar from '../shared/Navbar';
 import { useSelector } from 'react-redux';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import UpdateProfile from './UpdataProfile'; // Import the new component
+import UpdateProfile from './UpdateProfile';
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
+
+  // Debug logging
+  console.log("Full User Object from Redux:", user);
+  console.log("User Information:");
+  console.log("Full Name:", user?.fullname);
+  console.log("Email:", user?.email);
+  console.log("Phone:", user?.phone);
+  console.log("Address:", user?.address);
+  console.log("Bio:", user?.bio);
+  console.log("Social Media Links:", user?.socialMediaLinks);
+  console.log("Payment Info:", user?.paymentInfo);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -18,7 +29,6 @@ export default function Profile() {
     setIsEditing(false);
   };
 
-  // If user is null, show a loading state or fallback message
   if (!user) {
     return (
       <>
@@ -82,7 +92,7 @@ export default function Profile() {
                   <div>
                     <label className="text-sm font-medium text-[#F97316]">Address</label>
                     <p className="mt-1">
-                      {user.address
+                      {user.address && Object.values(user.address).some(val => val)
                         ? `${user.address.street}, ${user.address.city}, ${user.address.state} ${user.address.zip}, ${user.address.country}`
                         : 'Not provided'}
                     </p>
@@ -100,28 +110,40 @@ export default function Profile() {
                     <div className="mt-2 flex gap-4">
                       <a
                         href={user.socialMediaLinks?.facebook || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-700"
                       >
                         <Facebook />
                       </a>
+
                       <a
                         href={user.socialMediaLinks?.twitter || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-sky-500 hover:text-sky-600"
                       >
                         <Twitter />
                       </a>
+
                       <a
                         href={user.socialMediaLinks?.instagram || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-pink-600 hover:text-pink-700"
                       >
                         <Instagram />
                       </a>
+
                       <a
                         href={user.socialMediaLinks?.linkedin || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-700 hover:text-blue-800"
                       >
                         <Linkedin />
                       </a>
+
                     </div>
                   </div>
 
@@ -132,7 +154,8 @@ export default function Profile() {
                         ? `Bank: ${user.paymentInfo.bankAccount}`
                         : user.paymentInfo?.upiId
                         ? `UPI: ${user.paymentInfo.upiId}`
-                        : 'No payment info available'}
+                        : 'No payment info available'
+                      }
                     </p>
                   </div>
                 </div>

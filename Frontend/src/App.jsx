@@ -1,8 +1,9 @@
-import  { useState, useEffect } from 'react';
-import {  createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingScreen } from "../src/components/ui/loading";
 import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme-provider';
+import FluidCursor from './components/FluidCursor'; // Import FluidCursor component
 
 // components
 import Login from './components/shared/Login';
@@ -16,6 +17,7 @@ import BikeDetails from './components/Home/Bikes';
 import Electric from './components/user/Electric';
 import List from './components/user/List';
 import CompanyTable from './components/admin/CompanyTable';
+import UpdataProfile from './components/user/UpdateProfile';
 
 const appRouter = createBrowserRouter([
     {
@@ -68,6 +70,11 @@ const appRouter = createBrowserRouter([
         element: <CompanyTable />
     },
 
+    {
+        path: "/update-profile",
+        element: <UpdataProfile />
+    },
+
     
 
     {
@@ -95,6 +102,7 @@ function App() {
                 <>
                     <RouterProvider router={appRouter} />
                     <Toaster />
+                    <FluidCursor /> {/* Add FluidCursor component here */}
                 </>
             )}
         </ThemeProvider>

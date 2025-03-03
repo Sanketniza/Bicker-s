@@ -20,7 +20,7 @@ import {USER_API_END_POINT } from '@/utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { setUser } from '@/store/authSlice';
+import { setUser } from '../../store/authSlice';
 
 function AdminNavbar() {
 
@@ -98,7 +98,7 @@ function AdminNavbar() {
             
     }catch(error){
         console.log(error)
-        toast.error(error.response.data.message, {
+        toast.error(error.response.data.message, "admin", {
             style: {
                 color: '#f44336',
                 backgroundColor: '#fff',
