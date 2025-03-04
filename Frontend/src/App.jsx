@@ -102,7 +102,7 @@ function App() {
                 <>
                     <RouterProvider router={appRouter} />
                     <Toaster />
-                    <FluidCursor /> {/* Add FluidCursor component here */}
+                    {/* <FluidCursor /> Add FluidCursor component here */}
                 </>
             )}
         </ThemeProvider>
