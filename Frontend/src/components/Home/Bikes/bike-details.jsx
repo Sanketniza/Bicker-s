@@ -29,7 +29,6 @@ export default function BikeDetails() {
 
   console.log('====================================');
   console.log(product?.title);
-  console.log(product);
   console.log('====================================');
 
   const [location] = useLocation();

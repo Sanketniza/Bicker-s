@@ -5,7 +5,7 @@ export const productSlice = createSlice({
     name: 'product',
     
      initialState : {
-        products: [],
+        allProducts: [],
         loading: false,
         error: null
     },
