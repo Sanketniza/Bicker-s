@@ -176,7 +176,7 @@ function Navbar() {
                         <SheetTrigger asChild>
                         <Button variant="ghost" className="relative h-8 w-12 rounded-full">
                             <Avatar>
-                            <AvatarImage src={user.email} alt={user.fullname} />
+                            <AvatarImage src={user.avatar} alt={user.fullname} />
                             <AvatarFallback className="border-2 border-[#10B981]" >{user.fullname[0]}</AvatarFallback>
                             </Avatar>
                         </Button>
