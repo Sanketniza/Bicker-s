@@ -19,17 +19,15 @@ const Companies = () => {
 
   const companies = [
     
-    { id: 1, title: "Google", logo: a,  },
-    { id: 2, title: "Microsoft", logo: b },
-    { id: 3, title: "Apple", logo: b1 },
-    { id: 4, title: "TVS", logo: b2 },
-    { id: 5, title: "Suzuki", logo: b3 },
-    { id: 6, title: "Rolay", logo: b4 },
-    { id: 7, title: "Mahindra", logo: b5 },
-    { id: 8, title: "Mahindra", logo: c1 },
-    { id: 9, title: "Kia", logo: c2 },
-    { id: 10, title: "Honda", logo: c3 },
-    { id: 12, title: "BMW", logo: c5 },
+    { id: 1, title: "Bentley", logo: a,  },
+    { id: 2, title: "Mercedes", logo: b },
+    { id: 3, title: "TVS", logo: b2 },
+    { id: 4, title: "Suzuki", logo: b3 },
+    { id: 5, title: "Rolay Enfield", logo: b4 },
+    { id: 6, title: "Mahindra", logo: b5 },
+    { id: 7, title: "Kia", logo: c2 },
+    { id: 8, title: "Honda", logo: c3 },
+    { id: 9, title: "BMW", logo: c5 },
     // Add more companies as needed
   ];
 
