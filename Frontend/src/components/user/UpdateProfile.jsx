@@ -29,6 +29,10 @@ const UpdateProfile = ({ onClose }) => {
       instagram: '',
       linkedin: '',
     },
+    paymentInfo: user?.paymentInfo || {
+      bankAccount: '',
+      upiId: '',
+    },
   });
 
   // Handle input changes
@@ -43,6 +47,15 @@ const UpdateProfile = ({ onClose }) => {
           [key]: value,
         },
       }));
+    } else if (name.startsWith('paymentInfo.')) {
+      const key = name.split('.')[1];
+      setProfileData((prev) => ({
+        ...prev,
+        paymentInfo: {
+          ...prev.paymentInfo,
+          [key]: value,
+        },
+      }));
     } else {
       setProfileData((prev) => ({
         ...prev,
@@ -53,20 +66,14 @@ const UpdateProfile = ({ onClose }) => {
 
   // Save changes to Redux and backend
   const handleSave = async () => {
-    const addressParts = profileData.address.split(', ');
     const updatedUser = {
       fullname: profileData.fullname || '',
       email: profileData.email || '',
       phone: profileData.phone || '',
-      address: {
-        street: addressParts[0] || '',
-        city: addressParts[1] || '',
-        state: addressParts[2]?.split(' ')[0] || '',
-        zip: addressParts[2]?.split(' ')[1] || '',
-        country: addressParts[3] || '',
-      },
+      address: profileData.address || '',
       bio: profileData.bio || '',
       socialMediaLinks: profileData.socialMediaLinks,
+      paymentInfo: profileData.paymentInfo,
     };
 
     try {
@@ -80,6 +87,8 @@ const UpdateProfile = ({ onClose }) => {
           withCredentials: true,
         }
       );
+
+      console.log('Response:', response); // Log full response for debugging
 
       if (response.status === 200 && response.data.success) {
         dispatch(setUser(response.data.user));
@@ -102,12 +111,17 @@ const UpdateProfile = ({ onClose }) => {
   return (
     <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
       {/* Glow effect */}
-      <div
-        className="absolute inset-0 rounded-lg opacity-30 blur-xl"
-        style={{
-          background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
-        }}
-      />
+      {
+        !isEditable && (
+          <div
+          className="absolute inset-0 rounded-lg opacity-30 blur-xl"
+          style={{
+            background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
+          }}
+          />
+          
+        ) 
+      }
 
       <div className="relative flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold text-white">
@@ -153,6 +167,7 @@ const UpdateProfile = ({ onClose }) => {
               disabled={!isEditable} // Enable editing only when isEditable is true
               className="mt-1 bg-white/5 border-emerald-500/30 text-white focus:border-emerald-500 focus:ring-emerald-500/20"
             />
+            {console.log(isEditable)}
           </div>
 
           <div>
@@ -234,6 +249,28 @@ const UpdateProfile = ({ onClose }) => {
                 onChange={handleChange}
                 disabled={!isEditable}
                 placeholder="LinkedIn URL"
+                className="bg-white/5 border-emerald-500/30 text-white"
+              />
+            </div>
+          </div>
+
+          <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
+            <label className="text-sm font-medium text-emerald-500">Payment Information</label>
+            <div className="mt-2 space-y-2">
+              <Input
+                name="paymentInfo.bankAccount"
+                value={profileData.paymentInfo.bankAccount}
+                onChange={handleChange}
+                disabled={!isEditable}
+                placeholder="Bank Account"
+                className="bg-white/5 border-emerald-500/30 text-white"
+              />
+              <Input
+                name="paymentInfo.upiId"
+                value={profileData.paymentInfo.upiId}
+                onChange={handleChange}
+                disabled={!isEditable}
+                placeholder="UPI ID"
                 className="bg-white/5 border-emerald-500/30 text-white"
               />
             </div>

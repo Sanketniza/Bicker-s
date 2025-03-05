@@ -212,77 +212,83 @@ exports.logout = async(req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-  try {
-    const { fullname, phone, bio, socialMediaLinks , paymentInfo} = req.body;
-    const file = req.file;
-    let { address } = req.body;
+    try {
+        
+        const { fullname, phone, bio, socialMediaLinks, paymentInfo } = req.body;
+        const file = req.file;
+        let { address } = req.body;
 
-    const userId = req.user.id;
-    let user = await User.findById(userId);
+        const userId = req.user.id;
+        let user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(400).json({
-        message: "User not found",
+        if (!user) {
+        return res.status(400).json({
+            message: "User not found",
+            success: false,
+        });
+        }
+
+        if (file) {
+            const dataUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
+            user.profile = cloudResponse.secure_url;
+        }
+
+        if (fullname) user.fullname = fullname;
+        if (phone) user.phone = phone;
+
+        if (address) {
+        // Ensure address is a string
+        if (typeof address !== 'string') {
+                return res.status(400).json({
+                message: "Address must be a string",
+                success: false,
+            });
+        }
+
+        const addressParts = address.split(',');
+        user.address = {
+            street: addressParts[0] ? addressParts[0].trim() : '',
+            city: addressParts[1] ? addressParts[1].trim() : '',
+            state: addressParts[2] ? addressParts[2].trim() : '',
+            zip: addressParts[3] ? addressParts[3].trim() : '',
+            country: addressParts[4] ? addressParts[4].trim() : '',
+        };
+        }
+
+        if (bio) user.bio = bio;
+        if (socialMediaLinks) user.socialMediaLinks = socialMediaLinks;
+        if (paymentInfo) user.paymentInfo = paymentInfo;
+
+        await user.save();
+
+        user = {
+            _id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+            role: user.role,
+            profile: user.profile,
+            address: user.address,
+            phone: user.phone,
+            bio: user.bio,
+            socialMediaLinks: user.socialMediaLinks,
+            paymentInfo: user.paymentInfo,
+        };
+
+        return res.status(200).json({
+        message: `${user.fullname}, your profile has been updated successfully`,
+        success: true,
+        user,
+        });
+    } catch (error) {
+        console.error("Error in updateProfile controller:", error.message);
+        return res.status(500).json({
+        message: "Internal server error",
         success: false,
-      });
+        });
     }
-
-    if (file) {
-      const dataUri = getDataUri(file);
-      const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
-      user.profile = cloudResponse.secure_url;
-    }
-
-    if (fullname) user.fullname = fullname;
-    if (phone) user.phone = phone;
-
-    if (address) {
-      const addressParts = address.split(',');
-      user.address = {
-        street: addressParts[0] || '',
-        city: addressParts[1] ? addressParts[1].trim() : '',
-        state: addressParts[2] ? addressParts[2].trim() : '',
-        zip: addressParts[3] ? addressParts[3].trim() : '',
-        country: addressParts[4] ? addressParts[4].trim() : '',
-      };
-    }
-
-    if (paymentInfo) user.paymentInfo = paymentInfo;
-
-
-
-    if (bio) user.bio = bio;
-    if (socialMediaLinks) user.socialMediaLinks = socialMediaLinks;
-
-    await user.save();
-
-    user = {
-      _id: user._id,
-      fullname: user.fullname,
-      email: user.email,
-      role: user.role,
-      profile: user.profile,
-      address: user.address,
-      phone: user.phone,
-      bio: user.bio,
-      socialMediaLinks: user.socialMediaLinks,
-      paymentInfo: user.paymentInfo
-    };
-
-    return res.status(200).json({
-      message: `${user.fullname}, your profile has been updated successfully`,
-      success: true,
-      user,
-    });
-  } catch (error) {
-    console.error("Error in updateProfile controller:", error.message);
-    return res.status(500).json({
-      message: "Internal server error",
-      success: false,
-    });
-  }
 };
-
+ 
 exports.deleteProfile = async(req, res) => {
 
     try {
