@@ -10,7 +10,7 @@ import axios from 'axios';
 
 const UpdateProfile = ({ onClose }) => {
 
-    
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -168,39 +168,38 @@ const UpdateProfile = ({ onClose }) => {
                 ) 
             }
 
-            <div className="relative flex justify-between items-center mb-8">
-                <h1 className="text-4xl font-bold text-white">
-                <span className="text-emerald-500">Edit</span> Profile
+            <div className="relative flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0 md:space-x-4">
+                <h1 className="text-3xl md:text-4xl font-bold text-white text-center md:text-left">
+                    <span className="text-emerald-500">Edit</span> Profile
                 </h1>
-                <div className="flex gap-2">
-                <Button
-                    onClick={toggleEdit}
-                    variant="outline"
-                    className="gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 border-emerald-500/30"
-                >
-                    <Edit2 className="h-4 w-4" />
-                    {isEditable ? 'Lock Fields' : 'Unlock Fields'}
-                </Button>
+                <div className="flex flex-col md:flex-row gap-2">
+                    <Button
+                        onClick={toggleEdit}
+                        variant="outline"
+                        className="gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 border-emerald-500/30"
+                    >
+                        <Edit2 className="h-4 w-4" />
+                        {isEditable ? 'Lock Fields' : 'Unlock Fields'}
+                    </Button>
 
-                <Button
-                    onClick={handleSave}
-                    variant="outline"
-                    className="gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 border-emerald-500/30"
-                    disabled={!isEditable} // Disable Save button unless fields are editable
-                >
-                    <Save className="h-4 w-4" />
-                    Save Changes
-                </Button>
+                    <Button
+                        onClick={handleSave}
+                        variant="outline"
+                        className="gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 border-emerald-500/30"
+                        disabled={!isEditable}
+                    >
+                        <Save className="h-4 w-4" />
+                        Save Changes
+                    </Button>
 
-                <Button
-                    onClick={onClose}
-                    variant="outline"
-                    className="gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 border-red-500/30"
-                >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back
-                </Button>
-
+                    <Button
+                        onClick={onClose}
+                        variant="outline"
+                        className="gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 border-red-500/30"
+                    >
+                        <ArrowLeft className="h-4 w-4" />
+                        Back
+                    </Button>
                 </div>
             </div>
 
@@ -313,27 +312,28 @@ const UpdateProfile = ({ onClose }) => {
                     </div>
                 </div>
 
-                <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
-                    <label className="text-sm font-medium text-emerald-500">Payment Information</label>
-                    <div className="mt-2 space-y-2">
-                    <Input
-                        name="paymentInfo.bankAccount"
-                        value={profileData.paymentInfo.bankAccount}
-                        onChange={handleChange}
-                        disabled={!isEditable}
-                        placeholder="Bank Account"
-                        className="bg-white/5 border-emerald-500/30 text-white"
-                    />
-                    <Input
-                        name="paymentInfo.upiId"
-                        value={profileData.paymentInfo.upiId}
-                        onChange={handleChange}
-                        disabled={!isEditable}
-                        placeholder="UPI ID"
-                        className="bg-white/5 border-emerald-500/30 text-white"
-                    />
-                    </div>
-                </div>
+                    {/* <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
+                        <label className="text-sm font-medium text-emerald-500">Payment Information</label>
+                        <div className="mt-2 space-y-2">
+                        <Input
+                            name="paymentInfo.bankAccount"
+                            value={profileData.paymentInfo.bankAccount}
+                            onChange={handleChange}
+                            disabled={!isEditable}
+                            placeholder="Bank Account"
+                            className="bg-white/5 border-emerald-500/30 text-white"
+                        />
+                        <Input
+                            name="paymentInfo.upiId"
+                            value={profileData.paymentInfo.upiId}
+                            onChange={handleChange}
+                            disabled={!isEditable}
+                            placeholder="UPI ID"
+                            className="bg-white/5 border-emerald-500/30 text-white"
+                        />
+                        </div>
+                    </div> */}
+
                 </div>
             </div>
         </div>

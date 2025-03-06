@@ -276,11 +276,12 @@ exports.updateProduct = async(req, res) => {
             success: false,
             error: error.message,
         });
-    }
+    } 
 };
 
 // Increment Product Views
 exports.incrementViews = async(req, res) => {
+
     try {
         const { productId } = req.params;
 
@@ -300,6 +301,7 @@ exports.incrementViews = async(req, res) => {
             success: true,
             views: product.views,
         });
+
     } catch (error) {
         console.error("Error in incrementViews:", error.message);
         return res.status(500).json({
