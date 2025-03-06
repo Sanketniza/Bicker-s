@@ -1,10 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import storage from 'redux-persist/lib/storage'
-
+import storage from 'redux-persist/lib/storage';
 import authSlice from "./authSlice";
-import productSlice  from "./productSlice";
-
-
+import productSlice from "./productSlice";
 import {
     persistReducer,
     FLUSH,
@@ -13,39 +10,23 @@ import {
     PERSIST,
     PURGE,
     REGISTER,
-} from 'redux-persist'
+} from 'redux-persist';
 
 const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-}
+};
 
 const rootReducer = combineReducers({
-    auth:authSlice,
-    product:productSlice,
-    
-})
+    auth: authSlice,
+    product: productSlice,
+});
 
-/*  //* above code is for using redux toolkit , but for incresing login or signup time i have used the other code , due to it if you reload the page or website no need to re-login or signup , it will automatically login or signup ,that why i have used the other code 
-    import { configureStore } from '@reduxjs/toolkit'
-
-    export const store = configureStore({
-      reducer: {
-      auth:authSlice,
-      job:jobSlice,
-      company:companySlice,
-      application:applicationSlice
-      },
-    }) 
-*/
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-
     reducer: persistedReducer,
-    
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {

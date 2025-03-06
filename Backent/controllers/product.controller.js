@@ -166,8 +166,7 @@ exports.getAllProducts = async(req, res) => {
             error: error.message,
         });
     }
-}
-
+};
 
 // Update Product
 exports.updateProduct = async(req, res) => {

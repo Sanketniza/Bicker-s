@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useState } from 'react';
 import { ImageSlider } from './ImageSlider';
+import PropTypes from 'prop-types';
 
 import { useLocation } from 'wouter';
 import { useNavigate } from 'react-router-dom';
@@ -132,3 +133,10 @@ export function CompanyCard({ id, name, images, price }) {
         </motion.div>
     );
 }
+
+CompanyCard.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

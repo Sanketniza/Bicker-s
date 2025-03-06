@@ -72,8 +72,8 @@ function Home() {
                                 <Ad />
                             
                                 <BikesSpotlight />
-                                <BikesSpotlight />
-                                <BikesSpotlight />
+                                {/* <BikesSpotlight />
+                                <BikesSpotlight /> */}
                                 
                                 {/* <Route path="/bike/:id" component={BikeDetails}/> */}
 
