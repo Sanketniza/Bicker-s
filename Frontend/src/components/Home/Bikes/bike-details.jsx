@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'wouter';
 import { motion } from 'framer-motion';
 import { sampleCompanies } from '../../../JavaScript/bike';
@@ -19,13 +19,21 @@ import Navbar from '@/components/shared/Navbar';
 import { toast } from 'sonner';
 import Like from '../../user/my-ui/Like';
 import Ratting from '../../user/my-ui/Ratting';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { setSingleProduct } from '@/store/productSlice';
+import { Product_API_END_POINT } from '@/utils/api';
 
 
 export default function BikeDetails() {
 
+    const dispatch = useDispatch();
     const params = useParams();
     const productId = params.id; // Get the product ID from the URL parameter (e.g. /bike/123)
+    console.log('====================================');
+    console.log("Product ID:", productId);
+    console.log('====================================');
+
 
     //const product = useSelector(state => state.products.allProducts.find(p => p.id === productId)); //* Find the product by ID in the Redux store state (allProducts) using the product ID from the URL parameter (productId) and store it in the product variable (if found) or undefined (if not found).
 
@@ -70,10 +78,16 @@ export default function BikeDetails() {
   const bike = sampleCompanies.find(b => b.id === productId);
 
   if (!bike) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-2xl text-white">Bike not found</h1>
-    </div>;
-  }
+        return (
+            <>
+                <Navbar />
+
+                <div className="min-h-screen flex items-center justify-center">
+                    <h1 className="text-2xl text-white text-center">Bike {productId} not found :- back to home </h1>
+                </div>;
+            </>
+        )
+    }
 
      const handleShare = async () => {
 
@@ -194,6 +208,49 @@ export default function BikeDetails() {
         }
     };
 
+    useEffect(() => {
+
+        const fetchSingleBike = async () => {
+
+            try {
+
+                const response = await axios.get(`${Product_API_END_POINT}/all/${productId}` , {
+                    withCredentials: true
+                });
+
+                const data = await response.json(); 
+                console.log("Single Bike Data:", data);
+
+                if(response.data.success) {
+                    dispatch(setSingleProduct(response.data.product));
+                }
+
+                else {
+                    throw new Error(response.data.message || "Failed to fetch bike details!");
+                }
+
+            }catch (e) {
+
+                console.log(e);
+                toast.error("Failed to fetch bike details!", {
+                    style: {
+                        color: '#10B981',
+                        backgroundColor: '#09090B',
+                        fontSize: '20px',
+                        borderColor: '#10B981',
+                        padding: '10px 20px'
+                    }
+                });
+            }
+        };
+
+        fetchSingleBike(); 
+
+    }, [productId, dispatch ]);
+
+    console.log("Single Product:", singleProduct);
+    console.log("Single Product:", singleProduct.price);
+
   return (
 
         <>  
@@ -213,39 +270,41 @@ export default function BikeDetails() {
                     </div>
 
                     {/* Right Column - Basic Info */}
-                    <div className="space-y-6">
-                        <div className="flex justify-center items-start">
-                        <h1 className="text-4xl font-bold text-white">{bike.name}</h1> 
-                        </div>
+                      <div className="space-y-6">
+                            <div className="flex justify-center items-start">
+                            <h1 className="text-4xl font-bold text-white">{bike.name}</h1> 
+                            </div>
 
-                        <div className="flex justify-between items-start">
-                        <h5 className="text-3xl font-bold text-emerald-500">
-                            ${bike.price.toLocaleString()}
-                        </h5>
+                            <div className="flex justify-between items-start">
+                                <h5 className="text-3xl font-bold text-emerald-500">
+                                    ${bike.price.toLocaleString()}
+                                </h5>
 
-                        <div className="flex gap-2 items-center">
-                            <motion.button
-                            onClick={handleShare}
-                            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            >
-                            <Share2 className="h-5 w-5 text-emerald-500" />
-                            <span className="text-emerald-500 font-medium">Share</span>
-                            </motion.button>
-                            <motion.button
-                            onClick={handleFavorite}
-                            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors border border-rose-500/30"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            >
-                            <Heart 
-                                className={`h-5 w-5 ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-rose-500'}`}
-                            />
-                            <span className="text-rose-500 font-medium">Favorite</span>
-                            </motion.button>
-                        </div>
-                        </div>    
+                                <div className="flex gap-2 items-center">
+                                    <motion.button
+                                        onClick={handleShare}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        
+                                    <Share2 className="h-5 w-5 text-emerald-500" />
+                                    <span className="text-emerald-500 font-medium">Share</span>
+                                    </motion.button>
+                                    
+                                    <motion.button
+                                        onClick={handleFavorite}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors border border-rose-500/30"
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                    <Heart 
+                                        className={`h-5 w-5 ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-rose-500'}`}
+                                    />
+                                    <span className="text-rose-500 font-medium">Favorite</span>
+                                    </motion.button>
+                                </div>
+                            </div>    
 
                         {/* Rating and Reviews */}
                         <div className="flex items-center gap-2 text-lg">
@@ -279,10 +338,10 @@ export default function BikeDetails() {
                         </div>
                     
                         <motion.button
-                        className="w-full bg-emerald-500 text-white rounded-md font-medium text-[22px]"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setShowForm(!showForm)}
+                            className="w-full bg-emerald-500 text-white rounded-md font-medium text-[22px]"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setShowForm(!showForm)}
                         >
                         Contact Seller
                         </motion.button>
@@ -296,17 +355,17 @@ export default function BikeDetails() {
                                 </div>
 
                                 <textarea
-                                name="Your Feedback"
-                                id=""
-                                className="w-full border border-[#10B981] rounded-md p-2 mt-4 mb-2 outline-none"
-                                placeholder="Write your feedback here..."
+                                    name="Your Feedback"
+                                    id=""
+                                    className="w-full border border-[#10B981] rounded-md p-2 mt-4 mb-2 outline-none"
+                                    placeholder="Write your feedback here..."
                                 >
                                 </textarea>
                                 <motion.button
-                                type="submit"
-                                className="w-full bg-emerald-500 text-white rounded-md font-medium text-[13px] my-2"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                    type="submit"
+                                    className="w-full bg-emerald-500 text-white rounded-md font-medium text-[13px] my-2"
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                 >
                                 Submit Feedback
                                 </motion.button>
@@ -318,51 +377,52 @@ export default function BikeDetails() {
 
                     {/* Bike Details Section */}
                     <div className="mt-12 grid md:grid-cols-2 gap-8">
-                    <div className="space-y-6">
-                        <h2 className="text-2xl font-bold text-white">Specifications</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                        <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
-                            <Gauge className="h-5 w-5 text-emerald-500" />
-                            <div>
-                            <p className="text-sm text-gray-400">Engine Type</p>
-                            <p className="text-white">{bike.bikeDetails.engineType}</p>
+                        <div className="space-y-6">
+                            <h2 className="text-2xl font-bold text-white">Specifications</h2>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+                                    <Gauge className="h-5 w-5 text-emerald-500" />
+                                    <div>
+                                    <p className="text-sm text-gray-400">Engine Type</p>
+                                    <p className="text-white">{bike.bikeDetails.engineType}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+                                    <Timer className="h-5 w-5 text-emerald-500" />
+                                    <div>
+                                    <p className="text-sm text-gray-400">Displacement</p>
+                                    <p className="text-white">{bike.bikeDetails.displacement}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+                                    <Power className="h-5 w-5 text-emerald-500" />
+                                    <div>
+                                    <p className="text-sm text-gray-400">Power</p>
+                                    <p className="text-white">{bike.bikeDetails.power}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+                                    <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                                    <div>
+                                    <p className="text-sm text-gray-400">Condition</p>
+                                    <p className="text-white">{bike.bikeDetails.condition}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
-                            <Timer className="h-5 w-5 text-emerald-500" />
-                            <div>
-                            <p className="text-sm text-gray-400">Displacement</p>
-                            <p className="text-white">{bike.bikeDetails.displacement}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
-                            <Power className="h-5 w-5 text-emerald-500" />
-                            <div>
-                            <p className="text-sm text-gray-400">Power</p>
-                            <p className="text-white">{bike.bikeDetails.power}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
-                            <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                            <div>
-                            <p className="text-sm text-gray-400">Condition</p>
-                            <p className="text-white">{bike.bikeDetails.condition}</p>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
 
-                    <div className="space-y-6">
-                        <h2 className="text-2xl font-bold text-white">Key Features</h2>
-                        <ul className="space-y-2">
-                        {bike.bikeDetails.features.map((feature, index) => (
-                            <li key={index} className="flex items-center gap-2 text-gray-300">
-                            <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                            {feature}
-                            </li>
-                        ))}
-                        </ul>
-                    </div>
+                        <div className="space-y-6">
+                            <h2 className="text-2xl font-bold text-white">Key Features</h2>
+                            <ul className="space-y-2">
+                            {bike.bikeDetails.features.map((feature, index) => (
+                                <li key={index} className="flex items-center gap-2 text-gray-300">
+                                <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                                {feature}
+                                </li>
+                            ))}
+                            </ul>
+                        </div>
+                        
                     </div>
 
                     {/* Contact Form */}
@@ -417,11 +477,11 @@ export default function BikeDetails() {
                             Message
                             </label>
                             <textarea
-                            required
-                            rows={4}
-                            className="w-full bg-white/10 border border-gray-600 rounded-md px-4 py-2 text-white"
-                            value={formData.message}
-                            onChange={(e) => setFormData({...formData, message: e.target.value})}
+                                required
+                                rows={4}
+                                className="w-full bg-white/10 border border-gray-600 rounded-md px-4 py-2 text-white"
+                                value={formData.message}
+                                onChange={(e) => setFormData({...formData, message: e.target.value})}
                             />
                         </div>
                         <motion.button
