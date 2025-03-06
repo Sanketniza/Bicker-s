@@ -9,44 +9,45 @@ import { useNavigate } from 'react-router-dom';
 
 export function CompanyCard({ id, name, images, price }) {
 
-  const [isHovered, setIsHovered] = useState(false);
-  // const [, setLocation] = useLocation();
-  const navigate = useNavigate();
+    const [isHovered, setIsHovered] = useState(false);
+    // const [, setLocation] = useLocation();
+    const navigate = useNavigate();
 
-  // const handleViewDetails = () => {
-  //   navigation(`/bike/${id}`);
-  // };
+    // const handleViewDetails = () => {
+    //   navigation(`/bike/${id}`);
+    // };
 
 
 
-  // Motion values for 3D rotation
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+    // Motion values for 3D rotation
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
 
-  // Smooth spring animation for rotation
-  const rotateX = useSpring(useTransform(y, [-100, 100], [30, -30]), {
-    stiffness: 100,
-    damping: 30
-  });
-  const rotateY = useSpring(useTransform(x, [-100, 100], [-30, 30]), {
-    stiffness: 100,
-    damping: 30
-  });
+    // Smooth spring animation for rotation
+    const rotateX = useSpring(useTransform(y, [-100, 100], [30, -30]), {
+        stiffness: 100,
+        damping: 30
+    });
+    
+    const rotateY = useSpring(useTransform(x, [-100, 100], [-30, 30]), {
+        stiffness: 100,
+        damping: 30
+    });
 
-  function handleMouseMove(event) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    function handleMouseMove(event) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
 
-    x.set(event.clientX - centerX);
-    y.set(event.clientY - centerY);
-  }
+        x.set(event.clientX - centerX);
+        y.set(event.clientY - centerY);
+    }
 
-  function handleMouseLeave() {
-    setIsHovered(false);
-    x.set(0);
-    y.set(0);
-  }
+    function handleMouseLeave() {
+        setIsHovered(false);
+        x.set(0);
+        y.set(0);
+    }
 
   
   // const handleViewDetails = () => {
@@ -98,7 +99,7 @@ export function CompanyCard({ id, name, images, price }) {
                 <div className="p-6 space-y-4">
                     <h2 className="text-xl font-semibold text-foreground text-center">{name}</h2>
                     <p className="text-2xl font-bold text-center text-emerald-500">
-                        ${price.toLocaleString()}
+                        {price.toLocaleString()} Rs
                     </p>
 
                     {/* Animated View Button */}
