@@ -14,6 +14,13 @@ export function CompanyCardGrid({ product }) {
             'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
     ]
     
+    console.log("CompanyCardGrid", product);
+    // console.log("CompanyCardGrid", JSON.stringify(product, null, 2));
+    console.log("CompanyCardGrid", product.map(company => company._id));
+    
+
+// product.forEach(company => console.log("product di ", company.id));
+
 
   return (
         <div className="mx-auto px-4">

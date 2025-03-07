@@ -25,7 +25,7 @@ import { Product_API_END_POINT } from '@/utils/api';
 
 export default function BikeDetails() {
   const dispatch = useDispatch();
-  const { id: productId } = useParams(); // Destructure the id parameter from useParams
+  const productId  = useParams(); // Destructure the id parameter from useParams
   console.log("Product ID:", productId);
 
   const { singleProduct } = useSelector(state => state.product);
@@ -155,36 +155,43 @@ export default function BikeDetails() {
     }
   };
 
-  useEffect(() => {
-    const fetchSingleBike = async () => {
-      try {
-        const response = await axios.get(`${Product_API_END_POINT}/all/${productId}`, {
-          withCredentials: true
-        });
-        const data = await response.json(); 
-        console.log("Single Bike Data:", data);
-        if (response.data.success) {
-          dispatch(setSingleProduct(response.data.product));
-        } else {
-          throw new Error(response.data.message || "Failed to fetch bike details!");
-        }
-      } catch (e) {
-        console.log(e);
-        toast.error("Failed to fetch bike details!", {
-          style: {
-            color: '#10B981',
-            backgroundColor: '#09090B',
-            fontSize: '20px',
-            borderColor: '#10B981',
-            padding: '10px 20px'
-          }
-        });
-      }
-    };
-    fetchSingleBike(); 
-  }, [productId, dispatch]);
+//   useEffect(() => {
+//         const fetchSingleBike = async () => {
+//                  try {
 
-  console.log("Single Product:", singleProduct);
+//                     const response = await axios.get(`${Product_API_END_POINT}/${productId}`, {
+//                         withCredentials: true
+//                     });
+                    
+//                     const data = await response.json(); 
+//                     console.log("Single Bike Data:", data);
+
+//                     if (response.data.success) {
+//                         dispatch(setSingleProduct(response.data.product));
+//                     } 
+                    
+//                     else {
+//                         throw new Error(response.data.message || "Failed to fetch bike details!");
+//                     }
+
+//                 } catch (e) {
+//                     console.log(e);
+//                     toast.error("Failed to fetch bike details!", {
+//                         style: {
+//                         color: '#10B981',
+//                         backgroundColor: '#09090B',
+//                         fontSize: '20px',
+//                         borderColor: '#10B981',
+//                         padding: '10px 20px'
+//                         }
+//                     });
+//                 }
+//             };
+            
+//         fetchSingleBike(); 
+//     }, [productId, dispatch]);
+
+//   console.log("Single Product:", singleProduct);
 
   return (
     <>  
@@ -198,17 +205,18 @@ export default function BikeDetails() {
               {/* Left Column - Images */}
               <div className="h-[730px] rounded-lg overflow-hidden">
                 <ImageSlider images={singleProduct?.images || []} interval={5000} className="h-full" />
+
               </div>
 
               {/* Right Column - Basic Info */}
               <div className="space-y-6">
                 <div className="flex justify-center items-start">
-                  <h1 className="text-4xl font-bold text-white">{singleProduct?.name}</h1> 
+                  <h1 className="text-4xl font-bold text-white">{productId?.title}</h1> 
                 </div>
 
                 <div className="flex justify-between items-start">
                   <h5 className="text-3xl font-bold text-emerald-500">
-                    ${singleProduct?.price?.toLocaleString()}
+                    ${productId?.price?.toLocaleString()}
                   </h5>
 
                   <div className="flex gap-2 items-center">
@@ -239,7 +247,7 @@ export default function BikeDetails() {
                 {/* Rating and Reviews */}
                 <div className="flex items-center gap-2 text-lg">
                   <span className="flex items-center gap-1">
-                    <span className="font-semibold">{singleProduct?.rating}</span>
+                    <span className="font-semibold">{handleRating}</span>
                     <span className="text-yellow-400">★</span>
                   </span>
                   <span className="text-gray-400">•</span>
@@ -254,15 +262,15 @@ export default function BikeDetails() {
                   <div className="space-y-2">
                     <p className="flex items-center gap-2 text-gray-300">
                       <MapPin className="h-5 w-5 text-emerald-500" />
-                      {singleProduct?.shopOwner?.address}
+                      {productId?.shopOwner?.address}
                     </p>
                     <p className="flex items-center gap-2 text-gray-300">
                       <Phone className="h-5 w-5 text-emerald-500" />
-                      {singleProduct?.shopOwner?.phone}
+                      {productId?.shopOwner?.phone}
                     </p>
                     <p className="flex items-center gap-2 text-gray-300">
                       <MessageSquare className="h-5 w-5 text-emerald-500" />
-                      {singleProduct?.shopOwner?.whatsapp}
+                      {productId?.shopOwner?.whatsapp}
                     </p>
                   </div>
                 </div>
@@ -313,21 +321,21 @@ export default function BikeDetails() {
                     <Gauge className="h-5 w-5 text-emerald-500" />
                     <div>
                       <p className="text-sm text-gray-400">Engine Type</p>
-                      <p className="text-white">{singleProduct?.bikeDetails?.engineType}</p>
+                      <p className="text-white">{productId?.bikeDetails?.engineType}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
                     <Timer className="h-5 w-5 text-emerald-500" />
                     <div>
                       <p className="text-sm text-gray-400">Displacement</p>
-                      <p className="text-white">{singleProduct?.bikeDetails?.displacement}</p>
+                      <p className="text-white">{productId?.bikeDetails?.displacement}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
                     <Power className="h-5 w-5 text-emerald-500" />
                     <div>
                       <p className="text-sm text-gray-400">Power</p>
-                      <p className="text-white">{singleProduct?.bikeDetails?.power}</p>
+                      <p className="text-white">{productId?.bikeDetails?.power}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
@@ -336,7 +344,7 @@ export default function BikeDetails() {
                       <p className="text-sm text-gray-400">Condition</p>
                         <ul className="list-disc pl-4">
                             {
-                                singleProduct?.bikeDetails?.condition.map((condition, index) => (
+                                productId?.bikeDetails?.condition.map((condition, index) => (
                                 <li key={index} className="text-white">{condition}</li>
                                 ))
                             }
@@ -349,7 +357,7 @@ export default function BikeDetails() {
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-white">Key Features</h2>
                 <ul className="space-y-2">
-                  {singleProduct?.bikeDetails?.features.map((feature, index) => (
+                  {productId?.bikeDetails?.features.map((feature, index) => (
                     <li key={index} className="flex items-center gap-2 text-gray-300">
                       <CheckCircle2 className="h-5 w-5 text-emerald-500" />
                       {feature}

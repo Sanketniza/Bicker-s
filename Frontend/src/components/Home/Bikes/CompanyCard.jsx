@@ -2,22 +2,28 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useState } from 'react';
 import { ImageSlider } from './ImageSlider';
 import PropTypes from 'prop-types';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { useLocation } from 'wouter';
-import { useNavigate } from 'react-router-dom';
+export function CompanyCard({ id: companyId, productId, name, images, price }) {
+    console.log("CompanyCard", {
+        companyId,
+        productId,
+        name,
+        images,
+        price,
+    });
 
+    const { allProducts } = useSelector(state => state.product);
+    console.log("CompanyCard allProducts : " , allProducts);
+    allProducts.forEach(product => {
+        console.log("hello" , `${product._id}, ${product.title}, ${product.description}`);
+    });
 
-export function CompanyCard({ id, name, images, price }) {
+    
 
     const [isHovered, setIsHovered] = useState(false);
-    // const [, setLocation] = useLocation();
     const navigate = useNavigate();
-
-    // const handleViewDetails = () => {
-    //   navigation(`/bike/${id}`);
-    // };
-
-
 
     // Motion values for 3D rotation
     const x = useMotionValue(0);
@@ -49,15 +55,7 @@ export function CompanyCard({ id, name, images, price }) {
         y.set(0);
     }
 
-  
-  // const handleViewDetails = () => {
-  //   setLocation(`/bike/${id}`);
-  // };
-
-  
-
   return (
-
         <motion.div
             className="relative w-[290px]"
             onMouseMove={handleMouseMove}
@@ -93,7 +91,9 @@ export function CompanyCard({ id, name, images, price }) {
                 </div>
 
                 {/* Image Slider */}
-                <ImageSlider images={images} />
+                <Link to={`/description/${productId}`}>
+                    <ImageSlider images={images} className="h-40" />
+                </Link>
 
                 {/* Card content */}
                 <div className="p-6 space-y-4">
@@ -112,7 +112,7 @@ export function CompanyCard({ id, name, images, price }) {
                             stiffness: 500,
                             damping: 30,
                         }}
-                        onClick={() => navigate(`/description/${id}`)}
+                        onClick={() => navigate(`/description/${companyId}`)}
                     >
                         View Details
                     </motion.button>

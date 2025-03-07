@@ -48,10 +48,12 @@ const appRouter = createBrowserRouter([
         path: "/WishListPage",
         element: <WishlistPage />
     },
-    {
-        path: "/bike",
-        element: <BikeDetails />
-    },
+
+    // {
+    //     path: "/bike",
+    //     element: <BikeDetails />
+    // },
+
     {
         path: "/electric-zone",
         element: <Electric />

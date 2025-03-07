@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const useGetAllProduct = () => {
+    
     const dispatch = useDispatch();
     const { searchedQuery } = useSelector(store => store.product);
 
