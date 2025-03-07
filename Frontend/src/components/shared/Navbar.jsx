@@ -60,11 +60,11 @@ function Navbar() {
 
                     toast.success(res.data.message, {
                         style: {
-                        color: '#10B981',
-                        backgroundColor: '#09090B',
-                        fontSize: '20px',
-                        borderColor: '#10B981',
-                        padding: '10px 20px'
+                            color: '#10B981',
+                            backgroundColor: '#09090B',
+                            fontSize: '20px',
+                            borderColor: '#10B981',
+                            padding: '10px 20px'
                         }
                     });
                 }
@@ -75,6 +75,7 @@ function Navbar() {
                 style: {
                     color: '#f44336',
                     backgroundColor: '#fff',
+                    borderBlockColor: '#10B981',
                     fontSize: '16px',
                     borderColor: '#f44336',
                     padding: '10px 20px'

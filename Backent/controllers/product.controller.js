@@ -4,9 +4,9 @@ const getDataUri = require("../utils/datauri");
 const cloudinary = require("../utils/cloudinary");
 
 // Create Product
-exports.createProduct = async(req, res) => {
+exports.createProduct = async (req, res) => {
     try {
-        const { title, description, price, stock, location, category, tags, companyId , specifications , features} = req.body;
+        const { title, description, price, stock, location, category, tags, companyId, specifications, features } = req.body;
 
         // Validate required fields
         if (!title || !description || !price || !stock || !location || !category || !companyId || !features || !specifications) {
@@ -81,6 +81,7 @@ exports.createProduct = async(req, res) => {
             category,
             tags: parsedTags,
             shopOwnerId: req.user.id,
+            ownerId: req.user.id, // Ensure ownerId is set
             companyId,
             specifications,
             features,
