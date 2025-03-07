@@ -40,7 +40,7 @@ export function List() {
     <>
       <Navbar />
 
-      <div className="space-y-6 p-6 max-w-7xl mx-auto">
+      <div className="space-y-6 p-6 max-w-7xl mx-auto mt-14">
         <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-20 z-10 pb-4 mb-10">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="relative flex-1 max-w-md">

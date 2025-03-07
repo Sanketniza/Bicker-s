@@ -55,8 +55,9 @@ function SignUp() {
             const response = await axios.post("http://localhost:8000/api/v1/user/register",input, // Send input directly as JSON
                 {
                     headers: {
-                    "Content-Type": "application/json", // Set to JSON
+                        "Content-Type": "application/json", // Set to JSON
                     },
+
                     withCredentials: true,
                 }
             );
@@ -66,11 +67,11 @@ function SignUp() {
                 navigate("/login");
                 toast.success(response.data.message, {
                     style: {
-                    color: "#10B981",
-                    backgroundColor: "#09090B",
-                    fontSize: "20px",
-                    borderColor: "#10B981",
-                    padding: "10px 20px",
+                        color: "#10B981",
+                        backgroundColor: "#09090B",
+                        fontSize: "20px",
+                        borderColor: "#10B981",
+                        padding: "10px 20px",
                     },
                 });
             } 

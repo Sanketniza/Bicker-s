@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import '../../css/LogoName.css';
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
@@ -25,6 +25,7 @@ import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
 function Navbar() {
 
   const {user} = useSelector((state) => state.auth);  
+//   console.log("user from navbar",user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -43,36 +44,41 @@ function Navbar() {
   };
 
     const logoutHandler = async () => {
+
         try {
+
                 const res = await axios.get("http://localhost:8000/api/v1/user/logout", {
-                withCredentials: true
-            });
+                  withCredentials: true
+                });
 
                 if (res.data.success) {
 
-                dispatch(setUser(null));
-                navigate("/login");
+                    dispatch(setUser(null));
+                    console.log(setUser(res.data));
+                    console.log(res.data.message);
+                    navigate("/login");
 
-                toast.success(res.data.message, {
-                    style: {
-                    color: '#10B981',
-                    backgroundColor: '#09090B',
-                    fontSize: '20px',
-                    borderColor: '#10B981',
-                    padding: '10px 20px'
-                    }
-                });
-            }
+                    toast.success(res.data.message, {
+                        style: {
+                        color: '#10B981',
+                        backgroundColor: '#09090B',
+                        fontSize: '20px',
+                        borderColor: '#10B981',
+                        padding: '10px 20px'
+                        }
+                    });
+                }
+
         } catch (error) {
             console.log(error);
             toast.error(error.response?.data?.message ||"An error occurred", {
-            style: {
-                color: '#f44336',
-                backgroundColor: '#fff',
-                fontSize: '16px',
-                borderColor: '#f44336',
-                padding: '10px 20px'
-            }
+                style: {
+                    color: '#f44336',
+                    backgroundColor: '#fff',
+                    fontSize: '16px',
+                    borderColor: '#f44336',
+                    padding: '10px 20px'
+                }
             });
         }
     }
@@ -89,16 +95,16 @@ function Navbar() {
             <div className='flex items-center justify-between h-16 max-w-screen-xl px-5 mx-auto mb-5'>
 
                 <div className="flex items-center">
-                <div className="flex">
-                    <Link to="/">
-                    <img className="w-16 h-16 bg-transparent rounded-md" src={logo} alt="logo" />
-                    </Link>
-                </div>
-                <h1 className="mx-5 text-3xl font-bold text-white-800 hidden sm:block">
-                    <Link to="/" className="flex items-center gap-1">
-                    <Link to="/" className="btn-shine text-red-500">Student<span className="inline-block w-3 h-1 bg-zinc-500 rounded-full"></span>Hub</Link> 
-                    </Link>
-                </h1>
+                    <div className="flex">
+                        <Link to="/">
+                        <img className="w-16 h-16 bg-transparent rounded-md" src={logo} alt="logo" />
+                        </Link>
+                    </div>
+                    <h1 className="mx-5 text-3xl font-bold text-white-800 hidden sm:block">
+                        <Link to="/" className="flex items-center gap-1">
+                        <Link to="/" className="btn-shine text-red-500">Student<span className="inline-block w-3 h-1 bg-zinc-500 rounded-full"></span>Hub</Link> 
+                        </Link>
+                    </h1>
                 </div>
 
 
@@ -108,179 +114,188 @@ function Navbar() {
 
 
                 <div className="hidden lg:flex items-center justify-between">
-                <motion.ul className="flex items-center gap-10">
-                    <motion.li
-                    whileHover={{ color: "#6674CC" }}
-                    transition={{ delay: 0.011 }}
-                    className="cursor-pointer text-white-800">
-                    <NavLink 
-                        to="/"
-                        className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
-                    >
-                        <div className="flex items-center gap-1">
-                        <Bike className="w-5 h-5" />
-                        <span>Home</span>
-                        </div>
-                    </NavLink>
-                    </motion.li>
-                    <motion.li
-                    whileHover={{ color: "#6674CC" }}
-                    transition={{ delay: 0.011 }}
-                    className="cursor-pointer text-white-800">
-                    <NavLink 
-                        to="/bikes-list"
-                        className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
-                    >
-                        <div className="flex items-center gap-1">
-                        <Bike className="w-5 h-5" />
-                        <span>list</span>
-                        </div>
-                    </NavLink>
-                    </motion.li>
-                    <motion.li
-                    whileHover={{ color: "#6674CC" }}
-                    className="cursor-pointer text-white-800">
-                    <NavLink 
-                        to="/signup"
-                        className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
-                    >  
-                        <div className="flex items-center gap-1">
-                        <ListOrdered className="w-5 h-5" />
-                        <span>OrderList</span>
-                        </div>
-                    </NavLink>
-                    </motion.li>
-                    <motion.li
-                    whileHover={{ color: "#6674CC" }}
-                    transition={{ delay: 0.011 }}
-                    className="mr-[90px] cursor-pointer text-white-800 md:text-lg">
-                    <NavLink 
-                        to="/WishListPage"
-                        className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
-                    >  
-                        <div className="flex items-center gap-1">
-                        <HardHat className="w-5 h-5" />
-                        <span>WishList </span>
-                        </div>
-                    </NavLink>
-                    </motion.li>
-                </motion.ul>
+                    <motion.ul className="flex items-center gap-10">
+
+                        <motion.li
+                            whileHover={{ color: "#6674CC" }}
+                            transition={{ delay: 0.011 }}
+                            className="cursor-pointer text-white-800">
+                        <NavLink 
+                            to="/"
+                            className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                        >
+                            <div className="flex items-center gap-1">
+                            <Bike className="w-5 h-5" />
+                            <span>Home</span>
+                            </div>
+                        </NavLink>
+                        </motion.li>
+
+                        <motion.li
+                            whileHover={{ color: "#6674CC" }}
+                            transition={{ delay: 0.011 }}
+                            className="cursor-pointer text-white-800">
+                        <NavLink 
+                            to="/bikes-list"
+                            className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                        >
+                            <div className="flex items-center gap-1">
+                            <Bike className="w-5 h-5" />
+                            <span>list</span>
+                            </div>
+                        </NavLink>
+                        </motion.li>
+
+                        <motion.li
+                            whileHover={{ color: "#6674CC" }}
+                            className="cursor-pointer text-white-800">
+                        <NavLink 
+                            to="/signup"
+                            className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                        >  
+                            <div className="flex items-center gap-1">
+                            <ListOrdered className="w-5 h-5" />
+                            <span>OrderList</span>
+                            </div>
+                        </NavLink>
+                        </motion.li>
+
+                        <motion.li
+                            whileHover={{ color: "#6674CC" }}
+                            transition={{ delay: 0.011 }}
+                            className="mr-[90px] cursor-pointer text-white-800 md:text-lg"
+                        >
+                        <NavLink 
+                            to="/WishListPage"
+                            className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                        >  
+                            <div className="flex items-center gap-1">
+                            <HardHat className="w-5 h-5" />
+                            <span>WishList </span>
+                            </div>
+                        </NavLink>
+                        </motion.li>
+                    </motion.ul>
                 </div>
+
+
 
                 <div className="flex items-center gap-4">
                 <ModeToggle /> {/* Add ModeToggle component here */}
 
-                {
-                    user && user.role == "user" ? (
-                    <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-                        <SheetTrigger asChild>
-                        <Button variant="ghost" className="relative h-8 w-12 rounded-full">
-                            <Avatar>
-                            <AvatarImage src={user.avatar} alt={user.fullname} />
-                            <AvatarFallback className="border-2 border-[#10B981]" >{user.fullname[0]}</AvatarFallback>
-                            </Avatar>
-                        </Button>
-                        </SheetTrigger>
-                        <SheetContent 
-                        className="w-[500px]"
-                        style={{
-                            background: `radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.09), transparent 80%)`
-                        }}
-                        >
-                        <SheetHeader>
-                            <SheetTitle className="text-2xl font-semibold text-orange-500">Profile</SheetTitle>
-                        </SheetHeader>
-                        <div className="mt-6 space-y-6">
-                            <div className="flex items-center gap-4">
-                            <Avatar className="h-16 w-16  border-2 border-[#10B981] rounded-full">
+                    {
+                        user && user.role == "user" ? (
+                        <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+                            <SheetTrigger asChild>
+                            <Button variant="ghost" className="relative h-8 w-12 rounded-full">
+                                <Avatar>
                                 <AvatarImage src={user.avatar} alt={user.fullname} />
-                                <AvatarFallback>{user.fullname[0]}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <h3 className="font-semibold">{user.fullname}</h3>
-                                <p className="text-sm text-muted-foreground">{user.email}</p>
-                            </div>
-                            </div>
-                            <div className="space-y-2">
-                            <Button 
-                                variant="ghost" 
-                                className="w-full justify-start hover:bg-red-100/10" 
-                                onClick={profile}
-                            >
-                                <User className="mr-2 h-4 w-4" />
-                                View Profile
+                                <AvatarFallback className="border-2 border-[#10B981]" >{user.fullname[0]}</AvatarFallback>
+                                </Avatar>
                             </Button>
-                            <Button 
-                                variant="ghost" 
-                                className="w-full justify-start hover:bg-red-100/10"
-                                onClick={() => setLocation('/orders')}
+                            </SheetTrigger>
+                            <SheetContent 
+                            className="w-[500px]"
+                            style={{
+                                background: `radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.09), transparent 80%)`
+                            }}
                             >
-                                <Package className="mr-2 h-4 w-4" />
-                                Orders History
-                            </Button>
-                            <Button 
-                                variant="ghost" 
-                                className="w-full justify-start hover:bg-red-100/10"
-                                onClick={() => setLocation('/settings')}
-                            >
-                                <Settings className="mr-2 h-4 w-4" />
-                                Settings
-                            </Button>
-                            <Button 
-                                variant="ghost" 
-                                className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
-                                onClick={logoutHandler}
-                            >
-                                <LogOut className="mr-2 h-4 w-4" />
-                                Logout
-                            </Button>
-                            </div>
-                           {/*  {
-                                user.orders.length > 0 && (
-                                    <div className="border-t pt-4">
-                                    <h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>
-                                    <div className="space-y-3">
-                                        {
-                                        user.orders.map(order => (
-                                            <motion.div
-                                            key={order.id}
-                                            className="rounded-lg border p-3 border-1 border-[#10B981] "
-                                            whileHover={{ scale: 1.02 }}
-                                            >
-                                            <div className="flex justify-between items-center">
-                                                <p className="font-medium">{order.bike}</p>
-                                                <p className="text-sm text-muted-foreground">{order.date}</p>
-                                            </div>
-                                            </motion.div>
-                                        ))
-                                        }
-                                    </div>
-                                    </div>
-                                )
-                            } */}
-                        </div>
-                        </SheetContent>
-                    </Sheet>
-                    ) : (
-                    <Button
-                        variant="default"
-                        onClick={handleLogin}
-                        className="flex items-center"
-                    >
-                        <User className="h-4 w-4" />
-                        Login
-                    </Button>
-                    )
-                }
+                            <SheetHeader>
+                                <SheetTitle className="text-2xl font-semibold text-orange-500">Profile</SheetTitle>
+                            </SheetHeader>
+                            <div className="mt-6 space-y-6">
+                                <div className="flex items-center gap-4">
+                                <Avatar className="h-16 w-16  border-2 border-[#10B981] rounded-full">
+                                    <AvatarImage src={user.avatar} alt={user.fullname} />
+                                    <AvatarFallback>{user.fullname[0]}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <h3 className="font-semibold">{user.fullname}</h3>
+                                    <p className="text-sm text-muted-foreground">{user.email}</p>
+                                </div>
+                                </div>
+                                <div className="space-y-2">
+                                <Button 
+                                    variant="ghost" 
+                                    className="w-full justify-start hover:bg-red-100/10" 
+                                    onClick={profile}
+                                >
+                                    <User className="mr-2 h-4 w-4" />
+                                    View Profile
+                                </Button>
+                                <Button 
+                                    variant="ghost" 
+                                    className="w-full justify-start hover:bg-red-100/10"
+                                    onClick={() => setLocation('/orders')}
+                                >
+                                    <Package className="mr-2 h-4 w-4" />
+                                    Orders History
+                                </Button>
+                                <Button 
+                                    variant="ghost" 
+                                    className="w-full justify-start hover:bg-red-100/10"
+                                    onClick={() => setLocation('/settings')}
+                                >
+                                    <Settings className="mr-2 h-4 w-4" />
+                                    Settings
+                                </Button>
+                                <Button 
+                                    variant="ghost" 
+                                    className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
+                                    onClick={logoutHandler}
+                                >
+                                    <LogOut className="mr-2 h-4 w-4" />
+                                    Logout
+                                </Button>
+                                </div>
+                            {/*  {
+                                    user.orders.length > 0 && (
+                                        <div className="border-t pt-4">
+                                        <h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>
+                                        <div className="space-y-3">
+                                            {
+                                            user.orders.map(order => (
+                                                <motion.div
+                                                key={order.id}
+                                                className="rounded-lg border p-3 border-1 border-[#10B981] "
+                                                whileHover={{ scale: 1.02 }}
+                                                >
+                                                <div className="flex justify-between items-center">
+                                                    <p className="font-medium">{order.bike}</p>
+                                                    <p className="text-sm text-muted-foreground">{order.date}</p>
+                                                </div>
+                                                </motion.div>
+                                            ))
+                                            }
+                                        </div>
+                                        </div>
+                                    )
+                                } */}
+                                        </div>
+                                        </SheetContent>
+                                    </Sheet>
+                        ) : (
 
-                {/* Toggle button for small and medium screens */}
-                <Button
-                    variant="ghost"
-                    className="lg:hidden"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                    {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                </Button>
+                                <Button
+                                    variant="default"
+                                    onClick={handleLogin}
+                                    className="flex items-center"
+                                >
+                                    <User className="h-4 w-4" />
+                                    Login
+                                </Button>
+                            )
+                    }
+
+                    {/* Toggle button for small and medium screens */}
+                    <Button
+                        variant="ghost"
+                        className="lg:hidden border-none"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    >
+                        {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    </Button>
+
                 </div>
                 
             </div>

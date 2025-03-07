@@ -8,12 +8,12 @@ import FluidCursor from './components/FluidCursor'; // Import FluidCursor compon
 // components
 import Login from './components/shared/Login';
 import Signup from './components/shared/Signup';
-import Bikedetails from './components/Home/Bikes/bike-details';
+import BikeDetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home';
 import FavoritesPage from './components/user/favorites';
 import Profile from './components/user/Profile';
 import WishlistPage from './components/user/WishList';
-import BikeDetails from './components/Home/Bikes';
+import CompaniesPage from './components/Home/Bikes';
 import Electric from './components/user/Electric';
 import List from './components/user/List';
 import CompanyTable from './components/admin/CompanyTable';
@@ -33,8 +33,8 @@ const appRouter = createBrowserRouter([
         element: <Login />
     },
     {
-        path: "/description/:id",
-        element: <Bikedetails />
+        path: "/description/:id", // Ensure the route parameter is correctly defined
+        element: <BikeDetails />
     },
     {
         path: "/favorites",
@@ -74,8 +74,6 @@ const appRouter = createBrowserRouter([
         path: "/update-profile",
         element: <UpdataProfile />
     },
-
-    
 
     {
         path: "*",

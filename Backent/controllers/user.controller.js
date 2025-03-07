@@ -152,7 +152,8 @@ exports.login = async(req, res) => {
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,
         }).json({
-            message: `Welcome ${user.fullname} , you have logged in successfully`,
+            message: `You have logged in successfully, ${user.fullname}`,
+            // token,
             user,
             success: true,
         });
@@ -169,11 +170,11 @@ exports.login = async(req, res) => {
 
 };
 
-exports.logout = async(req, res) => {
-
+exports.logout = async (req, res) => {
     try {
-        // Check if the user is authenticated
-        if (!req.user) {
+
+          // Check if the user is authenticated
+          if (!req.user) {
             return res.status(401).json({
                 message: "User not authenticated",
                 success: false,
@@ -190,23 +191,24 @@ exports.logout = async(req, res) => {
             });
         }
 
-        return res.status(200).cookie("token", "", {
+        // Clear the cookie regardless of authentication status
+        res.clearCookie('token', {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
-            maxAge: 0,
-        }).json({
-            message: `${user.fullname} has logged out successfully`,
+            sameSite: 'strict'
+        });
+
+        // Always return success response
+        return res.status(200).json({
             success: true,
+            message: `${user.fullname} has logged out successfully`,
         });
 
     } catch (error) {
         console.log(error.message);
-        console.log("Error in logout controller");
-
         return res.status(500).json({
-            message: "Internal server error",
             success: false,
+            message: 'Internal server error'
         });
     }
 };
