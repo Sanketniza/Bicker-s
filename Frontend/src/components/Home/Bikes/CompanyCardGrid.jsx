@@ -14,9 +14,9 @@ export function CompanyCardGrid({ product }) {
             'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
     ]
     
-    console.log("CompanyCardGrid", product);
+    // console.log("CompanyCardGrid product : ", product);
     // console.log("CompanyCardGrid", JSON.stringify(product, null, 2));
-    console.log("CompanyCardGrid", product.map(company => company._id));
+    // console.log("CompanyCardGrid", product.map(company => company._id));
     
 
 // product.forEach(company => console.log("product di ", company.id));
@@ -28,12 +28,12 @@ export function CompanyCardGrid({ product }) {
                 {
                     product.map((company) => (
                         <CompanyCard
-                            key={company.id}
-                            id={company.id}
-                            name={company.name}
+                            key={company._id}
+                            id={company._id}
+                            name={company.title}
                             price={company.price}
-                            //images={company.images} // Ensure images prop is passed
-                            images={op} 
+                            images={op}
+                            // images={[{ id: company._id, url: company.imageUrl }]} // Ensure images prop is passed as array of objects
                         />
                     ))
                 }

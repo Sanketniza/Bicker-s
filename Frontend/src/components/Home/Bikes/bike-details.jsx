@@ -20,15 +20,58 @@ import Like from '../../user/my-ui/Like';
 import Ratting from '../../user/my-ui/Ratting';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setSingleProduct } from '@/store/productSlice';
+import { clearSingleProduct, setSingleProduct } from '@/store/productSlice';
 import { Product_API_END_POINT } from '@/utils/api';
 
 export default function BikeDetails() {
+  
   const dispatch = useDispatch();
-  const productId  = useParams(); // Destructure the id parameter from useParams
+  const params = useParams();
+  const productId = params.id;
   console.log("Product ID:", productId);
 
   const { singleProduct } = useSelector(state => state.product);
+
+  useEffect(() => {
+		const fetchSingleBike = async () => {
+			try {
+
+				dispatch(clearSingleProduct());
+
+				const response = await axios.get(`http://localhost:8000/api/v1/product/${productId}`, {
+					withCredentials: true
+				});
+
+				console.log("Response Data:", response.data);
+
+				if(response.data.success) {
+					dispatch(setSingleProduct(response.data.product));
+				}
+
+			}catch (error) {
+				console.error('Failed to fetch bike details:', error);
+				toast.error("Failed to fetch bike details!", {
+					style: {
+						color: '#10B981',
+						backgroundColor: '#09090B',
+						fontSize: '20px',
+						borderColor: '#10B981',
+						padding: '10px 20px'
+					}
+				});
+			}
+		};
+
+		fetchSingleBike();
+
+    }, [productId, dispatch]);
+
+  console.log("Single Product:", singleProduct);
+  console.log("Single Product title :", singleProduct?.title);
+
+  console.log("Single info ID:", singleProduct?.specifications[0]?.EngineType);
+
+const { loading } = useSelector(state => state.product);
 
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -61,58 +104,44 @@ export default function BikeDetails() {
     }
   ]);
 
-  const handleShare = async () => {
-    const url = window.location.href;
-    try {
-      await navigator.clipboard.writeText(url);
-      toast.success("Link Copied!✔️✔️", {
-        duration: 2000,
-        style: {
-          color: '#10B981',
-          backgroundColor: '#09090B',          
-          fontSize: '20px',
-          borderColor: '#10B981',
-          padding: '10px 20px'
-        }
-      });
-    } catch (err) {
-      console.error('Failed to copy:', err);
-      toast("Failed to copy link");
-    }
-  };
+    const handleShare = async () => {
 
-  const handleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    if (isFavorite) {
-      const updatedFavorites = favorites.filter(id => id !== productId);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-      toast.success("The bike has been Removed from your wishlist.🥲🥲", {
-        position: "top-right",
-        style: {
-          color: '#10B981',
-          backgroundColor: '#09090B',          
-          fontSize: '20px',
-          borderColor: '#10B981',
-          padding: '10px 20px'
-        }
-      });
-    } else {
-      if (!favorites.includes(productId)) {
-        favorites.push(productId);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        toast.success("The bike has been added to your wishlist! ❤️❤️", {
-          style: {
-            color: '#10B981',
-            backgroundColor: '#09090B',          
-            fontSize: '20px',
-            borderColor: '#10B981',
-            padding: '10px 20px'
-          }
-        });
-      }
-    }
-    setIsFavorite(!isFavorite);
-  };
+		const url = window.location.href;
+
+		try {
+			await navigator.clipboard.writeText(url);
+			toast.success("Link Copied!✔️✔️", {
+				duration: 2000,
+				style: {
+					color: '#10B981',
+					backgroundColor: '#09090B',          
+					fontSize: '20px',
+					borderColor: '#10B981',
+					padding: '10px 20px'
+				}
+			});
+		} catch (err) {
+			console.error('Failed to copy:', err);
+			toast("Failed to copy link");
+		}
+    };
+
+	const handleFavorite = () => {
+		
+		const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+		const targetId = singleProduct?._id || productId;
+		
+		if (isFavorite) {
+			const updatedFavorites = favorites.filter(id => id !== targetId);
+			localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+		} 
+
+		else {
+			localStorage.setItem('favorites', [...favorites, targetId]);
+		}
+
+		setIsFavorite(!isFavorite);
+	};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -155,43 +184,7 @@ export default function BikeDetails() {
     }
   };
 
-//   useEffect(() => {
-//         const fetchSingleBike = async () => {
-//                  try {
 
-//                     const response = await axios.get(`${Product_API_END_POINT}/${productId}`, {
-//                         withCredentials: true
-//                     });
-                    
-//                     const data = await response.json(); 
-//                     console.log("Single Bike Data:", data);
-
-//                     if (response.data.success) {
-//                         dispatch(setSingleProduct(response.data.product));
-//                     } 
-                    
-//                     else {
-//                         throw new Error(response.data.message || "Failed to fetch bike details!");
-//                     }
-
-//                 } catch (e) {
-//                     console.log(e);
-//                     toast.error("Failed to fetch bike details!", {
-//                         style: {
-//                         color: '#10B981',
-//                         backgroundColor: '#09090B',
-//                         fontSize: '20px',
-//                         borderColor: '#10B981',
-//                         padding: '10px 20px'
-//                         }
-//                     });
-//                 }
-//             };
-            
-//         fetchSingleBike(); 
-//     }, [productId, dispatch]);
-
-//   console.log("Single Product:", singleProduct);
 
   return (
     <>  
@@ -211,12 +204,12 @@ export default function BikeDetails() {
               {/* Right Column - Basic Info */}
               <div className="space-y-6">
                 <div className="flex justify-center items-start">
-                  <h1 className="text-4xl font-bold text-white">{productId?.title}</h1> 
+                  <h1 className="text-4xl font-bold text-white">{singleProduct?.title}</h1> 
                 </div>
 
                 <div className="flex justify-between items-start">
                   <h5 className="text-3xl font-bold text-emerald-500">
-                    ${productId?.price?.toLocaleString()}
+                    ${singleProduct?.price?.toLocaleString()}
                   </h5>
 
                   <div className="flex gap-2 items-center">
@@ -258,19 +251,19 @@ export default function BikeDetails() {
 
                 {/* Shop Owner Info */}
                 <div className="space-y-4 bg-white/5 p-4 rounded-lg">
-                  <h2 className="text-xl font-semibold text-white">{singleProduct?.shopOwner?.name}</h2>
+                  <h2 className="text-xl font-semibold text-white">{singleProduct?.shopOwnerId?.fullname}</h2>
                   <div className="space-y-2">
                     <p className="flex items-center gap-2 text-gray-300">
                       <MapPin className="h-5 w-5 text-emerald-500" />
-                      {productId?.shopOwner?.address}
+                      {singleProduct?.location}
                     </p>
                     <p className="flex items-center gap-2 text-gray-300">
                       <Phone className="h-5 w-5 text-emerald-500" />
-                      {productId?.shopOwner?.phone}
+                      {singleProduct?.shopOwner?.phone}
                     </p>
                     <p className="flex items-center gap-2 text-gray-300">
                       <MessageSquare className="h-5 w-5 text-emerald-500" />
-                      {productId?.shopOwner?.whatsapp}
+                      {singleProduct?.shopOwner?.message}
                     </p>
                   </div>
                 </div>
@@ -317,38 +310,36 @@ export default function BikeDetails() {
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-white">Specifications</h2>
                 <div className="grid grid-cols-2 gap-4">
+
                   <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
                     <Gauge className="h-5 w-5 text-emerald-500" />
                     <div>
                       <p className="text-sm text-gray-400">Engine Type</p>
-                      <p className="text-white">{productId?.bikeDetails?.engineType}</p>
+                      <p className="text-white">{singleProduct?.specifications[0]?.EngineType}</p>
                     </div>
                   </div>
+
                   <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
                     <Timer className="h-5 w-5 text-emerald-500" />
                     <div>
                       <p className="text-sm text-gray-400">Displacement</p>
-                      <p className="text-white">{productId?.bikeDetails?.displacement}</p>
+                      <p className="text-white">{singleProduct?.specifications[0]?.Displacement}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
                     <Power className="h-5 w-5 text-emerald-500" />
                     <div>
                       <p className="text-sm text-gray-400">Power</p>
-                      <p className="text-white">{productId?.bikeDetails?.power}</p>
+                      <p className="text-white">{singleProduct?.specifications[0]?.Power}</p>
                     </div>
                   </div>
+
+				  
                   <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
                     <CheckCircle2 className="h-5 w-5 text-emerald-500" />
                     <div>
                       <p className="text-sm text-gray-400">Condition</p>
-                        <ul className="list-disc pl-4">
-                            {
-                                productId?.bikeDetails?.condition.map((condition, index) => (
-                                <li key={index} className="text-white">{condition}</li>
-                                ))
-                            }
-                        </ul>
+                      <p className="text-white">{singleProduct?.specifications[0]?.Condition}</p>
                     </div>
                   </div>
                 </div>
@@ -357,13 +348,13 @@ export default function BikeDetails() {
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-white">Key Features</h2>
                 <ul className="space-y-2">
-                  {productId?.bikeDetails?.features.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-2 text-gray-300">
-                      <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+					{singleProduct?.features?.map((feature, index) => (
+						<li key={index} className="flex items-center gap-2 text-gray-300">
+						<CheckCircle2 className="h-5 w-5 text-emerald-500" />
+						{feature}
+						</li>
+					))}
+				</ul>
               </div>
             </div>
 

@@ -6,19 +6,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export function CompanyCard({ id: companyId, productId, name, images, price }) {
-    console.log("CompanyCard", {
-        companyId,
-        productId,
-        name,
-        images,
-        price,
-    });
+    // console.log("CompanyCard", {
+    //     companyId,
+    //     productId,
+    //     name,
+    //     images,
+    //     price,
+    // });
 
-    const { allProducts } = useSelector(state => state.product);
-    console.log("CompanyCard allProducts : " , allProducts);
-    allProducts.forEach(product => {
-        console.log("hello" , `${product._id}, ${product.title}, ${product.description}`);
-    });
+    // const { allProducts } = useSelector(state => state.product);
+    // console.log("CompanyCard allProducts : " , allProducts);
+    // allProducts.forEach(product => {
+    //     console.log("hello" , `${product._id}, ${product.title}, ${product.description}`);
+    // });
 
     
 
