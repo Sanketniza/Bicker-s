@@ -365,8 +365,9 @@ exports.getProductById = async(req, res) => {
         const { productId } = req.params;
 
         const product = await Product.findById(productId)
-            .populate('shopOwnerId', 'fullname email')
+            .populate('shopOwnerId', 'fullname email phone')
             .populate('companyId', 'name');
+
 
         if (!product) {
             return res.status(404).json({

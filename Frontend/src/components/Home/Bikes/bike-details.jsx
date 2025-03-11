@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { clearSingleProduct, setSingleProduct } from '@/store/productSlice';
 import { Product_API_END_POINT } from '@/utils/api';
+import { EventAvailable, Policy } from '@mui/icons-material';
 
 export default function BikeDetails() {
   
@@ -184,6 +185,15 @@ const { loading } = useSelector(state => state.product);
     }
   };
 
+  const op = [
+    'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+  'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+  'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+  'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+        'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+]
 
 
   return (
@@ -197,7 +207,8 @@ const { loading } = useSelector(state => state.product);
             <div className="grid md:grid-cols-2 gap-8">
               {/* Left Column - Images */}
               <div className="h-[730px] rounded-lg overflow-hidden">
-                <ImageSlider images={singleProduct?.images || []} interval={5000} className="h-full" />
+                {/* <ImageSlider images={singleProduct?.images || []} interval={5000} className="h-full" /> */}
+                <ImageSlider images={op} interval={5000} className="h-full" />
 
               </div>
 
@@ -209,7 +220,7 @@ const { loading } = useSelector(state => state.product);
 
                 <div className="flex justify-between items-start">
                   <h5 className="text-3xl font-bold text-emerald-500">
-                    ${singleProduct?.price?.toLocaleString()}
+                    Rs {singleProduct?.price?.toLocaleString()}
                   </h5>
 
                   <div className="flex gap-2 items-center">
@@ -245,7 +256,7 @@ const { loading } = useSelector(state => state.product);
                   </span>
                   <span className="text-gray-400">•</span>
                   <span className="text-gray-300">
-                    {(singleProduct?.reviewCount / 1000).toFixed(2)}k Reviews
+                    {(singleProduct?.views / 1000).toFixed(2)}k Reviews
                   </span>
                 </div>
 
@@ -259,11 +270,11 @@ const { loading } = useSelector(state => state.product);
                     </p>
                     <p className="flex items-center gap-2 text-gray-300">
                       <Phone className="h-5 w-5 text-emerald-500" />
-                      {singleProduct?.shopOwner?.phone}
+                      {singleProduct?.shopOwnerId?.phone}
                     </p>
                     <p className="flex items-center gap-2 text-gray-300">
                       <MessageSquare className="h-5 w-5 text-emerald-500" />
-                      {singleProduct?.shopOwner?.message}
+                      {singleProduct?.description}
                     </p>
                   </div>
                 </div>
@@ -356,6 +367,35 @@ const { loading } = useSelector(state => state.product);
 					))}
 				</ul>
               </div>
+
+              <div className="grid grid-cols-2 gap-4">
+
+                <div className="flex items-center gap-2 ">
+                  
+                  <div>
+                    <p className="text-gray-300">Stock Status</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div>
+                    <p className="text-gray-300">Status</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+                <EventAvailable className="h-5 w-5 text-emerald-500" />
+                  <div className="text-gray-300">{singleProduct?.stock}</div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+                <Policy className="h-5 w-5 text-emerald-500" />
+                  <div className="text-gray-300">{singleProduct?.status}</div>
+                </div>
+
+              </div>
+
+              
             </div>
 
             {/* Contact Form */}
