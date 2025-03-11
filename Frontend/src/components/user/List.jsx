@@ -9,18 +9,19 @@ import { motion } from 'framer-motion';
 import Navbar from '../shared/Navbar';
 import SearchBar from './Search'; // Import SearchBar component
 import { useSelector } from 'react-redux';
+import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
 
 export function List() {
 
-    const { allProducts } = useSelector(state => state.product);
-    console.log("list allProducts : " , allProducts);
-    allProducts.forEach(product => {
-        console.log("hello" , `${product._id}, 
-                                ${product.title}, 
-                                ${product.description}`, 
-                                `${product.price}`, 
-                                `${product.shopOwnerId}`);
-    });
+  const { allProducts } = useSelector(state => state.product);
+    // console.log("list allProducts : " , allProducts);
+    // allProducts.forEach(product => {
+    //     console.log("hello" , `${product._id}, 
+    //                             ${product.title}, 
+    //                             ${product.description}`, 
+    //                             `${product.price}`, 
+    //                             `${product.shopOwnerId}`);
+    // });
 
 
 
@@ -121,8 +122,8 @@ export function List() {
                     }
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
+                         {/* {
                             filteredProducts.map((product) => (
                                 <motion.div 
                                     key={product.id} 
@@ -140,8 +141,26 @@ export function List() {
                                 />
                                 </motion.div>
                             ))
+                        }  */}
+
+               
+                        {
+
+                            filteredProducts.map((product) => (
+                                allProducts && allProducts.length > 0 ? (
+                                    <div className="relative" key={product.id}>
+                                        <CompanyCardGrid product={[product]} />
+                                    </div>
+                                ) : (
+                                    <span className="text" key={product.id} >No Products Found</span>
+                                )
+
+                            ))
                         }
-                </div>
+
+</div>       
+                                
+                        
             </div>
         </>
     );
