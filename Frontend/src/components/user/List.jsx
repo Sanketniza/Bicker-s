@@ -51,15 +51,15 @@ export function List() {
         return matchesSearch && matchesPrice;
     });
 
-    const op = [
-            'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-            'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-            'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-                'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-    ]
+    // const op = [
+    //         'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+    //     'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    //     'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    //         'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+    //     'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    //         'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
+    //             'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
+    // ]
 
   return (
         <>
@@ -158,8 +158,7 @@ export function List() {
                             ))
                         }
 
-</div>       
-                                
+                     </div>       
                         
             </div>
         </>

@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export function CompanyCard({ id: companyId, productId, name, images, price }) {
+    
     // console.log("CompanyCard", {
     //     companyId,
     //     productId,
