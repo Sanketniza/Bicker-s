@@ -69,9 +69,9 @@ export function CompanyCard({ id: companyId, productId, name, images, price }) {
             <motion.div
                 className="w-full rounded-lg bg-card border-2 border-zinc-800 overflow-hidden"
                 style={{
-                rotateX: rotateX,
-                rotateY: rotateY,
-                transformStyle: "preserve-3d",
+                    rotateX: rotateX,
+                    rotateY: rotateY,
+                    transformStyle: "preserve-3d",
                 }}
             >
                 {/* macOS window controls */}
@@ -92,7 +92,7 @@ export function CompanyCard({ id: companyId, productId, name, images, price }) {
                 </div>
 
                 {/* Image Slider */}
-                <Link to={`/description/${productId}`}>
+                <Link to={`/description/${companyId}`}>
                     <ImageSlider images={images} className="h-40" />
                 </Link>
 

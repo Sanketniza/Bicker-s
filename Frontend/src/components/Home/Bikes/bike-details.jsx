@@ -23,19 +23,23 @@ import axios from 'axios';
 import { clearSingleProduct, setLoading, setSingleProduct } from '@/store/productSlice';
 import { Product_API_END_POINT } from '@/utils/api';
 import { EventAvailable, Policy } from '@mui/icons-material';
+import { addToWishList } from '@/store/wishListSlice';
 
 export default function BikeDetails() {
   
   const dispatch = useDispatch();
   const params = useParams();
   const productId = params.id;
-  console.log("Product ID:", productId);
+//   console.log("Product ID:", productId);
 
   const { singleProduct , loading } = useSelector(state => state.product);
+  const {wishlist} = useSelector(state => state.wishlist)
 
 
   useEffect(() => {
+
 		const fetchSingleBike = async () => {
+
 			try {
 
                 dispatch(setLoading(true));
@@ -86,28 +90,65 @@ export default function BikeDetails() {
     message: ''
   });
 
-  const [showShareModal, setShowShareModal] = useState(false);
+//   const [showShareModal, setShowShareModal] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [userRating, setUserRating] = useState(0);
+
+    useEffect(() => {
+
+        const fetchWishlist = async () => {
+
+            try {
+
+                const response = await axios.post('http://localhost:8000/api/v1/add', {
+                    withCredentials: true
+                });
+
+                console.log("Response Data:", response.data);
+
+                if(response.data.success) {
+                    dispatch(addToWishList(response.data.wishlist));
+                }
+
+            }catch (error) {
+                console.error('Failed to fetch wishlist:', error);
+                toast.error("Failed to fetch wishlist!", {
+                    style: {
+                        color: '#10B981',
+                        backgroundColor: '#09090B',
+                        fontSize: '20px',
+                        borderColor: '#10B981',
+                        padding: '10px 20px'
+                    }
+                });
+            }
+        }  
+
+        fetchWishlist();
+        
+    }, [dispatch]);
+
+   
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   const [userRating, setUserRating] = useState(0);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
 
-  const [reviews, setReviews] = useState([
-    {
-      name: "John Doe",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-      rating: 5,
-      date: "2024-02-20",
-      comment: "Amazing bike, excellent performance!"
-    },
-    {
-      name: "Jane Smith",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
-      rating: 2,
-      date: "2024-02-19",
-      comment: "Great value for money, but could improve the seat comfort."
-    }
-  ]);
 
     const handleShare = async () => {
 
@@ -131,22 +172,6 @@ export default function BikeDetails() {
 		}
     };
 
-	const handleFavorite = () => {
-		
-		const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-		const targetId = singleProduct?._id || productId;
-		
-		if (isFavorite) {
-			const updatedFavorites = favorites.filter(id => id !== targetId);
-			localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-		} 
-
-		else {
-			localStorage.setItem('favorites', [...favorites, targetId]);
-		}
-
-		setIsFavorite(!isFavorite);
-	};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -207,12 +232,15 @@ export default function BikeDetails() {
             <Navbar />
             
             <div className="min-h-screen py-12 bg-[#09090B]">
+                
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-4xl font-bold text-[#246FAC] mb-10 text-start" style={{ textDecoration: "underline solid #FFB903 0.1em" }}>Bike Details Page :-</h1>
+                    <h1 className="text-4xl font-bold text-[#246FAC] mb-10 text-start" style={{ textDecoration: "underline solid #FFB903 0.1em" }}>Bike Details Page :-</h1>
                 <div className="bg-black/20 backdrop-blur-sm border border-emerald-500/30 rounded-lg shadow-2xl p-6 md:p-8">
                     {/* Main Info Section */}
+
                     <div className="grid md:grid-cols-2 gap-8">
                     {/* Left Column - Images */}
+
                     <div className="h-[730px] rounded-lg overflow-hidden">
                         {/* <ImageSlider images={singleProduct?.images || []} interval={5000} className="h-full" /> */}
                         <ImageSlider images={op} interval={5000} className="h-full" />
@@ -222,37 +250,37 @@ export default function BikeDetails() {
                     {/* Right Column - Basic Info */}
                     <div className="space-y-6">
                         <div className="flex justify-center items-start">
-                        <h1 className="text-4xl font-bold text-white">{singleProduct?.title}</h1> 
+                            <h1 className="text-4xl font-bold text-white">{singleProduct?.title}</h1> 
                         </div>
 
                         <div className="flex justify-between items-start">
-                        <h5 className="text-3xl font-bold text-emerald-500">
-                            Rs {singleProduct?.price?.toLocaleString()}
-                        </h5>
+                            <h5 className="text-3xl font-bold text-emerald-500">
+                                Rs {singleProduct?.price?.toLocaleString()}
+                            </h5>
 
-                        <div className="flex gap-2 items-center">
-                            <motion.button
-                            onClick={handleShare}
-                            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            >
-                            <Share2 className="h-5 w-5 text-emerald-500" />
-                            <span className="text-emerald-500 font-medium">Share</span>
-                            </motion.button>
-                            
-                            <motion.button
-                            onClick={handleFavorite}
-                            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors border border-rose-500/30"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            >
-                            <Heart 
-                                className={`h-5 w-5 ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-rose-500'}`}
-                            />
-                            <span className="text-rose-500 font-medium">Favorite</span>
-                            </motion.button>
-                        </div>
+                            <div className="flex gap-2 items-center">
+                                <motion.button
+                                onClick={handleShare}
+                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                >
+                                <Share2 className="h-5 w-5 text-emerald-500" />
+                                <span className="text-emerald-500 font-medium">Share</span>
+                                </motion.button>
+                                
+                                <motion.button
+                                    onClick={handleAddToWishList}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors border border-rose-500/30"
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                <Heart 
+                                    className={`h-5 w-5 ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-rose-500'}`}
+                                />
+                                <span className="text-rose-500 font-medium">Favorite</span>
+                                </motion.button>
+                            </div>
                         </div>    
 
                         {/* Rating and Reviews */}
@@ -287,10 +315,10 @@ export default function BikeDetails() {
                         </div>
                     
                         <motion.button
-                        className="w-full bg-emerald-500 text-white rounded-md font-medium text-[22px]"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setShowForm(!showForm)}
+                            className="w-full bg-emerald-500 text-white rounded-md font-medium text-[22px]"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setShowForm(!showForm)}
                         >
                         Contact Seller
                         </motion.button>

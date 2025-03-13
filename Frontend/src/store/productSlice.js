@@ -12,7 +12,9 @@ const initialState = {
 
 const productSlice = createSlice({
   name: 'product',
+  
   initialState,
+
   reducers: {
     setAllProducts: (state, action) => {
       state.allProducts = action.payload || [];

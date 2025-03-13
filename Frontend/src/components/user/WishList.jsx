@@ -8,6 +8,8 @@ import { X } from 'lucide-react';
 import Navbar from '../shared/Navbar';
 // import { toast } from 'react-toastify';
 import { toast } from 'sonner';
+import { addToWishList } from '@/store/wishListSlice';
+import { useSelector } from 'react-redux';
 
 
 export default function WishlistPage() {
@@ -15,15 +17,24 @@ export default function WishlistPage() {
   const [favorites, setFavorites] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    loadFavorites();
-  }, []);
-
   const loadFavorites = () => {
-    const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const favoriteBikes = sampleCompanies.filter(bike => savedFavorites.includes(bike.id));
-    setFavorites(favoriteBikes);
-    calculateTotal(favoriteBikes);
+    try {
+      const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const bikes = sampleCompanies.filter((bike) => savedFavorites.includes(bike.id));
+      setFavorites(bikes);
+      calculateTotal(bikes);
+    } catch (error) {
+      console.error("Failed to load favorites:", error);
+      toast.error("Failed to load favorites!", {
+        style: {
+          color: '#f44336',
+          backgroundColor: '#fff',
+          fontSize: '20px',
+          borderColor: '#f44336',
+          padding: '10px 20px'
+        }
+      });
+    }
   };
 
   const calculateTotal = (bikes) => {
@@ -32,20 +43,33 @@ export default function WishlistPage() {
   };
 
   const handleRemove = (bikeId) => {
-    const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const updatedFavorites = savedFavorites.filter(id => id !== bikeId);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    loadFavorites();
-    
-    toast.warning("The bike has been removed from your wishlist.", {
+    try {
+      const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const updatedFavorites = savedFavorites.filter(id => id !== bikeId);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      loadFavorites();
+      
+      toast.warning("The bike has been removed from your wishlist.", {
         style: {
-            color: '#10B981',
-            backgroundColor: '#09090B',          
-            fontSize: '20px',
-            borderColor: '#10B981',
-            padding: '10px 20px'
+          color: '#10B981',
+          backgroundColor: '#09090B',          
+          fontSize: '20px',
+          borderColor: '#10B981',
+          padding: '10px 20px'
         }
-    });
+      });
+    } catch (error) {
+      console.error("Failed to remove bike:", error);
+      toast.error("Failed to remove bike from wishlist!", {
+        style: {
+          color: '#f44336',
+          backgroundColor: '#fff',
+          fontSize: '20px',
+          borderColor: '#f44336',
+          padding: '10px 20px'
+        }
+      });
+    }
     
   };
 
