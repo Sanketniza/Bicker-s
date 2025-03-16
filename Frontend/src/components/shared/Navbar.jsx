@@ -43,51 +43,47 @@ function Navbar() {
     navigate('/profile');
   };
 
-    const logoutHandler = async () => {
+  const logoutHandler = async () => {
+    try {
+        const res = await axios.get("http://localhost:8000/api/v1/user/logout", {
+            withCredentials: true
+        });
 
-        try {
+        console.log("Logout Response:", res.data);
 
-                const res = await axios.get("http://localhost:8000/api/v1/user/logout", {
-                  withCredentials: true
-                });
-
-                if (res.data.success) {
-
-                    dispatch(setUser(null));
-                    console.log(setUser(res.data));
-                    console.log(res.data.message);
-                    navigate("/login");
-
-                    toast.success(res.data.message, {
-                        style: {
-                            color: '#10B981',
-                            backgroundColor: '#09090B',
-                            fontSize: '20px',
-                            borderColor: '#10B981',
-                            padding: '10px 20px'
-                        }
-                    });
-                }
-
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response?.data?.message ||"An error occurred", {
+        if (res.data.success) {
+            dispatch(setUser(null));
+            navigate("/login");
+            toast.success(res.data.message, {
                 style: {
-                    color: '#f44336',
-                    backgroundColor: '#fff',
-                    borderBlockColor: '#10B981',
-                    fontSize: '16px',
-                    borderColor: '#f44336',
+                    color: '#10B981',
+                    backgroundColor: '#09090B',
+                    fontSize: '20px',
+                    borderColor: '#10B981',
                     padding: '10px 20px'
                 }
             });
         }
+    } catch (error) {
+        console.log(error);
+        toast.error(error.response?.data?.message || "An error occurred", {
+            style: {
+                color: '#f44336',
+                backgroundColor: '#fff',
+                borderBlockColor: '#10B981',
+                fontSize: '16px',
+                borderColor: '#f44336',
+                padding: '10px 20px'
+            }
+        });
     }
+};
+
 
   // Conditionally render AdminNavbar if user.role is shopOwner
-  if (user && user.role === "shopOwner") {
-    return <AdminNavbar />;
-  }
+//   if (user && user.role === "shopOwner") {
+//     return <AdminNavbar />;
+//   }
 
   return (
             <>
@@ -185,7 +181,7 @@ function Navbar() {
                 <ModeToggle /> {/* Add ModeToggle component here */}
 
                     {
-                        user && user.role == "user" ? (
+                        user && user?.role == "user" ? (
                         <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
                             <SheetTrigger asChild>
                             <Button variant="ghost" className="relative h-8 w-12 rounded-full">
@@ -240,6 +236,7 @@ function Navbar() {
                                     <Settings className="mr-2 h-4 w-4" />
                                     Settings
                                 </Button>
+
                                 <Button 
                                     variant="ghost" 
                                     className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100/10"
@@ -248,7 +245,8 @@ function Navbar() {
                                     <LogOut className="mr-2 h-4 w-4" />
                                     Logout
                                 </Button>
-                                </div>
+
+                            </div>
                             {/*  {
                                     user.orders.length > 0 && (
                                         <div className="border-t pt-4">

@@ -3,26 +3,8 @@ import { useState } from 'react';
 import { ImageSlider } from './ImageSlider';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
-export function CompanyCard({ id: companyId, productId, name, images, price }) {
-    
-    // console.log("CompanyCard", {
-    //     companyId,
-    //     productId,
-    //     name,
-    //     images,
-    //     price,
-    // });
-
-    // const { allProducts } = useSelector(state => state.product);
-    // console.log("CompanyCard allProducts : " , allProducts);
-    // allProducts.forEach(product => {
-    //     console.log("hello" , `${product._id}, ${product.title}, ${product.description}`);
-    // });
-
-    
-
+export function CompanyCard({ id: companyId, name, images = [], price }) {
     const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate();
 
@@ -56,15 +38,13 @@ export function CompanyCard({ id: companyId, productId, name, images, price }) {
         y.set(0);
     }
 
-  return (
+    return (
         <motion.div
             className="relative w-[290px]"
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={handleMouseLeave}
-            style={{
-                perspective: 1000,
-            }}
+            style={{ perspective: 1000 }}
         >
             <motion.div
                 className="w-full rounded-lg bg-card border-2 border-zinc-800 overflow-hidden"
@@ -78,30 +58,42 @@ export function CompanyCard({ id: companyId, productId, name, images, price }) {
                 <div className="tools p-3 border-b border-orange-500 mb-1">
                     <div className="flex gap-2">
                         <div className="circle">
-                        <span className="box bg-[#ff605c] block w-3 h-3 rounded-full"></span>
+                            <span className="box bg-[#ff605c] block w-3 h-3 rounded-full"></span>
                         </div>
-
                         <div className="circle">
-                        <span className="box bg-[#ffbd44] block w-3 h-3 rounded-full"></span>
+                            <span className="box bg-[#ffbd44] block w-3 h-3 rounded-full"></span>
                         </div>
-
                         <div className="circle">
-                        <span className="box bg-[#00ca4e] block w-3 h-3 rounded-full"></span>
+                            <span className="box bg-[#00ca4e] block w-3 h-3 rounded-full"></span>
                         </div>
                     </div>
                 </div>
 
-                {/* Image Slider */}
+                {/* ✅ Image Slider with Fallback */}
                 <Link to={`/description/${companyId}`}>
-                    <ImageSlider images={images} className="h-40" />
+                    {images.length > 0 ? (
+                        <ImageSlider images={images} className="h-40" />
+                    ) : (
+                        <div className="h-40 flex items-center justify-center bg-gray-800 text-gray-400">
+                            No Images Available
+                        </div>
+                    )}
                 </Link>
 
                 {/* Card content */}
                 <div className="p-6 space-y-4">
                     <h2 className="text-xl font-semibold text-foreground text-center">{name}</h2>
-                    <p className="text-2xl font-bold text-center text-emerald-500">
-                        {price.toLocaleString()} Rs
-                    </p>
+                    
+                    {/* ✅ Handle undefined price */}
+                    {price !== undefined ? (
+                        <p className="text-2xl font-bold text-center text-emerald-500">
+                            ₹{price.toLocaleString()}
+                        </p>
+                    ) : (
+                        <p className="text-2xl font-bold text-center text-gray-500">
+                            Price Not Available
+                        </p>
+                    )}
 
                     {/* Animated View Button */}
                     <motion.button
@@ -123,11 +115,7 @@ export function CompanyCard({ id: companyId, productId, name, images, price }) {
                 <motion.div
                     className="absolute inset-0 bg-primary/5 rounded-lg pointer-events-none"
                     style={{
-                        opacity: useTransform(
-                        rotateX,
-                        [-30, 0, 30],
-                        [0.2, 0, 0.2]
-                        ),
+                        opacity: useTransform(rotateX, [-30, 0, 30], [0.2, 0, 0.2]),
                         transformStyle: "preserve-3d",
                     }}
                 />
@@ -137,8 +125,12 @@ export function CompanyCard({ id: companyId, productId, name, images, price }) {
 }
 
 CompanyCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number, // ✅ Make price optional
+    images: PropTypes.arrayOf(PropTypes.string), // ✅ Make images optional
+};
+
+CompanyCard.defaultProps = {
+    images: [], // ✅ Fallback value for images
 };

@@ -153,7 +153,7 @@ exports.login = async(req, res) => {
             maxAge: 24 * 60 * 60 * 1000,
         }).json({
             message: `You have logged in successfully, ${user.fullname}`,
-            // token,
+            token,
             user,
             success: true,
         });
@@ -171,6 +171,47 @@ exports.login = async(req, res) => {
 };
 
 exports.logout = async (req, res) => {
+    try {
+        // Clear the cookie regardless of authentication status
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict'
+        });
+
+        // If req.user is set, return a success response with user details
+        if (req.user) {
+            const user = await User.findById(req.user.id);
+            if (!user) {
+                return res.status(404).json({
+                    message: "User not found",
+                    success: false,
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: `${user.fullname} has logged out successfully`,
+            });
+        }
+
+        // If req.user is not set, still return a success response
+        return res.status(200).json({
+            success: true,
+            message: "Logged out successfully",
+        });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+};
+
+
+
+/* exports.logout = async (req, res) => {
     try {
 
           // Check if the user is authenticated
@@ -190,6 +231,9 @@ exports.logout = async (req, res) => {
                 success: false,
             });
         }
+        
+       
+
 
         // Clear the cookie regardless of authentication status
         res.clearCookie('token', {
@@ -212,7 +256,7 @@ exports.logout = async (req, res) => {
         });
     }
 };
-
+ */
 exports.updateProfile = async (req, res) => {
   try {
     const { fullname, phone, bio, socialMediaLinks, paymentInfo } = req.body;
