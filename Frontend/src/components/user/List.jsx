@@ -77,12 +77,12 @@ export function List() {
                             </div>
                             
                             <Button
-                            variant="outline"
-                            onClick={() => setShowFilters(!showFilters)}
-                            className="flex items-center gap-2"
+                                variant="outline"
+                                onClick={() => setShowFilters(!showFilters)}
+                                className="flex items-center gap-2"
                             >
                             <SlidersHorizontal className="h-4 w-4" />
-                            Filters
+                                  Filters
                             </Button>
                         </div>
 

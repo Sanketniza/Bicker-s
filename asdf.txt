@@ -1006,3 +1006,63 @@ export default function WishlistPage() {
 
 
 
+
+
+
+
+
+
+
+
+<div className="min-h-screen py-12 bg-[#09090B]">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    {/* ✅ Header */}
+                    <div className="flex justify-between items-center mb-8">
+                        <h1 className="text-3xl font-bold text-emerald-500">Your Wishlist</h1>
+                        <Button 
+                            onClick={handleClearWishlist}
+                            variant="destructive"
+                            className="hover:bg-rose-600"
+                        >
+                            Clear Wishlist
+                        </Button>
+                    </div>
+
+                    {/* ✅ Total Price */}
+                    {
+                        wishlist.length > 0 && (
+                            <div className="mb-8 text-xl text-gray-300">
+                                Total Price: <span className="text-emerald-500 font-bold">₹{totalPrice.toLocaleString()}</span>
+                            </div>
+                        )
+                    }
+
+                    {/* ✅ Wishlist Items */}
+                    {
+                        wishlist.length > 0 ? (
+                                wishlist.map(item => (
+                                    <div key={item._id} className="relative bg-black/20 p-6 rounded-lg border border-emerald-500/30 mb-4">
+                                        <CompanyCard 
+                                             key={item._id} // ✅ Fix: Match _id with product object
+                                            id={item._id} // ✅ Fix: Match _id with product object
+                                            name={item.title}
+                                            price={item.price}
+                                            images={item.images || []}
+                                            description={item.description}
+                                        />
+                                        <Button
+                                            onClick={() => handleRemove(item._id)} // ✅ Fix: Use _id
+                                            className="w-8 h-8 absolute top-7 left-64 bg-rose-500/10 rounded-full text-rose-500 hover:bg-rose-500/30"
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                     </div>
+                                ))
+                            ) : (
+                                <p className="text-gray-400">No items in wishlist</p>
+                            )
+                    }
+
+                </div>
+            </div>

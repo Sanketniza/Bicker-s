@@ -8,14 +8,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { addToWishList, clearWishList, removeFromWishList } from '@/store/wishListSlice';
 
+
 export default function WishlistPage() {
     const dispatch = useDispatch();
     const { wishlist = [] } = useSelector(state => state.wishlist); // ✅ Fallback to empty array
 
-    console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
+    // console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
     addToWishList(wishlist);
-    console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
-    console.log("Wishlist  :",addToWishList); // ✅ Log to verify state
+    // console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
+    // console.log("Wishlist  :",addToWishList); // ✅ Log to verify state
 
     
     const [totalPrice, setTotalPrice] = useState(0);
@@ -41,7 +42,7 @@ export default function WishlistPage() {
                     withCredentials: true
                 });
         
-                console.log("Raw Response Data:", response);
+                // console.log("Raw Response Data:", response);
         
                 if (response.data.success && response.data.wishlist?.products?.length) {
                     const products = response.data.wishlist.products.map(product => ({
@@ -56,8 +57,8 @@ export default function WishlistPage() {
                         dispatch(addToWishList(product));
                     });
         
-                    console.log("All Products in Wishlist:", products);
-                    console.log(`Total Products in Wishlist: ${products.length}`);
+                    // console.log("All Products in Wishlist:", products);
+                    // console.log(`Total Products in Wishlist: ${products.length}`);
                 }
             } catch (error) {
                 console.error('Error fetching wishlist:', error.response || error);
@@ -77,10 +78,10 @@ export default function WishlistPage() {
         
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log("Updated Wishlist State:", wishlist);
-        console.log(`Total Products in State: ${wishlist?.length || 0}`);
-    }, [wishlist]);
+    // useEffect(() => {
+    //     console.log("Updated Wishlist State:", wishlist);
+    //     console.log(`Total Products in State: ${wishlist?.length || 0}`);
+    // }, [wishlist]);
     
     
 
@@ -157,10 +158,25 @@ export default function WishlistPage() {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen py-12 bg-[#09090B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* ✅ Header */}
-                    <div className="flex justify-between items-center mb-8">
+
+            <div className="py-1 bg-[#09090B]">
+                        <div className="mx-10">
+            
+                            
+            
+                            <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-7xl bg-black/20 backdrop-blur-sm">
+                            {/* Glow effect */}
+                            
+                            <div
+                                className="absolute inset-0 rounded-lg opacity-30 blur-xl"
+                                style={{
+                                background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
+                                }}
+                            />
+            
+                            
+
+                            <div className="flex justify-between items-center mb-8">
                         <h1 className="text-3xl font-bold text-emerald-500">Your Wishlist</h1>
                         <Button 
                             onClick={handleClearWishlist}
@@ -172,37 +188,45 @@ export default function WishlistPage() {
                     </div>
 
                     {/* ✅ Total Price */}
-                    {wishlist.length > 0 && (
-                        <div className="mb-8 text-xl text-gray-300">
-                            Total Price: <span className="text-emerald-500 font-bold">₹{totalPrice.toLocaleString()}</span>
+                    {
+                        wishlist.length > 0 && (
+                            <div className="mb-8 text-xl text-gray-300">
+                                Total Price: <span className="text-emerald-500 font-bold">₹{totalPrice.toLocaleString()}</span>
+                            </div>
+                        )
+                    }
+                                
+                                {
+                                    wishlist.length > 0 ? (
+                                        <div className="flex flex-wrap gap-6">
+                                            {wishlist.map(item => (
+                                                <div key={item._id} className="relative p-6">
+                                                    <CompanyCard 
+                                                        id={item._id}
+                                                        name={item.title}
+                                                        price={item.price}
+                                                        images={item.images || []}
+                                                        description={item.description}
+                                                    />
+                                                    <Button
+                                                        onClick={() => handleRemove(item._id)}
+                                                        className="w-8 h-8 absolute top-7 left-64 bg-rose-500/10 rounded-full text-rose-500 hover:bg-rose-500/30"
+                                                    >
+                                                        <X className="h-4 w-4" />
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-gray-400">No items in wishlist</p>
+                                    )
+                                }
+
+            
+                            </div>
                         </div>
-                    )}
-
-                    {/* ✅ Wishlist Items */}
-                    {wishlist.length > 0 ? (
-                            wishlist.map(item => (
-                                <div key={item._id} className="relative bg-black/20 p-6 rounded-lg border border-emerald-500/30 mb-4">
-                                    <CompanyCard 
-                                        id={item._id} // ✅ Fix: Match _id with product object
-                                        name={item.title}
-                                        price={item.price}
-                                        images={item.images || []}
-                                        description={item.description}
-                                    />
-                                    <Button
-                                        onClick={() => handleRemove(item._id)} // ✅ Fix: Use _id
-                                        className="w-8 h-8 absolute top-7 left-64 bg-rose-500/10 rounded-full text-rose-500 hover:bg-rose-500/30"
-                                    >
-                                        <X className="h-4 w-4" />
-                                    </Button>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-400">No items in wishlist</p>
-                        )}
-
-                </div>
-            </div>
+                    </div>
+            
         </>
     );
 }
