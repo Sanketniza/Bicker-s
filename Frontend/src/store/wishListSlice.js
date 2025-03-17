@@ -10,6 +10,7 @@ const wishListSlice = createSlice({
     },
 
     reducers: {
+        
         addToWishList: (state, action) => {
             const newItems = Array.isArray(action.payload) ? action.payload : [action.payload];
             newItems.forEach((item) => {
@@ -18,18 +19,23 @@ const wishListSlice = createSlice({
                 }
             });
         },
+
         removeFromWishList: (state, action) => {
             state.wishlist = state.wishlist.filter(item => item._id !== action.payload);
         },
+        
         clearWishList: (state) => {
             state.wishlist = [];
         },
+
         setLoading: (state, action) => {
             state.loading = action.payload;
         },
+
         setError: (state, action) => {
             state.error = action.payload;
         },
+
         // ✅ Handle hydration event to avoid undefined state
         _persisted: (state, action) => {
             state.wishlist = action.payload?.wishlist || [];

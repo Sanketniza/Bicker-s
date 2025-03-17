@@ -12,7 +12,10 @@ export default function WishlistPage() {
     const dispatch = useDispatch();
     const { wishlist = [] } = useSelector(state => state.wishlist); // ✅ Fallback to empty array
 
-console.log("Wishlist:", wishlist); // ✅ Log to verify state
+    console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
+    addToWishList(wishlist);
+    console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
+    console.log("Wishlist  :",addToWishList); // ✅ Log to verify state
 
     
     const [totalPrice, setTotalPrice] = useState(0);
@@ -27,57 +30,19 @@ console.log("Wishlist:", wishlist); // ✅ Log to verify state
         calculateTotalPrice();
     }, [wishlist]);
 
-    // ✅ Fetch all products from the wishlist
-    // useEffect(() => {
-    //     const fetchWishList = async () => {
-    //         try {
-    //             const response = await axios.get('http://localhost:8000/api/v1/wishlist/', {
-    //                 withCredentials: true
-    //             });
+  
 
-    //             console.log("Response Data:", response.data);
 
-    //             if (response.data.success && response.data.wishlist?.products?.length) {
-    //                 // ✅ Fix: Map all products properly to Redux state
-    //                 const products = response.data.wishlist.products.map(product => ({
-    //                     _id: product._id,
-    //                     title: product.title,
-    //                     price: product.price,
-    //                     images: product.images || [],
-    //                     description: product.description || '',
-    //                 }));
-
-                    
-
-    //                 // ✅ Fix: Use spread operator to avoid overwriting state
-    //                 dispatch(addToWishList([...products]));
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching wishlist:', error);
-    //             toast.error("Failed to load wishlist", {
-    //                 style: {
-    //                     color: '#ef4444',
-    //                     backgroundColor: '#09090B',
-    //                     fontSize: '20px',
-    //                     borderColor: '#ef4444',
-    //                     padding: '10px 20px'
-    //                 }
-    //             });
-    //         }
-    //     };
-
-    //     fetchWishList();
-    // }, [dispatch]);
-
-    useEffect(() => {
+      // ✅ Fetch all products from the wishlist
+      useEffect(() => {
         const fetchWishList = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/wishlist/', {
                     withCredentials: true
                 });
-    
-                console.log("Response Data:", response.data);
-    
+        
+                console.log("Raw Response Data:", response);
+        
                 if (response.data.success && response.data.wishlist?.products?.length) {
                     const products = response.data.wishlist.products.map(product => ({
                         _id: product._id,
@@ -86,14 +51,16 @@ console.log("Wishlist:", wishlist); // ✅ Log to verify state
                         images: product.images || [],
                         description: product.description || '',
                     }));
-    
-                    // ✅ Fix: Dispatch one product at a time or spread them
+        
                     products.forEach(product => {
                         dispatch(addToWishList(product));
                     });
+        
+                    console.log("All Products in Wishlist:", products);
+                    console.log(`Total Products in Wishlist: ${products.length}`);
                 }
             } catch (error) {
-                console.error('Error fetching wishlist:', error);
+                console.error('Error fetching wishlist:', error.response || error);
                 toast.error("Failed to load wishlist", {
                     style: {
                         color: '#ef4444',
@@ -105,9 +72,16 @@ console.log("Wishlist:", wishlist); // ✅ Log to verify state
                 });
             }
         };
-    
+
         fetchWishList();
+        
     }, [dispatch]);
+
+    useEffect(() => {
+        console.log("Updated Wishlist State:", wishlist);
+        console.log(`Total Products in State: ${wishlist?.length || 0}`);
+    }, [wishlist]);
+    
     
 
     console.log("Wishlist:", wishlist?.products);

@@ -33,8 +33,8 @@ export default function BikeDetails() {
 //   console.log("Product ID:", productId);
 
   const { singleProduct , loading } = useSelector(state => state.product);
-//   const { wishList } = useSelector(state => state.wishlist);
-//   console.log("Wishlist:", wishList);
+  const { wishlist } = useSelector(state => state.wishlist);
+  console.log("Wishlist:", wishlist);
   
 
 
@@ -83,10 +83,6 @@ export default function BikeDetails() {
 
 //   console.log("Single info ID:", singleProduct?.specifications[0]?.EngineType);
 
-
-  
-
-
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -94,8 +90,6 @@ export default function BikeDetails() {
     phone: '',
     message: ''
   });
-
-
 
 
 const { wishList } = useSelector(state => state.wishlist);
@@ -144,7 +138,9 @@ const handleWishlist = async () => {
                 });
                 setIsFavorite(false);
             }
-        } else {
+        } 
+        
+        else {
             const res = await axios.post('http://localhost:8000/api/v1/wishlist/add', {
                 productId: singleProduct._id
             }, {
@@ -189,7 +185,6 @@ const handleWishlist = async () => {
         });
     }
 };
-
 
 
 const [likes, setLikes] = useState(0);
