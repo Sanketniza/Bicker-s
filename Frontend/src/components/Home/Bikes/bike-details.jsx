@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; // Ensure useParams is imported from react-router-dom
 import { motion } from 'framer-motion';
-import { sampleCompanies } from '../../../JavaScript/bike';
 import { ImageSlider } from './ImageSlider';
 import { 
   Phone, 
@@ -21,9 +20,10 @@ import Ratting from '../../user/my-ui/Ratting';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { clearSingleProduct, setLoading, setSingleProduct } from '@/store/productSlice';
-import { Product_API_END_POINT } from '@/utils/api';
 import { EventAvailable, Policy } from '@mui/icons-material';
 import { addToWishList, removeFromWishList } from '@/store/wishListSlice';
+import { addRating, fetchAverageRating, fetchRatings } from '@/store/ratingSlice';
+import HoverRating from '../../user/my-ui/Ratting';
 
 export default function BikeDetails() {
   
@@ -33,10 +33,10 @@ export default function BikeDetails() {
 //   console.log("Product ID:", productId);
 
   const { singleProduct , loading } = useSelector(state => state.product);
-  const { wishlist } = useSelector(state => state.wishlist);
-  console.log("Wishlist:", wishlist);
+//   const { wishlist } = useSelector(state => state.wishlist);
+//   console.log("Wishlist:", wishlist);
   
-
+ 
 
 
   useEffect(() => {
@@ -80,7 +80,6 @@ export default function BikeDetails() {
 
 //   console.log("Single Product:", singleProduct);
 //   console.log("Single Product title :", singleProduct?.title);
-
 //   console.log("Single info ID:", singleProduct?.specifications[0]?.EngineType);
 
   const [showForm, setShowForm] = useState(false);
@@ -228,17 +227,38 @@ const [likes, setLikes] = useState(0);
     setShowForm(false);
   };
 
-  const handleRating = (rating) => {
-    setUserRating(rating);
-    toast.success(`Thank you for rating ${rating} stars!`, {
-      style: {
-        color: '#10B981',
-        backgroundColor: '#09090B',
-        fontSize: '20px',
-        borderColor: '#10B981',
-        padding: '10px 20px'
-      }
-    });
+  const { ratings = [], averageRating } = useSelector(state => state.rating);
+
+
+
+  const [userRating, setUserRating] = useState(0);
+  const [comment, setComment] = useState('');
+
+  // ✅ Fetch product details and ratings on mount
+  useEffect(() => {
+    if (productId) {
+      dispatch(fetchRatings(productId));
+      dispatch(fetchAverageRating(productId));
+    }
+  }, [productId, dispatch]);
+
+  // ✅ Handle submitting rating
+  const handleSubmitRating = async () => {
+    if (userRating < 1 || userRating > 5) {
+      toast.error('Rating must be between 1 and 5 stars');
+      return;
+    }
+
+    try {
+      await dispatch(addRating({ productId, rating: userRating, comment })).unwrap();
+      toast.success('Thank you for your rating!');
+      setUserRating(0);
+      setComment('');
+      dispatch(fetchRatings(productId)); // Refresh ratings after submission
+      dispatch(fetchAverageRating(productId)); // Refresh average rating
+    } catch (error) {
+      toast.error(error || 'Failed to submit rating');
+    }
   };
 
   const handleLikeDislike = (type) => { 
@@ -285,7 +305,6 @@ const [likes, setLikes] = useState(0);
                     <div className="h-[730px] rounded-lg overflow-hidden">
                         {/* <ImageSlider images={singleProduct?.images || []} interval={5000} className="h-full" /> */}
                         <ImageSlider images={op} interval={5000} className="h-full" />
-
                     </div>
 
                     {/* Right Column - Basic Info */}
@@ -328,33 +347,32 @@ const [likes, setLikes] = useState(0);
 
                         {/* Rating and Reviews */}
                         <div className="flex items-center gap-2 text-lg">
-                        <span className="flex items-center gap-1">
-                            <span className="font-semibold">{handleRating}</span>
-                            <span className="text-yellow-400">★</span>
-                        </span>
-                        <span className="text-gray-400">•</span>
-                        <span className="text-gray-300">
-                            {(singleProduct?.views / 1000).toFixed(2)}k Reviews
-                        </span>
+                            <span className="text-yellow-400 text-xl">
+                            {averageRating ? `${averageRating} ★` : 'No ratings yet'}
+                            </span>
+                            <span className="text-gray-400">•</span>
+                            <span className="text-gray-300">
+                                {(singleProduct?.views / 1000).toFixed(2)}k Reviews
+                            </span>
                         </div>
 
                         {/* Shop Owner Info */}
                         <div className="space-y-4 bg-white/5 p-4 rounded-lg">
-                        <h2 className="text-xl font-semibold text-white">{singleProduct?.shopOwnerId?.fullname}</h2>
-                        <div className="space-y-2">
-                            <p className="flex items-center gap-2 text-gray-300">
-                            <MapPin className="h-5 w-5 text-emerald-500" />
-                            {singleProduct?.location}
-                            </p>
-                            <p className="flex items-center gap-2 text-gray-300">
-                            <Phone className="h-5 w-5 text-emerald-500" />
-                            {singleProduct?.shopOwnerId?.phone}
-                            </p>
-                            <p className="flex items-center gap-2 text-gray-300">
-                            <MessageSquare className="h-5 w-5 text-emerald-500" />
-                            {singleProduct?.description}
-                            </p>
-                        </div>
+                            <h2 className="text-xl font-semibold text-white">{singleProduct?.shopOwnerId?.fullname}</h2>
+                            <div className="space-y-2">
+                                <p className="flex items-center gap-2 text-gray-300">
+                                <MapPin className="h-5 w-5 text-emerald-500" />
+                                {singleProduct?.location}
+                                </p>
+                                <p className="flex items-center gap-2 text-gray-300">
+                                <Phone className="h-5 w-5 text-emerald-500" />
+                                {singleProduct?.shopOwnerId?.phone}
+                                </p>
+                                <p className="flex items-center gap-2 text-gray-300">
+                                <MessageSquare className="h-5 w-5 text-emerald-500" />
+                                {singleProduct?.description}
+                                </p>
+                            </div>
                         </div>
                     
                         <motion.button
@@ -369,27 +387,64 @@ const [likes, setLikes] = useState(0);
                         <div className="flex items-center justify-between mx-2 px-4 py-2 bg-white/5 ">
                         <Like className="md:order-2" />
 
-                        <div>
+                        {/* <div>
                             <div className="flex items-center mt-6 mr-4 ">
                             <Ratting />
                             </div>
 
                             <textarea
-                            name="Your Feedback"
-                            id=""
-                            className="w-full border border-[#10B981] rounded-md p-2 mt-4 mb-2 outline-none"
-                            placeholder="Write your feedback here..."
+                                name="Your Feedback"
+                                id=""
+                                className="w-full border border-[#10B981] rounded-md p-2 mt-4 mb-2 outline-none"
+                                placeholder="Write your feedback here..."
                             >
                             </textarea>
                             <motion.button
-                            type="submit"
-                            className="w-full bg-emerald-500 text-white rounded-md font-medium text-[13px] my-2"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                                type="submit"
+                                className="w-full bg-emerald-500 text-white rounded-md font-medium text-[13px] my-2"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
                             >
                             Submit Feedback
                             </motion.button>
-                        </div>
+                        </div> */}
+
+                         {/* ✅ Display Average Rating */}
+                    {/* <div className="flex items-center gap-2">
+                        <span className="text-yellow-400 text-xl">
+                        {averageRating ? `${averageRating} ★` : 'No ratings yet'}
+                        </span>
+                        <span className="text-gray-400">
+                        ({ratings.length} reviews)
+                        </span>
+                    </div> */}
+
+                            {/* ✅ Rating Component */}
+                            <div className="mt-4">
+                                <HoverRating
+                                value={userRating}
+                                onChange={(newValue) => setUserRating(newValue)}
+                                />
+
+                                {/* ✅ Comment */}
+                                <textarea
+                                    placeholder="Write a comment..."
+                                    className="w-full mt-2 bg-gray-800 text-white p-2 rounded-md border border-gray-700"
+                                    value={comment}
+                                    onChange={(e) => setComment(e.target.value)}
+                                />
+
+                                {/* ✅ Submit Button */}
+                                <button
+                                    onClick={handleSubmitRating}
+                                    className="mt-3 px-4 py-2 bg-emerald-500 text-white rounded-md"
+                                >
+                                Submit Rating
+                                </button>
+                            </div>
+
+                            {/* ✅ Display User Ratings */}
+
                         </div>
                     </div>
                     </div>
@@ -546,6 +601,7 @@ const [likes, setLikes] = useState(0);
                         </form>
                     </motion.div>
                     )}
+
                 </div>
                 </div>
             </div>

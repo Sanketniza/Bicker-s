@@ -135,12 +135,11 @@ exports.updateRating = async(req, res) => {
 };
 
 exports.deleteRating = async(req, res) => {
-
     try {
-
         const { ratingId, userId } = req.body;
 
-        const ratingToDelete = await Rating.findOneAndRemove({ _id: ratingId, userId });
+        // ✅ Use findOneAndDelete instead of findOneAndRemove
+        const ratingToDelete = await Rating.findOneAndDelete({ _id: ratingId, userId });
 
         if (!ratingToDelete) {
             return res.status(404).json({
@@ -149,13 +148,16 @@ exports.deleteRating = async(req, res) => {
             });
         }
 
-        // updata the average rating
+        // ✅ Update the average rating for the product
         const productId = ratingToDelete.productId;
         const ratings = await Rating.find({ productId });
+
         let averageRating = 0;
         if (ratings.length > 0) {
             averageRating = ratings.reduce((sum, rating) => sum + rating.rating, 0) / ratings.length;
         }
+
+        // ✅ Update the product's average rating
         await Product.updateOne({ _id: productId }, { $set: { averageRating } });
 
         res.status(200).json({
@@ -166,10 +168,9 @@ exports.deleteRating = async(req, res) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: error.message,
-            message:"An error occurred while deleting the rating."
+            message: error.message
         });
     }
-
 };
+
 

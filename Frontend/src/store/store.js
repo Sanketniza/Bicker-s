@@ -46,6 +46,7 @@ import storage from 'redux-persist/lib/storage';
 import authSlice from "./authSlice";
 import productSlice from "./productSlice";
 import wishListSlice from "./wishListSlice";
+import ratingReducer from './ratingSlice';
 
 import {
     persistReducer,
@@ -67,6 +68,7 @@ const rootReducer = combineReducers({
     auth: authSlice,
     product: productSlice,
     wishlist: wishListSlice, // ✅ Make sure this matches slice name
+    rating: ratingReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

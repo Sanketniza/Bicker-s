@@ -38,8 +38,9 @@ const ratingSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-// const Review = mongoose.model('Review', reviewSchema);
-
-// module.exports = Review;
+// ✅ Indexing for Faster Queries:
+ratingSchema.index({ productId: 1 }); // Index on productId for faster lookup
+ratingSchema.index({ userId: 1 }); // Index on userId for faster lookup
+ratingSchema.index({ productId: 1, userId: 1 }, { unique: true }); // Combined index to prevent duplicate ratings
 
 module.exports = mongoose.model('Rating', ratingSchema);
