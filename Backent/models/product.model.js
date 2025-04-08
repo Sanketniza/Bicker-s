@@ -70,7 +70,7 @@ const productSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['bike', 'car', 'other'],
+        enum: ['bike', 'car','Scooter','Electric Bike', 'other'],
     },
 
     status: {

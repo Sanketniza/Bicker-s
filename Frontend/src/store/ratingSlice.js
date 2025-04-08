@@ -6,7 +6,7 @@ export const fetchRatings = createAsyncThunk(
     'rating/fetchRatings',
     async (productId, { rejectWithValue }) => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/ratings/${productId}`);
+        const response = await axios.get(`http://localhost:8000/api/v1/rating/${productId}`);
         return response.data.ratings;
       } catch (error) {
         return rejectWithValue(error.response.data.message);
@@ -31,18 +31,28 @@ export const fetchAverageRating = createAsyncThunk(
 export const addRating = createAsyncThunk(
     'rating/addRating',
     async ({ productId, rating, comment }, { rejectWithValue }) => {
-      try {
-        const response = await axios.post(`http://localhost:8000/api/v1/ratings`, {
-          productId,
-          rating,
-          comment,
-        });
-        return response.data.rating;
-      } catch (error) {
-        return rejectWithValue(error.response.data.message);
-      }
+        try {
+            const token = localStorage.getItem('token');
+
+            const response = await axios.post(
+                `http://localhost:8000/api/v1/rating/add`,
+                {
+                    productId,
+                    rating,
+                    comment, // ✅ No need to send userId — backend handles it
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                    withCredentials: true,
+                }
+            );
+
+            return response.data.rating; // ✅ Ensure consistent key
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Something went wrong');
+        }
     }
-  );
+);
 
 // ➡️ Update existing rating
 export const updateRating = createAsyncThunk(
@@ -81,7 +91,7 @@ export const deleteRating = createAsyncThunk(
 const ratingSlice = createSlice({
     name: 'rating',
     initialState: {
-        ratings: [],
+        ratings: [], // ✅ Initialize as an empty array
         averageRating: 0,
         loading: false,
         error: null
@@ -96,7 +106,7 @@ const ratingSlice = createSlice({
             })
             .addCase(fetchRatings.fulfilled, (state, action) => {
                 state.loading = false;
-                state.ratings = action.payload;
+                state.ratings = action.payload || [];
             })
             .addCase(fetchRatings.rejected, (state, action) => {
                 state.loading = false;
@@ -110,7 +120,7 @@ const ratingSlice = createSlice({
             })
             .addCase(fetchAverageRating.fulfilled, (state, action) => {
                 state.loading = false;
-                state.averageRating = action.payload;
+                state.averageRating = action.payload || 0;
             })
             .addCase(fetchAverageRating.rejected, (state, action) => {
                 state.loading = false;
@@ -119,7 +129,16 @@ const ratingSlice = createSlice({
 
             // ✅ Add Rating
             .addCase(addRating.fulfilled, (state, action) => {
-                state.ratings.push(action.payload);
+                const existingRating = state.ratings.find(
+                    (r) => r.userId === action.payload.userId
+                );
+                if (existingRating) {
+                    // ✅ Update existing rating
+                    Object.assign(existingRating, action.payload);
+                } else {
+                    // ✅ Add new rating
+                    state.ratings.push(action.payload);
+                }
             })
 
             // ✅ Update Rating

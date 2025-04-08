@@ -2,7 +2,7 @@
 const Rating = require('../models/rating.model');
 const Product = require('../models/product.model');
 
-exports.addRating = async(req, res) => {
+/* exports.addRating = async(req, res) => {
 
     try {
 
@@ -31,6 +31,62 @@ exports.addRating = async(req, res) => {
         res.status(500).json({
             success: false,
             message: error.message,
+        });
+    }
+}; */
+
+exports.addRating = async (req, res) => {
+    try {
+        console.log('Request Body:', req.body); // Log request body
+        console.log('Authenticated User:', req.user); // Log authenticated user
+
+        const { productId, rating, comment } = req.body;
+        const userId = req.user.id; // ✅ Use req.user.id instead of req.user._id
+
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'User ID is missing'
+            });
+        }
+
+        // Validate input
+        if (!productId || !rating || rating < 0.5 || rating > 5) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid rating data'
+            });
+        }
+
+        // Check existing rating
+        const existingRating = await Rating.findOne({ productId, userId });
+        if (existingRating) {
+            return res.status(400).json({
+                success: false,
+                message: 'You already rated this product',
+                existingRatingId: existingRating._id
+            });
+        }
+
+        // Create new rating
+        const newRating = await Rating.create({
+            productId,
+            userId, // ✅ Include userId
+            rating,
+            comment: comment || ''
+        });
+
+        res.status(201).json({
+            success: true,
+            message: 'Rating added successfully',
+            rating: newRating
+        });
+
+    } catch (error) {
+        console.error('Error in addRating:', error); // Log the error
+        res.status(500).json({
+            success: false,
+            message: error.message
         });
     }
 };

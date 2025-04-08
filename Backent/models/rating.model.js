@@ -1,42 +1,41 @@
 const mongoose = require('mongoose');
 
-// Define the Review Schema
 const ratingSchema = new mongoose.Schema({
-
     productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
-        required: true,
+        required: true
     },
-
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
+        required: true
     },
-
     rating: {
         type: Number,
         required: true,
-        default: 0,
-        min: 1,
-        max: 5,
+        min: 0.5,
+        max: 5
     },
 
     comment: {
         type: String,
-        maxlength: 500,
-        default: '',
+        default: ''
     },
 
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
+    
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
 
-}, {
-    timestamps: true,
-});
+}, { timestamps: true });
+
+
 
 // ✅ Indexing for Faster Queries:
 ratingSchema.index({ productId: 1 }); // Index on productId for faster lookup

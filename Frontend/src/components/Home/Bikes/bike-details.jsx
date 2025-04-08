@@ -22,7 +22,7 @@ import axios from 'axios';
 import { clearSingleProduct, setLoading, setSingleProduct } from '@/store/productSlice';
 import { EventAvailable, Policy } from '@mui/icons-material';
 import { addToWishList, removeFromWishList } from '@/store/wishListSlice';
-import { addRating, fetchAverageRating, fetchRatings } from '@/store/ratingSlice';
+import { addRating, fetchAverageRating, fetchRatings, updateRating } from '@/store/ratingSlice';
 import HoverRating from '../../user/my-ui/Ratting';
 
 export default function BikeDetails() {
@@ -32,7 +32,7 @@ export default function BikeDetails() {
   const productId = params.id;
 //   console.log("Product ID:", productId);
 
-  const { singleProduct , loading } = useSelector(state => state.product);
+  const { singleProduct  } = useSelector(state => state.product);
 //   const { wishlist } = useSelector(state => state.wishlist);
 //   console.log("Wishlist:", wishlist);
   
@@ -227,53 +227,45 @@ const [likes, setLikes] = useState(0);
     setShowForm(false);
   };
 
-  const { ratings = [], averageRating } = useSelector(state => state.rating);
+  const { ratings = [], averageRating = 0 } = useSelector((state) => state.rating);
 
 
-
-  const [userRating, setUserRating] = useState(0);
+  const [userRating, setUserRating] = useState(null);
   const [comment, setComment] = useState('');
+  const [ratingId, setRatingId] = useState(null);
 
-  // ✅ Fetch product details and ratings on mount
   useEffect(() => {
-    if (productId) {
-      dispatch(fetchRatings(productId));
-      dispatch(fetchAverageRating(productId));
-    }
-  }, [productId, dispatch]);
+    dispatch(fetchRatings(productId));
+    dispatch(fetchAverageRating(productId));
+  }, [dispatch, productId]);
 
-  // ✅ Handle submitting rating
-  const handleSubmitRating = async () => {
-    if (userRating < 1 || userRating > 5) {
-      toast.error('Rating must be between 1 and 5 stars');
-      return;
-    }
-
-    try {
-      await dispatch(addRating({ productId, rating: userRating, comment })).unwrap();
-      toast.success('Thank you for your rating!');
-      setUserRating(0);
-      setComment('');
-      dispatch(fetchRatings(productId)); // Refresh ratings after submission
-      dispatch(fetchAverageRating(productId)); // Refresh average rating
-    } catch (error) {
-      toast.error(error || 'Failed to submit rating');
-    }
-  };
-
-  const handleLikeDislike = (type) => { 
-    if (type === 'like' && dislikes === 0) {
-      setDislikes(prev => prev - 1);
-    } else if (type === 'dislike' && likes === 0) {
-      setLikes(prev => prev - 1);
-    } else {
-      if (type === 'like') {
-        setLikes(prev => prev + 1);
-      } else {
-        setDislikes(prev => prev + 1);
+  useEffect(() => {
+    if (ratings && ratings.length > 0) {
+      const existingRating = ratings.find((r) => r.userId === 'currentUserId');
+      if (existingRating) {
+        setUserRating(existingRating.rating);
+        setComment(existingRating.comment);
+        setRatingId(existingRating._id);
       }
     }
-  };
+  }, [ratings]);
+
+  const handleSubmitRating = async () => {
+    if (!userRating) return toast.error("Please provide a rating");
+
+    try {
+        await dispatch(addRating({ productId, rating: userRating, comment }));
+        toast.success("Rating submitted successfully!");
+
+        // ✅ Update state immediately
+        dispatch(fetchRatings(productId));
+        dispatch(fetchAverageRating(productId));
+    } catch (error) {
+        console.error("Failed to submit rating:", error);
+        toast.error("Failed to submit rating. Please try again.");
+    }
+};
+
 
   const op = [
     'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
@@ -345,7 +337,7 @@ const [likes, setLikes] = useState(0);
                             </div>
                         </div>    
 
-                        {/* Rating and Reviews */}
+                        {/* //*:Rating and Reviews */}
                         <div className="flex items-center gap-2 text-lg">
                             <span className="text-yellow-400 text-xl">
                             {averageRating ? `${averageRating} ★` : 'No ratings yet'}
@@ -354,6 +346,7 @@ const [likes, setLikes] = useState(0);
                             <span className="text-gray-300">
                                 {(singleProduct?.views / 1000).toFixed(2)}k Reviews
                             </span>
+
                         </div>
 
                         {/* Shop Owner Info */}
@@ -419,25 +412,20 @@ const [likes, setLikes] = useState(0);
                         </span>
                     </div> */}
 
-                            {/* ✅ Rating Component */}
+                            {/* //* ✅ Rating Component */}
                             <div className="mt-4">
-                                <HoverRating
-                                value={userRating}
-                                onChange={(newValue) => setUserRating(newValue)}
-                                />
+                                <HoverRating value={userRating} onChange={(newValue) => setUserRating(newValue)} />
 
-                                {/* ✅ Comment */}
                                 <textarea
-                                    placeholder="Write a comment..."
-                                    className="w-full mt-2 bg-gray-800 text-white p-2 rounded-md border border-gray-700"
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
+                                placeholder="Write a comment..."
+                                className="w-full mt-2 bg-gray-800 text-white p-2 rounded-md border border-gray-700"
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
                                 />
 
-                                {/* ✅ Submit Button */}
                                 <button
-                                    onClick={handleSubmitRating}
-                                    className="mt-3 px-4 py-2 bg-emerald-500 text-white rounded-md"
+                                onClick={handleSubmitRating}
+                                className="mt-3 px-4 py-2 bg-emerald-500 text-white rounded-md"
                                 >
                                 Submit Rating
                                 </button>
