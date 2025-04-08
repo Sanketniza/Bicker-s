@@ -1,4 +1,5 @@
 const auth = async (req, res, next) => {
+    
     try {
         const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 

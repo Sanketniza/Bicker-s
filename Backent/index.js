@@ -15,6 +15,7 @@ const cart = require('./routes/cart.route')
 const reviewRoutes = require('./routes/review.route');
 const wishlistRoutes = require('./routes/wishlist.route');
 const ratingRoutes = require('./routes/rating.route');
+const likeRoutes = require('./routes/like.route');
 
 dotenv.config(); // Load environment variables
 
@@ -42,6 +43,7 @@ app.use('/api/v1/cart', cart)
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/wishlist', wishlistRoutes);
 app.use('/api/v1/rating', ratingRoutes);
+app.use('/api/v1/like', likeRoutes);
 
 
 //* database connection
