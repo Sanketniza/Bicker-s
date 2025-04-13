@@ -186,8 +186,7 @@ const handleWishlist = async () => {
 };
 
 
-const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
+
 
 
     const handleShare = async () => {
@@ -378,7 +377,7 @@ const [likes, setLikes] = useState(0);
                         </motion.button>
 
                         <div className="flex items-center justify-between mx-2 px-4 py-2 bg-white/5 ">
-                        <Like className="md:order-2" />
+                        <Like className="md:order-2" productId={singleProduct?._id} />
 
                         {/* <div>
                             <div className="flex items-center mt-6 mr-4 ">
