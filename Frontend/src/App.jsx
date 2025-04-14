@@ -18,12 +18,17 @@ import Electric from './components/user/Electric';
 import List from './components/user/List';
 import CompanyTable from './components/admin/CompanyTable';
 import UpdataProfile from './components/user/UpdateProfile';
+import AdminHome from './components/admin/AdminHome';
+import AdminCompanies from './components/admin/AdminCompanies';
+import AdminProduct from './components/admin/AdminProduct';
+import AdminOrder from './components/admin/AdminOrder';
 
 const appRouter = createBrowserRouter([
     {
         path: "/",
         element: <Home />
     },
+
     {
         path: "/signup",
         element: <Signup />
@@ -67,14 +72,40 @@ const appRouter = createBrowserRouter([
         element: <List />
     },
 
-    {
-        path: "/companytable/:id",
-        element: <CompanyTable />
-    },
+   
 
     {
         path: "/update-profile",
         element: <UpdataProfile />
+    },
+
+    // ------------ Admin Routes -------------
+
+    {
+        path: "/admin",
+        element: <AdminHome />
+    },
+    {
+        path: "/admin-companies",
+        element: <AdminCompanies />
+    },
+    {
+        path: "/admin-products",
+        element: <AdminProduct />
+    },
+    {
+        path: "/admin-order",
+        element: <AdminOrder />
+    },
+
+     // {
+    //     path: "/companytable/:id",
+    //     element: <CompanyTable />
+    // },
+
+    {
+        path: "/companytable",
+        element: <CompanyTable />
     },
 
     {

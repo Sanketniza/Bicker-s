@@ -33,37 +33,6 @@ function AdminNavbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  //   const [theme, setTheme] = useState('dark');
-
-//   const [isAuthenticated, setIsAuthenticated] = useState(true);
-//   const [shopOwnerData, setshopOwnerData] = useState({
-//     name: 'John Doe',
-//     email: 'john@example.com',
-//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
-//     orders: [
-//       { id: 1, bike: 'Kawasaki Ninja', date: '2024-02-10' },
-//       { id: 2, bike: 'Honda CBR', date: '2024-02-15' }
-//     ]
-//   });
-
-//   useEffect(() => {
-//     // Mock authentication check
-//     localStorage.setItem('shopOwner', JSON.stringify(shopOwnerData));
-//   }, []);
-
-//   const shopOwnerr = shopOwnerData || {
-//     name: 'Guest',
-//     email: 'guest@example.com',
-//     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest',
-//     orders: []
-//   };
-
-/* 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    document.documentElement.classList.toggle('dark');
-  }; */
 
   const handleLogin = () => {
     navigate('/login');
@@ -118,13 +87,13 @@ function AdminNavbar() {
 
                 <div className="flex items-center">
                 <div className="flex">
-                    <Link to="/">
+                    <Link to="/admin">
                     <img className="w-16 h-16 bg-transparent rounded-md" src={logo} alt="logo" />
                     </Link>
                 </div>
                 <h1 className="mx-5 text-3xl font-bold text-white-800 hidden sm:block">
-                    <Link to="/" className="flex items-center gap-1">
-                    <Link to="/" className="btn-shine text-red-500">Biker&apos;s</Link>
+                    <Link to="/admin" className="flex items-center gap-1">
+                    <Link to="/admin" className="btn-shine text-red-500">Biker&apos;s</Link>
                     </Link>
                 </h1>
                 </div>
@@ -143,8 +112,8 @@ function AdminNavbar() {
                         className="cursor-pointer text-white-800"
                     >
                             <NavLink 
-                                to="/"
-                                className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
+                                to="/admin"
+                                className={({isActive}) => (isActive ? "text-yellow-500" : "text-white-800")}
                             >
                                 <div className="flex items-center gap-1">
                                 <Bike className="w-5 h-5" />
@@ -159,7 +128,7 @@ function AdminNavbar() {
                         className="cursor-pointer text-white-800"
                     >
                             <NavLink 
-                                to="/bikes-list"
+                                to="/admin-companies"
                                 className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                             >
                                 <div className="flex items-center gap-1">
@@ -173,7 +142,7 @@ function AdminNavbar() {
                     whileHover={{ color: "#6674CC" }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/signup"
+                        to="/admin-order"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                     >  
                         <div className="flex items-center gap-1">
@@ -187,7 +156,7 @@ function AdminNavbar() {
                     transition={{ delay: 0.011 }}
                     className="mr-[90px] cursor-pointer text-white-800 md:text-lg">
                     <NavLink 
-                        to="/WishListPage"
+                        to="/admin-products"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                     >  
                         <div className="flex items-center gap-1">
@@ -329,7 +298,7 @@ function AdminNavbar() {
                     transition={{ delay: 0.011 }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/"
+                        to="/admin"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                         onClick={() => setIsMenuOpen(false)}
                     >

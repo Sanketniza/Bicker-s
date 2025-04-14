@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '../../store/authSlice';
 import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
+import AdminHome from '../admin/AdminHome';
 
 function Navbar() {
 
@@ -80,10 +81,10 @@ function Navbar() {
 };
 
 
-  // Conditionally render AdminNavbar if user.role is shopOwner
-//   if (user && user.role === "shopOwner") {
-//     return <AdminNavbar />;
-//   }
+//   Conditionally render AdminNavbar if user.role is shopOwner
+  if (user && user.role === "shopOwner") {
+    return <AdminHome />;
+  }
 
   return (
             <>
