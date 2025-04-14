@@ -22,6 +22,7 @@ import AdminHome from './components/admin/AdminHome';
 import AdminCompanies from './components/admin/AdminCompanies';
 import AdminProduct from './components/admin/AdminProduct';
 import AdminOrder from './components/admin/AdminOrder';
+import CompaniesCreation from './components/admin/CompaniesCreation';
 
 const appRouter = createBrowserRouter([
     {
@@ -109,9 +110,14 @@ const appRouter = createBrowserRouter([
     },
 
     {
-        path: "*",
-        element: <Home />
-    }
+        path: "/admin/companies-creation",
+        element: <CompaniesCreation />
+    },
+
+    // {
+    //     path: "*",
+    //     element: <Home />
+    // }
 ]);
 
 function App() {
