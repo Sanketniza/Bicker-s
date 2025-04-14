@@ -5,6 +5,7 @@ import { motion , useScroll} from 'framer-motion';
 
 import AdminNavbar from "../shared/AdminNavbar";
 import AdminCompaniesCreation from "./AdminCompaniesCreation";
+import CompanyTable from "./CompanyTable";
 
 
 function AdminHome() {
@@ -36,6 +37,8 @@ function AdminHome() {
 
                 <AdminNavbar />
                 <AdminCompaniesCreation />
+                <CompanyTable />
+
                 <Footer />
              </motion.div>
         </>
