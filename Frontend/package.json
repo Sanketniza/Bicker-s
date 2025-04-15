@@ -26,6 +26,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@reduxjs/toolkit": "^2.5.1",
     "@splidejs/react-splide": "^0.7.12",
+    "@table-library/react-table-library": "^4.1.12",
     "@tanstack/react-query": "^5.66.0",
     "antd": "^5.24.0",
     "axios": "^1.7.9",

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../../css/LogoName.css';
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
-import { Bike, HardHat, ListOrdered, Menu, X } from "lucide-react";
+import { Bike, HardHat, Home, ListOrdered, Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from 'wouter';
 import {
@@ -116,7 +116,7 @@ function AdminNavbar() {
                                 className={({isActive}) => (isActive ? "text-yellow-500" : "text-white-800")}
                             >
                                 <div className="flex items-center gap-1">
-                                <Bike className="w-5 h-5" />
+                                <Home className="w-5 h-5" />
                                 <span>Home</span>
                                 </div>
                             </NavLink>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <g id="door">
+    <path d="M161.857,211.684h76.285c6.071,0,11,4.929,11,11v126.632h-98.285v-126.632c0-6.071,4.929-11,11-11Z" fill="none" stroke="#6a0bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/>
+  </g>
+  <g id="house">
+    <g>
+      <path d="M50,185.639L191.145,54.332c4.99-4.642,12.719-4.642,17.709,0l141.145,131.307" fill="none" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/>
+      <path d="M339.412,175.789v162.527c0,6.075-4.925,11-11,11H71.588c-6.075,0-11-4.925-11-11V175.789" fill="none" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/>
+    </g>
+  </g>
+</svg>
