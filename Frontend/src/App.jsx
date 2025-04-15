@@ -23,6 +23,7 @@ import AdminCompanies from './components/admin/AdminCompanies';
 import AdminProduct from './components/admin/AdminProduct';
 import AdminOrder from './components/admin/AdminOrder';
 import CompaniesCreation from './components/admin/CompaniesCreation';
+import ProductsCreation from './components/admin/ProductsCreation';
 
 const appRouter = createBrowserRouter([
     {
@@ -112,6 +113,11 @@ const appRouter = createBrowserRouter([
     {
         path: "/admin/companies-creation",
         element: <CompaniesCreation />
+    },
+
+    {
+        path: "/admin-products/products-creation",
+        element: <ProductsCreation />
     },
 
     // {
