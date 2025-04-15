@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Table,
   Header,
@@ -21,7 +21,7 @@ const companies = [
     {
       id: 1,
       name: "GreenTech Ltd.",
-      logo: "https://via.placeholder.com/50",
+      logo: "https://www.pexels.com/photo/portrait-photo-of-smiling-man-with-his-arms-crossed-standing-in-front-of-a-wall-2379004/",
       createdAt: new Date("2024-02-01"),
     },
     {
@@ -146,6 +146,15 @@ const CompanyTable = () => {
         color: white;
         background-color: rgba(0, 0, 0, 0.2);
       `,
+      HeaderCell: `
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px;
+        color: orange;
+        background-color: rgba(0, 0, 0, 0.2);
+        text-align: center;
+      `,
+      
+      
     },
   ]);
 
@@ -198,13 +207,13 @@ const CompanyTable = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="flex gap-2">
                 <button
-                  className="px-3 py-1 bg-white/10 border border-white/20 text-white text-sm rounded hover:bg-white/20"
+                  className="px-3 py-1 bg-white/10 border border-white/20 text-emerald-600 text-sm rounded hover:bg-white/20"
                   onClick={() => sort.fns.onSortChange("NAME")}
                 >
                   Sort: Name (A-Z)
                 </button>
                 <button
-                  className="px-3 py-1 bg-white/10 border border-white/20 text-white text-sm rounded hover:bg-white/20"
+                  className="px-3 py-1 bg-white/10 border border-white/20 text-emerald-600 text-sm rounded hover:bg-white/20"
                   onClick={() => sort.fns.onSortChange("CREATED_AT")}
                 >
                   Sort: Date (Newest)
@@ -231,13 +240,14 @@ const CompanyTable = () => {
               {(tableList) => (
                 <>
                   <Header>
-                    <HeaderRow>
-                      <HeaderCell>Logo</HeaderCell>
-                      <HeaderCell>Company Name</HeaderCell>
-                      <HeaderCell>Created At</HeaderCell>
-                      <HeaderCell>Action</HeaderCell>
+                    <HeaderRow theme={theme}>
+                      <HeaderCell> Logo</HeaderCell>
+                      <HeaderCell> Company Name</HeaderCell>
+                      <HeaderCell> Created At</HeaderCell>
+                      <HeaderCell> Action</HeaderCell>
                     </HeaderRow>
                   </Header>
+
                   <Body>
                     {tableList.map((item, index) => (
                       <Row key={`${item.id}-${index}`} item={item}>
@@ -278,7 +288,7 @@ const CompanyTable = () => {
               <button
                 onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}
                 disabled={pagination.state.page === 0}
-                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white disabled:opacity-30"
+                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white hover:bg-white/10 active:bg-white/30 disabled:opacity-30"
               >
                 ← Prev
               </button>
@@ -288,7 +298,7 @@ const CompanyTable = () => {
                   pagination.state.page + 1 >=
                   Math.ceil(sortedData.length / pagination.state.size)
                 }
-                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white disabled:opacity-30"
+                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white hover:bg-white/10 active:bg-white/30 disabled:opacity-30"
               >
                 Next →
               </button>
