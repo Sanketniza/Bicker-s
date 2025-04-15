@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import AdminNavbar from "../shared/AdminNavbar"
+import ProductTable from "./ProductTable"
+import Footer from "../shared/footer"
 
 function AdminProduct() {
 
@@ -8,6 +10,7 @@ function AdminProduct() {
     return (
         <>
             <AdminNavbar />
+
             <div className="mx-10">
 
                 <div className="relative p-10 mx-auto my-10 border rounded-lg shadow-2xl border-orange-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
@@ -31,8 +34,13 @@ function AdminProduct() {
                     </button>
                 </div>
 
+
                 </div>
             </div>
+
+            <ProductTable />
+            
+            <Footer />
         </>
     )
 }

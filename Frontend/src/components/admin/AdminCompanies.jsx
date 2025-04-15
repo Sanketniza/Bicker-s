@@ -22,7 +22,8 @@ function AdminCompanies() {
 
                 </div>
             </div>
-                    <Footer />
+            
+            <Footer />
         </>
     )
 }

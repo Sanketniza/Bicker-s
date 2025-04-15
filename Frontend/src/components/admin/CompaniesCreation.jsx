@@ -1,4 +1,5 @@
 import AdminNavbar from "../shared/AdminNavbar"
+import Footer from "../shared/footer"
 
 function CompaniesCreation() {
     return (
@@ -19,7 +20,9 @@ function CompaniesCreation() {
                 <h1>Companies Creation Page</h1>
 
                 </div>
-        </div>
+            </div>
+
+            <Footer />
         
         </>
     )

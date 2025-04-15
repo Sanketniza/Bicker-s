@@ -1,5 +1,6 @@
 import AdminNavbar from "../shared/AdminNavbar"
 import { useNavigate } from "react-router-dom"
+import Footer from "../shared/footer"
 
 
 function ProductsCreation() {
@@ -28,6 +29,8 @@ function ProductsCreation() {
 
                 </div>
             </div>
+
+            <Footer />
 
         </>
     )
