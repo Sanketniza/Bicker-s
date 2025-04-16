@@ -2023,3 +2023,24 @@ const Like = ({ className }) => {
 
 export default Like;
 
+
+
+div className="mx-10">
+        <div className="relative p-10 mx-auto my-10 border rounded-lg shadow-2xl border-orange-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
+          <div
+            className="absolute inset-0 rounded-lg opacity-30 blur-xl"
+            style={{ background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)` }}
+          />
+
+          <div className="relative">
+            <h1 className="font-bold text-zinc-500 mb-6">Products Creation Page</h1>
+            <form onSubmit={handleSubmit} className="grid gap-4">
+              
+
+              <input name="stock" type="number" value={form.stock} onChange={handleChange} placeholder="Stock" className="p-2 rounded" required />
+
+              <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Create Product</button>
+            </form>
+          </div>
+        </div>
+      </div>
