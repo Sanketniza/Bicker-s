@@ -1,37 +1,9 @@
-// import Footer from "../shared/footer"
 
-// function CompaniesCreation() {
-//     return (
-//         <>
-//             <AdminNavbar />
-
-//             <div className="mx-5">
-//                 <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
-
-//                 {/* Glow effect */}
-//                 <div
-//                     className="absolute inset-0 rounded-lg opacity-30 blur-xl"
-//                     style={{
-//                     background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
-//                     }}
-//                 />
-
-//                 <h1>Companies Creation Page</h1>
-
-//                 </div>
-//             </div>
-
-//             <Footer />
-        
-//         </>
-//     )
-// }
-
-// export default CompaniesCreation;
 
 import  { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminNavbar from "../shared/AdminNavbar"
+import Footer from "../shared/footer"
 
 
 const CompaniesCreation = ({ addCompany }) => {
@@ -115,11 +87,22 @@ const CompaniesCreation = ({ addCompany }) => {
                         }}
                     />
 
-                    <div className="relative z-10 text-white">
+                    
 
+                    <div className="relative z-10 text-white">
+                        
                         <h1 className="text-3xl font-bold text-center text-green-500 mb-6">
                             Create New Company
                         </h1>
+
+                        <div className="flex justify-end">
+                            <Link to="/admin-companies" className="flex items-center px-4 py-2 bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none transition duration-200 ease-in-out">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                </svg>
+                                <span className="text-white font-semibold  text-lg">Back</span>
+                            </Link>
+                        </div>
 
                         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
@@ -136,13 +119,12 @@ const CompaniesCreation = ({ addCompany }) => {
                             </div>
 
                             <div>
-                            <label className="block mb-1">Logo URL</label>
+                            <label className="block mb-1">Logo </label>
                             <input
-                                type="text"
+                                type="file"
                                 name="logo"
-                                value={formData.logo}
-                                onChange={handleChange}
-                                placeholder="Paste image URL"
+                                accept=".png, .jpg, .jpeg"
+                                onChange={(e) => setFormData((prev) => ({ ...prev, logo: URL.createObjectURL(e.target.files[0]) }))}
                                 className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
                             />
                             {formData.logo && (
@@ -246,7 +228,7 @@ const CompaniesCreation = ({ addCompany }) => {
 
                             <button
                                 type="submit"
-                                className="md:col-span-2 bg-green-600 hover:bg-green-700 py-2 px-6 rounded text-white font-semibold shadow mt-4"
+                                className="md:col-span-2 bg-green-600 hover:bg-green-700 py-2 px-6 rounded text-white font-semibold shadow mt-4 mx-auto w-4/5"
                             >
                             Create Company
                             </button>
@@ -254,6 +236,8 @@ const CompaniesCreation = ({ addCompany }) => {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </>
     );
 };

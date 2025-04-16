@@ -19,6 +19,7 @@ import { useSort } from "@table-library/react-table-library/sort";
 
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { useNavigate } from "react-router-dom";
 
 // Sample static company data
 const companies = [
@@ -85,8 +86,10 @@ const companies = [
   ];
 
   function ProductTable() {
+
   const [search, setSearch] = useState("");
   const printRef = useRef();
+  const navigate = useNavigate();
 
   // Filtering first
   const filteredCompanies = companies.filter((company) =>
@@ -160,6 +163,10 @@ const companies = [
       
       
     },
+
+  
+
+    
   ]);
 
   const handleDownloadPdf = async () => {
@@ -175,6 +182,17 @@ const companies = [
     pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
     pdf.save("companies.pdf");
   };
+
+    const handleOrderClick = (item) => {
+        // navigate(`/admin-order/${item.id}`, {
+        //     state: { companyName: item.name },
+        // });
+
+        navigate("/admin-order", {
+            state: { companyName: item.name },
+        });
+
+    };
 
   return (
     <div className="mx-10">
@@ -277,7 +295,10 @@ const companies = [
                           </button>
                         </Cell>
                         <Cell>
-                          <button className="text-green-400 hover:underline">
+                          <button 
+                            className="text-green-400 hover:underline"
+                            onClick={() => {handleOrderClick(item)}}
+                          >
                             View
                           </button>
                         </Cell>
