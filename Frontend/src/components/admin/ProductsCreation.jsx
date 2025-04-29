@@ -163,7 +163,7 @@ function ProductsCreation() {
                             name="price"
                             value={form.price}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                            className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                             required
                         />
                         </div>
@@ -176,7 +176,7 @@ function ProductsCreation() {
                             value={form.location}
                             onChange={handleChange}
                             placeholder="Enter location"
-                            className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
+                            className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                             required
                         />
                         </div>
@@ -199,54 +199,50 @@ function ProductsCreation() {
                         </div>
 
                         <div className="md:col-span-2">
-                            <label className="block mb-4 text-center text-xl font-semibold">Company Information</label>
+                            <label className="block mb-4 text-center  font-semibold text-2xl text-green-500">Company Information</label>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block mb-1">Email</label>
+                                    <label className="block mb-1 text-orange-500">Email</label>
                                     <input
                                         type="email"
                                         name="email"
                                         value={form.email}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
-                                    />
+                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"                                    />
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1">Phone</label>
+                                    <label className="block mb-1 text-orange-500">Phone</label>
                                     <input
                                         type="text"
                                         name="phone"
                                         value={form.phone}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
-                                    />
+                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"                                    />
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1">Street</label>
+                                    <label className="block mb-1 text-orange-500">Street</label>
                                     <input
                                         type="text"
                                         name="street"
                                         value={form.street}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
-                                    />
+                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"                                    />
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1">City</label>
+                                    <label className="block mb-1 text-orange-500">City</label>
                                     <input
                                         type="text"
                                         name="city"
                                         value={form.city}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
-                                    />
+                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"                                    />
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1">State</label>
+                                    <label className="block mb-1 text-orange-500">State</label>
                                     <input
                                         type="text"
                                         name="state"
@@ -257,41 +253,44 @@ function ProductsCreation() {
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1">ZIP</label>
+                                    <label className="block mb-1 text-orange-500">ZIP</label>
                                     <input
                                         type="text"
                                         name="zip"
                                         value={form.zip}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
+                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                                     />
                                 </div>
 
-                                <div className="md:col-span-2">
-                                    <label className="block mb-1">Country</label>
+                                <div className="md:col-span-2 ">
+                                    <label className="block mb-1 text-orange-500">Country</label>
                                     <input
                                         type="text"
                                         name="country"
                                         value={form.country}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
+                                        className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-col items-center justify-center">
-                            <label className="block mb-2 text-center w-full" htmlFor="specifications">specifications *</label>
+                        <div className="flex flex-col items-center justify-center md:col-span-2 *:mb-4">
+                            <label className="block  mb-2 text-center w-full text-2xl text-green-500" htmlFor="specifications">specifications *</label>
                             <div className="grid grid-cols-2 gap-4 w-full ">
                                 {
                                     Object.keys(form.specifications).map((key) => (
-                                        <div key={key} className="relative">
+                                        <div key={key} className="relative *:mb-4">
+                                            <label className="block mb-2 text-white">{key}</label>
                                             <input
                                                 type="text"
                                                 name={`specifications.${key}`}
                                                 value={form.specifications[key]}
                                                 onChange={handleChange}
-                                                placeholder={key}
+                                                // placeholder={key}
+                                                placeholder={`ex, ${key === 'EngineType' ? '4-stroke' : key === 'Displacement' ? '159.7cc' : key === 'Power' ? '15.1hp @ 8000rpm' : key === 'Condition' ? 'New' : ''}`}
                                                 className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                                                 required
                                             />
