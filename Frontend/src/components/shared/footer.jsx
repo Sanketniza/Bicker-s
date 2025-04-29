@@ -19,7 +19,7 @@ export function Footer() {
 
                     {/* Brand Section */}
                     <div className="space-y-4">
-                        <h3 className="text-2xl font-bold text-emerald-500">BikeHub</h3>
+                        <h3 className="text-2xl font-bold text-emerald-500">Biker's</h3>
                         <h5 className="text-gray-400">
                         Find your perfect ride with our extensive collection of motorcycles.
                         </h5>
