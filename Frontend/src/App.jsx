@@ -24,11 +24,21 @@ import AdminProduct from './components/admin/AdminProduct';
 import AdminOrder from './components/admin/AdminOrder';
 import CompaniesCreation from './components/admin/CompaniesCreation';
 import ProductsCreation from './components/admin/ProductsCreation';
+import AdminProfile from './components/admin/AdminProfile';
+import Protection from './components/ProtectionRoutes/Protection';
+import UserProtection from './components/ProtectionRoutes/UserProtection';
+import Error from './components/ProtectionRoutes/Error';
 
 const appRouter = createBrowserRouter([
+
+    // {
+    //     path: "/",
+    //     element: <Home />
+    // },
+
     {
         path: "/",
-        element: <Home />
+        element: <UserProtection><Home /></UserProtection> // Allow users, redirect shop owners
     },
 
     {
@@ -40,21 +50,20 @@ const appRouter = createBrowserRouter([
         element: <Login />
     },
     {
-        path: "/description/:id", // Ensure the route parameter is correctly defined
-        element: <BikeDetails />
+        path: "/description/:id",
+        element: <UserProtection><BikeDetails /></UserProtection>
     },
-    {
-        path: "/favorites",
-        element: <FavoritesPage />
-    },
+  
     {
         path: "/profile",
-        element: <Profile />
+        element: <UserProtection><Profile /></UserProtection>
     },
-    {
-        path: "/WishListPage",
-        element: <WishlistPage />
-    },
+  
+    // {
+    //     path: "/profile",
+    //     element: <Profile />
+    // },
+    
 
     // {
     //     path: "/bike",
@@ -62,43 +71,69 @@ const appRouter = createBrowserRouter([
     // },
 
     {
+        path: "/WishListPage",
+        element: <UserProtection><WishlistPage /></UserProtection>
+    },
+
+    {
         path: "/electric-zone",
-        element: <Electric />
+        element: <UserProtection><Electric /></UserProtection>
     },
     {
         path: "/road-zone",
-        element: <BikeDetails />
+        element: <UserProtection><BikeDetails /></UserProtection>
     },
     {
         path: "/bikes-list",
-        element: <List />
+        element: <UserProtection><List /></UserProtection>
     },
-
-   
 
     {
         path: "/update-profile",
-        element: <UpdataProfile />
+        element: <UserProtection><UpdataProfile /></UserProtection>
     },
 
     // ------------ Admin Routes -------------
 
+    // {
+    //     path: "/admin",
+    //     element: <AdminHome />  
+    // },
+    // {
+    //     path: "/admin-companies",
+    //     element: <AdminCompanies />
+    // },
+    // {
+    //     path: "/admin-products",
+    //     element: <AdminProduct />
+    // },
+    // {
+    //     path: "/admin-order",
+    //     element: <AdminOrder />
+    // },
+
+    //& for protection the admin routes when user is not admin
+
     {
         path: "/admin",
-        element: <AdminHome />
+        element: <Protection><AdminHome /></Protection>
     },
     {
         path: "/admin-companies",
-        element: <AdminCompanies />
+        element: <Protection><AdminCompanies /></Protection>
     },
     {
         path: "/admin-products",
-        element: <AdminProduct />
+        element: <Protection><AdminProduct /></Protection>
     },
     {
         path: "/admin-order",
-        element: <AdminOrder />
+        element: <Protection><AdminOrder /></Protection>
     },
+
+
+
+
 
      // {
     //     path: "/companytable/:id",
@@ -121,9 +156,19 @@ const appRouter = createBrowserRouter([
     },
 
     // {
-    //     path: "*",
-    //     element: <Home />
-    // }
+    //     path: "/admin-profile",
+    //     element: <AdminProfile /> // Add Admin />
+    // },
+
+    {
+        path: "/profile",
+        element: <Profile />
+    },
+
+    {
+        path: "*",
+        element: <Error />
+    }
 ]);
 
 function App() {

@@ -41,6 +41,20 @@ export default function Profile() {
     );
   }
 
+  // if (user?.role !== 'user') {
+  //   return (
+  //     <>
+  //       <Navbar />
+  //       <div className="mx-10 my-20 text-center text-white">
+  //         <h1 className="text-2xl">Access Denied</h1>
+  //         <p>You do not have permission to view this page.</p>
+  //       </div>
+  //     </>
+  //   );
+  // }
+
+ 
+
   return (
     <>
       <Navbar />

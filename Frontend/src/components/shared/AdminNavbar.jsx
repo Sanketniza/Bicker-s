@@ -214,7 +214,7 @@ function AdminNavbar() {
                             <Button 
                                 variant="ghost" 
                                 className="w-full justify-start hover:bg-red-100/10"
-                                onClick={() => setLocation('/orders')}
+                                onClick={() => navigate('/admin-order')}
                             >
                                 <Package className="mr-2 h-4 w-4" />
                                 Orders History
