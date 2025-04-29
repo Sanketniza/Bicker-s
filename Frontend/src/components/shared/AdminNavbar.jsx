@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../../css/LogoName.css';
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
-import { Bike, HardHat, Home, ListOrdered, Menu, X } from "lucide-react";
+import { Bike, CarIcon, HardHat, Home, ListOrdered, Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from 'wouter';
 import {
@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '../../store/authSlice';
+import { HouseSharp, OpenInBrowserRounded } from '@mui/icons-material';
 
 function AdminNavbar() {
 
@@ -132,7 +133,7 @@ function AdminNavbar() {
                                 className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                             >
                                 <div className="flex items-center gap-1">
-                                <Bike className="w-5 h-5" />
+                                <OpenInBrowserRounded className="w-5 h-5" />
                                 <span>Companies</span>
                                 </div>
                             </NavLink>
@@ -314,13 +315,13 @@ function AdminNavbar() {
                     transition={{ delay: 0.011 }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/road"
+                        to="/admin-companies"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                         onClick={() => setIsMenuOpen(false)}
                     >
                         <div className="flex items-center gap-1">
                         <Bike className="w-5 h-5" />
-                        <span>list</span>
+                        <span>Companies</span>
                         </div>
                     </NavLink>
                     </motion.li>
@@ -329,7 +330,7 @@ function AdminNavbar() {
                     whileHover={{ color: "#6674CC" }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/login"
+                        to="/admin-order"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                         onClick={() => setIsMenuOpen(false)}
                     >  
@@ -341,17 +342,17 @@ function AdminNavbar() {
                     </motion.li>
 
                     <motion.li
-                    whileHover={{ color: "#6674CC" }}
-                    transition={{ delay: 0.011 }}
-                    className="cursor-pointer text-white-800">
+                        whileHover={{ color: "#6674CC" }}
+                        transition={{ delay: 0.011 }}
+                        className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/WishListPage"
+                        to="/admin-products"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                         onClick={() => setIsMenuOpen(false)}
                     >  
                         <div className="flex items-center gap-1">
                         <HardHat className="w-5 h-5" />
-                        <span>WishList </span>
+                        <span>Products </span>
                         </div>
                     </NavLink>
                     </motion.li>
