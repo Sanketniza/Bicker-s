@@ -5,6 +5,7 @@ import Footer from "../shared/footer";
 import axios from "axios";
 import { Link } from "wouter";
 
+
 function ProductsCreation() {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState([]);
@@ -100,13 +101,13 @@ function ProductsCreation() {
 
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                        <label className="block mb-1">Company Name *</label>
+                        <label className="block mb-1">Bike Name*</label>
                         <input
                             type="text"
                             name="name"
                             value={form.name}
                             onChange={handleChange}
-                            placeholder="Enter company name"
+                            placeholder="Enter bike name ex: Royal Enfield Classic 350"
                             className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20"
                             required
                         />
@@ -175,7 +176,7 @@ function ProductsCreation() {
                             name="location"
                             value={form.location}
                             onChange={handleChange}
-                            placeholder="Enter location"
+                            placeholder="Enter location ex: Kolhapur, Maharashtra"
                             className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                             required
                         />
