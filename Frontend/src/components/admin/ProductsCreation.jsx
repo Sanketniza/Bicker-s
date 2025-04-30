@@ -198,7 +198,133 @@ function ProductsCreation() {
                             </select>
                         </div>
 
+                        <div>
+                            <label className="block mb-1">Status</label>
+                            <select name="status" value={form.status} onChange={handleChange} className="w-full px-4 py-2 rounded bg-black/50 text-white border border-white/20">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="sold">Sold</option>
+                            </select>
+                        </div>
+
                         <div className="md:col-span-2">
+                            <label className="block mb-1">Photos</label>
+                            {   
+                                form.images.map((image, index) => (
+                                    <div key={index} className="flex items-center space-x-2 mb-2">
+                                    <input
+                                        type="file"
+                                        accept=".png, .jpg, .jpeg"
+                                        onChange={(e) => handleArrayChange('images', index, URL.createObjectURL(e.target.files[0]))}
+                                        className="flex-1 px-4 py-2 rounded bg-black/50 text-white border border-white/20"
+                                    />
+                                    {image && (
+                                        <img src={image} alt={`preview-${index}`} className="w-16 h-16 rounded-full object-cover" />
+                                    )}
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                        const updatedImages = form.images.filter((_, i) => i !== index);
+                                        setForm({ ...form, images: updatedImages });
+                                        }}
+                                        className="p-1 bg-red-500 text-white rounded"
+                                    >
+                                        Remove
+                                    </button>
+                                    </div>
+                                ))
+                            }
+                            <button
+                                type="button"
+                                onClick={() => setForm({ ...form, images: [...form.images, ""] })}
+                                className="mt-2 px-4 py-2 bg-green-500 text-white rounded"
+                            >
+                                Add Photo
+                            </button>
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block mb-1">Videos</label>
+                            {
+                                form.videos.map((video, index) => (
+                                    <div key={index} className="flex items-center space-x-2 mb-2">
+                                        <input
+                                            type="file"
+                                            accept=".mp4, .avi, .mov"
+                                            onChange={(e) => handleArrayChange('videos', index, URL.createObjectURL(e.target.files[0]))}
+                                            className="flex-1 px-4 py-2 rounded bg-black/50 text-white border border-white/20"
+                                        />
+
+                                        {
+                                            video && (
+                                                <video src={video} alt={`preview-${index}`} className="w-16 h-16 rounded-full object-cover" controls />
+                                            )
+                                        }
+
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const updatedVideos = form.videos.filter((_, i) => i !== index);
+                                                setForm({ ...form, videos: updatedVideos });
+                                            }}
+                                            className="p-1 bg-red-500 text-white rounded"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                ))
+                            }
+                            <button
+                                type="button"
+                                onClick={() => setForm({ ...form, videos: [...form.videos, ""] })}
+                                className="mt-2 px-4 py-2 bg-green-500 text-white rounded"
+                            >
+                                Add Video
+                            </button>
+
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block mb-1">Features</label>
+                            <div className="space-y-2">
+                                {
+                                    form.features.map((feature, index) => (
+                                        <div key={index} className="flex items-center space-x-2">
+                                            <input
+                                                type="text"
+                                                value={feature}
+                                                onChange={(e) => handleArrayChange('features', index, e.target.value)}
+                                                className="flex-1 px-4 py-2 rounded bg-black/50 text-white border border-white/20"
+                                            />
+
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const updatedFeatures = form.features.filter((_, i) => i !== index);
+                                                    setForm({ ...form, features: updatedFeatures });
+                                                }}
+                                                className="p-1 bg-red-500 text-white rounded"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))
+                                }
+                                <button
+                                    type="button"
+                                    onClick={() => setForm({ ...form, features: [...form.features, ""] })}
+                                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded"
+                                >
+                                    Add Feature
+                                </button>
+                            </div>
+                        </div>
+
+
+
+
+
+                        {/* <div className="md:col-span-2">
                             <label className="block mb-4 text-center  font-semibold text-2xl text-green-500">Company Information</label>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
@@ -275,7 +401,7 @@ function ProductsCreation() {
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="flex flex-col items-center justify-center md:col-span-2 *:mb-4">
                             <label className="block  mb-2 text-center w-full text-2xl text-green-500" htmlFor="specifications">specifications *</label>

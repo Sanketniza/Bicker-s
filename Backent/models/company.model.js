@@ -23,16 +23,19 @@ const companySchema = new mongoose.Schema({
     },
 
     contactDetails: {
+        
         phone: {
             type: String,
             trim: true,
             default: '',
         },
+
         email: {
             type: String,
             trim: true,
             default: '',
         },
+
         address: {
             street: { type: String, trim: true, default: '' },
             city: { type: String, trim: true, default: '' },
