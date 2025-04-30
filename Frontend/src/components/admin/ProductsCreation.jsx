@@ -207,6 +207,22 @@ function ProductsCreation() {
                             </select>
                         </div>
 
+                        <div>
+                            <label className="block mb-1">Tags</label>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="text"
+                                    name="tags"
+                                    value={form.tags}
+                                    onChange={(e) => handleArrayChange('tags', 0, e.target.value)}
+                                    placeholder="Enter tags (comma separated) ex: test, new "
+                                    className="flex-1 px-4 py-2 rounded bg-black/50 text-white border border-white/20"
+                                />
+                                <p className="text-red-500 text-sm">Separate tags with commas</p>
+                            </div>
+
+                        </div>
+
                         <div className="md:col-span-2">
                             <label className="block mb-1">Photos</label>
                             {   
@@ -227,7 +243,7 @@ function ProductsCreation() {
                                         const updatedImages = form.images.filter((_, i) => i !== index);
                                         setForm({ ...form, images: updatedImages });
                                         }}
-                                        className="p-1 bg-red-500 text-white rounded"
+                                        className="p-1 bg-red-500 text-white rounded transition duration-200 hover:bg-red-600 active:bg-red-800"
                                     >
                                         Remove
                                     </button>
@@ -237,7 +253,8 @@ function ProductsCreation() {
                             <button
                                 type="button"
                                 onClick={() => setForm({ ...form, images: [...form.images, ""] })}
-                                className="mt-2 px-4 py-2 bg-green-500 text-white rounded"
+                                className="mt-2 px-4 py-2 bg-green-500 text-white rounded transition duration-200 hover:bg-green-600 active:bg-green-700"
+                                disabled={form.images.length >= 15}
                             >
                                 Add Photo
                             </button>
@@ -267,7 +284,8 @@ function ProductsCreation() {
                                                 const updatedVideos = form.videos.filter((_, i) => i !== index);
                                                 setForm({ ...form, videos: updatedVideos });
                                             }}
-                                            className="p-1 bg-red-500 text-white rounded"
+                                            className="p-1 bg-red-500 text-white rounded transition duration-200 hover:bg-red-600 active:bg-red-800"
+
                                         >
                                             Remove
                                         </button>
@@ -277,7 +295,8 @@ function ProductsCreation() {
                             <button
                                 type="button"
                                 onClick={() => setForm({ ...form, videos: [...form.videos, ""] })}
-                                className="mt-2 px-4 py-2 bg-green-500 text-white rounded"
+                                className="mt-2 px-4 py-2 bg-green-500 text-white rounded transition duration-200 hover:bg-green-600 active:bg-green-700"
+                                disabled={form.videos.length >= 10}
                             >
                                 Add Video
                             </button>
@@ -303,7 +322,8 @@ function ProductsCreation() {
                                                     const updatedFeatures = form.features.filter((_, i) => i !== index);
                                                     setForm({ ...form, features: updatedFeatures });
                                                 }}
-                                                className="p-1 bg-red-500 text-white rounded"
+                                                className="p-1 bg-red-500 text-white rounded transition duration-200 hover:bg-red-600 active:bg-red-800"
+
                                             >
                                                 Remove
                                             </button>
@@ -313,7 +333,9 @@ function ProductsCreation() {
                                 <button
                                     type="button"
                                     onClick={() => setForm({ ...form, features: [...form.features, ""] })}
-                                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded"
+                                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded transition duration-200 hover:bg-green-600 active:bg-green-700"
+                                    disabled={form.features.length >= 10}
+
                                 >
                                     Add Feature
                                 </button>
