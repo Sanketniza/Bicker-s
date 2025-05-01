@@ -18,6 +18,7 @@ function AdminCompanies() {
                     />
                     
                     <AdminCompaniesCreation />
+                    
                     <CompanyTable/>
 
                 </div>

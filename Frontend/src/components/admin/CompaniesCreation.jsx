@@ -7,70 +7,76 @@ import Footer from "../shared/footer"
 
 
 const CompaniesCreation = ({ addCompany }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    logo: "",
-    phone: "",
-    email: "",
-    street: "",
-    city: "",
-    state: "",
-    zip: "",
-    country: "",
-  });
+
+    const [formData, setFormData] = useState({
+
+        name: "",
+        description: "",
+        logo: "",
+        phone: "",
+        email: "",
+        street: "",
+        city: "",
+        state: "",
+        zip: "",
+        country: "",
+    });
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const {
-      name,
-      description,
-      logo,
-      phone,
-      email,
-      street,
-      city,
-      state,
-      zip,
-      country,
-    } = formData;
-
-    if (!name || !description) {
-      return alert("Name and Description are required.");
-    }
-
-    const newCompany = {
-      name,
-      description,
-      logo,
-      contactDetails: {
-        phone,
-        email,
-        address: {
-          street,
-          city,
-          state,
-          zip,
-          country,
-        },
-      },
-      createdAt: new Date(),
-      // ownerId will be handled from backend auth
+    const handleChange = (e) => {
+        setFormData((prev) => ({
+                ...prev,
+                [e.target.name]: e.target.value,
+            }
+        ));
     };
 
-    addCompany(newCompany);
-    navigate("/");
-  };
+  const handleSubmit = (e) => {
 
+        e.preventDefault();
+
+        const {
+            name,
+            description,
+            logo,
+            phone,
+            email,
+            street,
+            city,
+            state,
+            zip,
+            country,
+        } = formData;
+
+        if (!name || !description) {
+            return alert("Name and Description are required.");
+        }
+
+        const newCompany = {
+            name,
+            description,
+            logo,
+            contactDetails: {
+                phone,
+                email,
+                address: {
+                    street,
+                    city,
+                    state,
+                    zip,
+                    country, 
+                },
+            },
+            
+            createdAt: new Date(),
+            // ownerId will be handled from backend auth
+        };
+
+        addCompany(newCompany);
+        navigate("/");
+    };
+ 
   return (
 
 

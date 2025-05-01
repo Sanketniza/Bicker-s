@@ -20,7 +20,7 @@ function AdminCompaniesCreation() {
                 
                 <div className="relative flex justify-between items-center ">
                     <h2 className=" font-bold text-white">
-                        <span className="text-emerald-500">Would Like to Create New</span> Company
+                        <span className="text-emerald-500">Would Like to Create New</span> Company ?
                     </h2>
 
                     <button 
