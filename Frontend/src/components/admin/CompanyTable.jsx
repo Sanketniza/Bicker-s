@@ -15,74 +15,19 @@ import { useSort } from "@table-library/react-table-library/sort";
 
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { useSelector } from "react-redux";
 
 // Sample static company data
-const companies = [
-    {
-      id: 1,
-      name: "GreenTech Ltd.",
-      logo: "https://www.pexels.com/photo/portrait-photo-of-smiling-man-with-his-arms-crossed-standing-in-front-of-a-wall-2379004/",
-      createdAt: new Date("2024-02-01"),
-    },
-    {
-      id: 2,
-      name: "BlueOcean Corp.",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-03-15"),
-    },
-    {
-      id: 3,
-      name: "SolarSmart Inc.",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-12-22"),
-    },
-    {
-      id: 4,
-      name: "EcoWave Solutions",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-01-10"),
-    },
-    {
-      id: 5,
-      name: "Renewable Innovations",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-11-30"),
-    },
-    {
-      id: 6,
-      name: "WindPower Technologies",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-05-18"),
-    },
-    {
-      id: 7,
-      name: "HydroGen Enterprises",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-09-12"),
-    },
-    {
-      id: 8,
-      name: "BioFuel Innovations",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-07-22"),
-    },
-    {
-      id: 9,
-      name: "CleanTech Ventures",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-08-15"),
-    },
-    {
-      id: 10,
-      name: "SunEnergy Corp.",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-06-01"),
-    },
-  ];
+
 
 const CompanyTable = () => {
+    
   const [search, setSearch] = useState("");
   const printRef = useRef();
+
+
+  const { companies } = useSelector(store => store.company);
+  console.log("companies", companies);
 
   // Filtering first
   const filteredCompanies = companies.filter((company) =>

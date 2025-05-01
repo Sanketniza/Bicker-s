@@ -79,6 +79,38 @@ exports.createCompany = async(req, res) => {
     }
 };
 
+exports.getAllCompanies = async(req, res) => {
+
+    try {
+        // const companies = await Company.find().populate("ownerId", "fullname email role");
+
+        const userId = req.id; // logged in user id
+        const companies = await Company.find({ userId });
+
+        if (!companies || companies.length === 0) {
+            return res.status(404).json({
+                message: "No companies found.",
+                success: false,
+            });
+        }
+
+        return res.status(200).json({
+            message: "Companies retrieved successfully.",
+            success: true,
+            companies,
+        });
+
+    } catch (error) {
+        console.error("Error in getAllCompanies:", error.message);
+        console.log("error at company controller getAllCompanies");
+        return res.status(500).json({
+            message: "Internal server error.",
+            success: false,
+            error: error.message,
+        });
+    }
+}
+
 exports.getCompanyById = async(req, res) => {
 
     try {

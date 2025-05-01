@@ -48,6 +48,7 @@ import productSlice from "./productSlice";
 import wishListSlice from "./wishListSlice";
 import ratingReducer from './ratingSlice';
 import likeReducer from './likeSlice';
+import companySlice from './companySlice'; // ✅ Make sure this matches slice name
 
 import {
     persistReducer,
@@ -71,6 +72,7 @@ const rootReducer = combineReducers({
     wishlist: wishListSlice, // ✅ Make sure this matches slice name
     rating: ratingReducer,
     like: likeReducer, // ✅ Make sure this matches slice name
+    company: companySlice, // ✅ Make sure this matches slice name
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
