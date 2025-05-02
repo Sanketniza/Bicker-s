@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import AdminNavbar from "../shared/AdminNavbar";
 import Footer from "../shared/footer";
+import { ErrorSharp } from "@mui/icons-material";
 
 const CompaniesCreation = () => {
     const [formData, setFormData] = useState({
@@ -24,6 +25,8 @@ const CompaniesCreation = () => {
     
     const navigate = useNavigate();
 
+    // Handle input changes. This function updates the formData state with the values entered in the input fields.
+    // It uses the name attribute of the input fields to determine which field to update.
     const handleChange = (e) => {
         setFormData((prev) => ({
             ...prev,
@@ -31,6 +34,8 @@ const CompaniesCreation = () => {
         }));
     };
 
+    // Handle file input changes. This function sets the logoFile state with the selected file and creates a preview URL for the logo.
+    // It uses the URL.createObjectURL method to create a temporary URL for the selected file, which can be used to display a preview of the logo.
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -38,7 +43,13 @@ const CompaniesCreation = () => {
             setLogoPreview(URL.createObjectURL(file));
         }
     };
-
+        
+    // Handle form submission. This function is called when the form is submitted.
+    // It prevents the default form submission behavior, sets the loading state to true, and validates the required fields (name and description).
+    // If the validation passes, it creates a FormData object to send the data as multipart/form-data.
+    // It appends the form data, including the logo file if it exists, and sends a POST request to the server to create a new company.
+    // If the request is successful, it shows a success message and navigates to the companies list page. If there is an error, it shows an error message.
+    // Finally, it resets the loading state.
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -56,7 +67,14 @@ const CompaniesCreation = () => {
         } = formData;
 
         if (!name || !description) {
-            toast.error("Company name and description are required.");
+            toast.error(
+                <div className="flex items-center space-x-2">
+                    <ErrorSharp className="h-6 w-6 text-red-600" />
+                    <span className="text-red-600">
+                        Company name and description are required.
+                    </span>
+                </div>
+            );
             setIsLoading(false);
             return;
         }

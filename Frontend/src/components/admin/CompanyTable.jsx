@@ -105,6 +105,8 @@ const CompanyTable = () => {
         background-color: rgba(0, 0, 0, 0.2);
         text-align: center;
       `,
+
+      
       
       
     },
@@ -134,7 +136,7 @@ const CompanyTable = () => {
                     background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
                 }}
             />
-            
+
             <div className="relative z-10 text-white">
             <h1 className="text-3xl font-bold text-center text-green-500">
                 My Companies
@@ -208,18 +210,20 @@ const CompanyTable = () => {
                                 {
                                     tableList.map((companies, index) => (
                                         <Row key={`${companies.id}-${index}`} item={companies}>
-                                            <Cell>
+                                            <Cell >
                                                 {
                                                     companies.images && companies.images.length > 0 ? (
                                                     <img
                                                         src={companies.images[0]}
                                                         alt={companies.name}
-                                                        className="w-10 h-10 rounded-full object-cover"
+                                                        className="w-10 h-10 rounded-full object-cover flex items-center justify-center"
                                                     />
                                                     ) : (
-                                                    <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
+                                                    <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-center">
                                                         <span className="text-white text-xs">
-                                                        {companies.name ? companies.name.charAt(0).toUpperCase() : "N/A"}
+                                                            {
+                                                                companies.name ? companies.name.charAt(0).toUpperCase() : "N/A"
+                                                            }
                                                         </span>
                                                     </div>
                                                     )

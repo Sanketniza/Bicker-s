@@ -7,32 +7,37 @@ import { Link } from "wouter";
 
 
 function ProductsCreation() {
-  const navigate = useNavigate();
-  const [companies, setCompanies] = useState([]);
+
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    price: "",
-    location: "",
-    images: [""],
-    videos: [""],
-    features: [""],
-    specifications: {
-      EngineType: "",
-      Displacement: "",
-      Power: "",
-      Condition: "",
-    },
-    companyId: "",
-    category: "bike",
-    tags: [""],
-    stock: 0,
-  });
+        title: "",
+        description: "",
+        price: "",
+        location: "",
+        images: [""],
+        videos: [""],
+        features: [""],
+
+        specifications: {
+            EngineType: "",
+            Displacement: "",
+            Power: "",
+            Condition: "",
+        },
+        status: "active",
+        logo: "",
+        companyId: "",
+        category: "bike",
+        tags: [""],
+        stock: 0,
+    });
+
+    const [loading, setLoading] = useState(false);
+    const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const res = await axios.get("/api/companies/mine");
+        const res = await axios.get("http://localhost:8000/api/v1/company/get");
         setCompanies(res.data);
       } catch (err) {
         console.error(err);
@@ -58,13 +63,7 @@ function ProductsCreation() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("/api/products", form);
-      navigate("/admin/companies");
-    } catch (err) {
-      console.error(err);
-    }
+    
   };
 
   return (  
