@@ -15,15 +15,14 @@ import { useSort } from "@table-library/react-table-library/sort";
 
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import { useDispatch, useSelector } from "react-redux";
-import { setCompanies } from "@/store/companySlice";
-import axios from "axios";
+import {  useSelector } from "react-redux";
+import useGetAllCompanies from "@/hooks/useGetAllCompanies";
 
 // Sample static company data
 
 
 const CompanyTable = () => {
-    
+    useGetAllCompanies();
   const [search, setSearch] = useState("");
   const printRef = useRef();
 
@@ -31,35 +30,6 @@ const CompanyTable = () => {
   const { companies } = useSelector(store => store.company);
   console.log("companies", companies);
 
-  const dispatch = useDispatch();
-
-    useEffect(() => {
-
-        const fetchCompanies = async () => {
-
-            try {
-
-                const response = await axios.get("http://localhost:8000/api/v1/company/get", {
-                    withCredentials: true,
-                });
-
-                console.log("response data from hook", response.data.companies);
-                // Check if the response is successful and contains companies
-
-                if(response.data.success){
-                    dispatch(setCompanies(response.data.companies)); // -> sets the data of the all companies in the redux store to be used in the Companies component or other components.
-                }
-            } catch (error) {
-                console.error("Error fetching companies:", error);
-            }
-        };
-
-        fetchCompanies();
-
-        // return () => {
-        //     dispatch({ type: "CLEAR_COMPANIES" });
-        // }
-    })
 
   // Filtering first
   const filteredCompanies = companies.filter((company) =>
