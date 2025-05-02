@@ -1,8 +1,4 @@
-
-
-
-
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   Header,
@@ -16,89 +12,37 @@ import { usePagination } from "@table-library/react-table-library/pagination";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import { useSort } from "@table-library/react-table-library/sort";
-
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { useNavigate } from "react-router-dom";
+import useGetAllProduct from "@/hooks/useGetAllProduct";
+import { useSelector } from "react-redux";
 
-// Sample static company data
-const companies = [
-    {
-      id: 1,
-      name: "GreenTech Ltd.",
-      logo: "https://www.pexels.com/photo/portrait-photo-of-smiling-man-with-his-arms-crossed-standing-in-front-of-a-wall-2379004/",
-      createdAt: new Date("2024-02-01"),
-    },
-    {
-      id: 2,
-      name: "BlueOcean Corp.",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-03-15"),
-    },
-    {
-      id: 3,
-      name: "SolarSmart Inc.",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-12-22"),
-    },
-    {
-      id: 4,
-      name: "EcoWave Solutions",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-01-10"),
-    },
-    {
-      id: 5,
-      name: "Renewable Innovations",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-11-30"),
-    },
-    {
-      id: 6,
-      name: "WindPower Technologies",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-05-18"),
-    },
-    {
-      id: 7,
-      name: "HydroGen Enterprises",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-09-12"),
-    },
-    {
-      id: 8,
-      name: "BioFuel Innovations",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-07-22"),
-    },
-    {
-      id: 9,
-      name: "CleanTech Ventures",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2023-08-15"),
-    },
-    {
-      id: 10,
-      name: "SunEnergy Corp.",
-      logo: "https://via.placeholder.com/50",
-      createdAt: new Date("2024-06-01"),
-    },
-  ];
-
-  function ProductTable() {
-
+function ProductTable() {
+  useGetAllProduct();
+  const { allProducts } = useSelector((store) => store.product);
+  const products = allProducts || [];
+  
   const [search, setSearch] = useState("");
   const printRef = useRef();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Filtering first
-  const filteredCompanies = companies.filter((company) =>
-    company.name.toLowerCase().includes(search.toLowerCase())
+  // Format dates for products 
+  useEffect(() => {
+    if (products && products.length > 0) {
+      setIsLoading(false);
+    }
+  }, [products]);
+
+  // Filtering based on title instead of name
+  const filteredProducts = products.filter((product) => 
+    product.title && product.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  const data = { nodes: filteredCompanies };
+  const data = { nodes: filteredProducts };
 
-  // Sorting logic
+  // Sorting logic - update to use title instead of name
   const sort = useSort(
     data,
     {
@@ -107,8 +51,8 @@ const companies = [
     },
     {
       sortFns: {
-        NAME: (array) => array.sort((a, b) => a.name.localeCompare(b.name)),
-        CREATED_AT: (array) => array.sort((a, b) => b.createdAt - a.createdAt),
+        TITLE: (array) => array.sort((a, b) => a.title.localeCompare(b.title)),
+        CREATED_AT: (array) => array.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
       },
     }
   );
@@ -120,18 +64,18 @@ const companies = [
 
   // Apply sorting
   const sortedData = sort.state.sortKey
-    ? [...filteredCompanies].sort(
-        sort.state.sortKey === "NAME"
+    ? [...filteredProducts].sort(
+        sort.state.sortKey === "TITLE"
           ? (a, b) =>
               sort.state.reverse
-                ? b.name.localeCompare(a.name)
-                : a.name.localeCompare(b.name)
+                ? b.title.localeCompare(a.title)
+                : a.title.localeCompare(b.title)
           : (a, b) =>
               sort.state.reverse
-                ? a.createdAt - b.createdAt
-                : b.createdAt - a.createdAt
+                ? new Date(a.createdAt) - new Date(b.createdAt)
+                : new Date(b.createdAt) - new Date(a.createdAt)
       )
-    : filteredCompanies;
+    : filteredProducts;
 
   // Paginate sorted data
   const paginatedData = sortedData.slice(
@@ -143,7 +87,7 @@ const companies = [
     getTheme(),
     {
       Table: `
-        --data-table-library_grid-template-columns: 100px 1fr 1fr 80px;
+        --data-table-library_grid-template-columns: 100px 1fr 1fr 80px 80px;
         border-collapse: collapse;
         background-color: transparent;
       `,
@@ -160,13 +104,7 @@ const companies = [
         background-color: rgba(0, 0, 0, 0.2);
         text-align: center;
       `,
-      
-      
     },
-
-  
-
-    
   ]);
 
   const handleDownloadPdf = async () => {
@@ -180,165 +118,197 @@ const companies = [
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
     pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("companies.pdf");
+    pdf.save("products.pdf");
   };
 
-    const handleOrderClick = (item) => {
-        // navigate(`/admin-order/${item.id}`, {
-        //     state: { companyName: item.name },
-        // });
+  const handleOrderClick = (item) => {
+    navigate("/admin-order", {
+      state: { productName: item.title },
+    });
+  };
 
-        navigate("/admin-order", {
-            state: { companyName: item.name },
-        });
-
-    };
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "Invalid Date";
+    return date.toLocaleDateString("en-IN", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
-    <div className="mx-10">
-      <div className="relative p-10 mx-auto my-10 border rounded-lg shadow-2xl border-orange-500/30 max-w-5xl bg-black/20 backdrop-blur-sm overflow-auto">
-        <div
-          className="absolute inset-0 rounded-lg opacity-30 blur-xl"
-          style={{
-            background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
-          }}
-        />
-        <div className="relative z-10 text-white">
-          <h1 className="text-3xl font-bold text-center text-green-500">
-            My Product&apos;s
-          </h1>
-          <p className="mt-2 text-lg text-start mb-4">Manage your Products here.</p>
+        <div className="mx-10">
+            <div className="relative p-10 mx-auto my-10 border rounded-lg shadow-2xl border-orange-500/30 max-w-5xl bg-black/20 backdrop-blur-sm overflow-auto">
+                <div
+                    className="absolute inset-0 rounded-lg opacity-30 blur-xl"
+                    style={{
+                        background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.3), transparent 80%)`,
+                    }}
+                />
+                
+                <div className="relative z-10 text-white">
+                <h1 className="text-3xl font-bold text-center text-green-500">
+                    My Products
+                </h1>
+                <p className="mt-2 text-lg text-start mb-4">Manage your Products here.</p>
 
-          <div className="flex items-center justify-between mb-4">
-            <input
-              type="text"
-              placeholder="Search by name..."
-              className="px-4 py-2 rounded bg-black/50 text-white border border-white/20 w-1/2"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button
-              onClick={handleDownloadPdf}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
-            >
-              Download as PDF
-            </button>
-          </div>
+                <div className="flex items-center justify-between mb-4">
+                    <input
+                    type="text"
+                    placeholder="Search by product name..."
+                    className="px-4 py-2 rounded bg-black/50 text-white border border-white/20 w-1/2"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <button
+                    onClick={handleDownloadPdf}
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
+                    >
+                    Download as PDF
+                    </button>
+                </div>
 
-          <div ref={printRef}>
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex gap-2">
-                <button
-                  className="px-3 py-1 bg-white/10 border border-white/20 text-emerald-600 text-sm rounded hover:bg-white/20"
-                  onClick={() => sort.fns.onSortChange("NAME")}
-                >
-                  Sort: Name (A-Z)
-                </button>
-                <button
-                  className="px-3 py-1 bg-white/10 border border-white/20 text-emerald-600 text-sm rounded hover:bg-white/20"
-                  onClick={() => sort.fns.onSortChange("CREATED_AT")}
-                >
-                  Sort: Date (Newest)
-                </button>
-              </div>
+                {isLoading ? (
+                    <div className="flex justify-center items-center py-20">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+                    </div>
+                ) : products.length === 0 ? (
+                    <div className="text-center py-10">
+                    <p className="text-xl text-gray-400">No products found</p>
+                    <button 
+                        onClick={() => navigate('/admin-products/products-creation')} 
+                        className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                    >
+                        Create Your First Product
+                    </button>
+                    </div>
+                ) : (
+                    <div ref={printRef}>
+                    <div className="flex items-center justify-between mb-2">
+                        <div className="flex gap-2">
+                        <button
+                            className="px-3 py-1 bg-white/10 border border-white/20 text-emerald-600 text-sm rounded hover:bg-white/20"
+                            onClick={() => sort.fns.onSortChange("TITLE")}
+                        >
+                            Sort: Name {sort.state.sortKey === "TITLE" && (sort.state.reverse ? "↓" : "↑")}
+                        </button>
+                        <button
+                            className="px-3 py-1 bg-white/10 border border-white/20 text-emerald-600 text-sm rounded hover:bg-white/20"
+                            onClick={() => sort.fns.onSortChange("CREATED_AT")}
+                        >
+                            Sort: Date {sort.state.sortKey === "CREATED_AT" && (sort.state.reverse ? "↓" : "↑")}
+                        </button>
+                        </div>
 
-              <div>
-                <label className="text-white text-sm mr-2">Rows per page:</label>
-                <select
-                  className="bg-black/50 border border-white/20 text-white text-sm rounded px-2 py-1"
-                  value={pagination.state.size}
-                  onChange={(e) => pagination.fns.onSetSize(Number(e.target.value))}
-                >
-                  {[2, 5, 10, 20].map((size) => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                        <div>
+                        <label className="text-white text-sm mr-2">Rows per page:</label>
+                        <select
+                            className="bg-black/50 border border-white/20 text-white text-sm rounded px-2 py-1"
+                            value={pagination.state.size}
+                            onChange={(e) => pagination.fns.onSetSize(Number(e.target.value))}
+                        >
+                            {[2, 5, 10, 20].map((size) => (
+                            <option key={size} value={size}>
+                                {size}
+                            </option>
+                            ))}
+                        </select>
+                        </div>
+                    </div>
+
+                    <Table data={{ nodes: paginatedData }} theme={theme}>
+                        {(tableList) => (
+                        <>
+                            <Header>
+                            <HeaderRow theme={theme}>
+                                <HeaderCell>Product Image</HeaderCell>
+                                <HeaderCell>Product Name</HeaderCell>
+                                <HeaderCell>Created At</HeaderCell>
+                                <HeaderCell>Action</HeaderCell>
+                                <HeaderCell>Order</HeaderCell>
+                            </HeaderRow>
+                            </Header>
+
+                            <Body>
+                            {tableList.map((product, index) => (
+                                <Row key={`${product._id}-${index}`} item={product}>
+                                <Cell>
+                                    {product.images && product.images.length > 0 ? (
+                                    <img
+                                        src={product.images[0]}
+                                        alt={product.title}
+                                        className="w-10 h-10 rounded-full object-cover"
+                                    />
+                                    ) : (
+                                    <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
+                                        <span className="text-white text-xs">
+                                        {product.title ? product.title.charAt(0).toUpperCase() : "N/A"}
+                                        </span>
+                                    </div>
+                                    )}
+                                </Cell>
+                                <Cell>{product.title || "Untitled"}</Cell>
+                                <Cell>
+                                    {formatDate(product.createdAt)}
+                                </Cell>
+                                <Cell>
+                                    <button 
+                                    className="text-green-400 hover:underline"
+                                    onClick={() => navigate(`/admin-products/edit/${product._id}`)}
+                                    >
+                                    Edit
+                                    </button>
+                                </Cell>
+                                <Cell>
+                                    <button 
+                                    className="text-green-400 hover:underline"
+                                    onClick={() => handleOrderClick(product)}
+                                    >
+                                    View
+                                    </button>
+                                </Cell>
+                                </Row>
+                            ))}
+                            </Body>
+                        </>
+                        )}
+                    </Table>
+                    </div>
+                )}
+
+                {!isLoading && products.length > 0 && (
+                    <div className="flex justify-between items-center mt-4 text-sm text-white/80">
+                    <div>
+                        Page {pagination.state.page + 1} of{" "}
+                        {Math.ceil(sortedData.length / pagination.state.size)}
+                    </div>
+                    <div className="flex gap-2">
+                        <button
+                        onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}
+                        disabled={pagination.state.page === 0}
+                        className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white hover:bg-white/10 active:bg-white/30 disabled:opacity-30"
+                        >
+                        ← Prev
+                        </button>
+                        <button
+                        onClick={() => pagination.fns.onSetPage(pagination.state.page + 1)}
+                        disabled={
+                            pagination.state.page + 1 >=
+                            Math.ceil(sortedData.length / pagination.state.size)
+                        }
+                        className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white hover:bg-white/10 active:bg-white/30 disabled:opacity-30"
+                        >
+                        Next →
+                        </button>
+                    </div>
+                    </div>
+                )}
+                </div>
             </div>
-
-            <Table data={{ nodes: paginatedData }} theme={theme}>
-              {(tableList) => (
-                <>
-                  <Header>
-                    <HeaderRow theme={theme}>
-                      <HeaderCell> Company Logo</HeaderCell>
-                      <HeaderCell> Product Name</HeaderCell>
-                      <HeaderCell> Created At</HeaderCell>
-                      <HeaderCell> Action</HeaderCell>
-                      <HeaderCell> Order</HeaderCell>
-                    </HeaderRow>
-                  </Header>
-
-                  <Body>
-                    {tableList.map((item, index) => (
-                      <Row key={`${item.id}-${index}`} item={item}>
-                        <Cell>
-                          <img
-                            src={item.logo}
-                            alt={item.name}
-                            className="w-10 h-10 rounded-full"
-                          />
-                        </Cell>
-                        <Cell>{item.name}</Cell>
-                        <Cell>
-                          {item.createdAt.toLocaleDateString("en-IN", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </Cell>
-                        <Cell>
-                          <button className="text-green-400 hover:underline">
-                            Edit
-                          </button>
-                        </Cell>
-                        <Cell>
-                          <button 
-                            className="text-green-400 hover:underline"
-                            onClick={() => {handleOrderClick(item)}}
-                          >
-                            View
-                          </button>
-                        </Cell>
-                      </Row>
-                    ))}
-                  </Body>
-                </>
-              )}
-            </Table>
-          </div>
-
-          <div className="flex justify-between items-center mt-4 text-sm text-white/80">
-            <div>
-              Page {pagination.state.page + 1} of{" "}
-              {Math.ceil(sortedData.length / pagination.state.size)}
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}
-                disabled={pagination.state.page === 0}
-                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white hover:bg-white/10 active:bg-white/30 disabled:opacity-30"
-              >
-                ← Prev
-              </button>
-              <button
-                onClick={() => pagination.fns.onSetPage(pagination.state.page + 1)}
-                disabled={
-                  pagination.state.page + 1 >=
-                  Math.ceil(sortedData.length / pagination.state.size)
-                }
-                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white hover:bg-white/10 active:bg-white/30 disabled:opacity-30"
-              >
-                Next →
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
-};
+    );
+}
 
-export default ProductTable
+export default ProductTable;

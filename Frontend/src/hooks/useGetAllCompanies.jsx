@@ -19,7 +19,7 @@ const useGetAllCompanies = () => {
                     withCredentials: true,
                 });
 
-                console.log("response data from hook", response.data.companies);
+                // console.log("response data from hook", response.data.companies);
                 // Check if the response is successful and contains companies
 
                 if(response.data.success){
