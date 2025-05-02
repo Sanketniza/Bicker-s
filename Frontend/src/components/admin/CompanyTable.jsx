@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   Header,
@@ -15,7 +15,9 @@ import { useSort } from "@table-library/react-table-library/sort";
 
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCompanies } from "@/store/companySlice";
+import axios from "axios";
 
 // Sample static company data
 
@@ -29,6 +31,36 @@ const CompanyTable = () => {
   const { companies } = useSelector(store => store.company);
   console.log("companies", companies);
 
+  const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        const fetchCompanies = async () => {
+
+            try {
+
+                const response = await axios.get("http://localhost:8000/api/v1/company/get", {
+                    withCredentials: true,
+                });
+
+                console.log("response data from hook", response.data.companies);
+                // Check if the response is successful and contains companies
+
+                if(response.data.success){
+                    dispatch(setCompanies(response.data.companies)); // -> sets the data of the all companies in the redux store to be used in the Companies component or other components.
+                }
+            } catch (error) {
+                console.error("Error fetching companies:", error);
+            }
+        };
+
+        fetchCompanies();
+
+        // return () => {
+        //     dispatch({ type: "CLEAR_COMPANIES" });
+        // }
+    })
+
   // Filtering first
   const filteredCompanies = companies.filter((company) =>
     company.name.toLowerCase().includes(search.toLowerCase())
@@ -40,7 +72,8 @@ const CompanyTable = () => {
   const sort = useSort(
     data,
     {
-      state: { sortKey: "CREATED_AT", reverse: false },
+      state: { sortKey: "NAME", reverse: false },
+      
       onChange: (action, state) => console.log("Sort changed:", state),
     },
     {
@@ -57,19 +90,23 @@ const CompanyTable = () => {
   });
 
   // Apply sorting
-  const sortedData = sort.state.sortKey
-    ? [...filteredCompanies].sort(
-        sort.state.sortKey === "NAME"
-          ? (a, b) =>
-              sort.state.reverse
-                ? b.name.localeCompare(a.name)
-                : a.name.localeCompare(b.name)
-          : (a, b) =>
-              sort.state.reverse
-                ? a.createdAt - b.createdAt
-                : b.createdAt - a.createdAt
-      )
-    : filteredCompanies;
+  const sortedData = [...filteredCompanies].sort((a, b) => {
+    if (!sort.state.sortKey) return 0;
+
+    if (sort.state.sortKey === "NAME") {
+      return sort.state.reverse
+        ? b.name.localeCompare(a.name)
+        : a.name.localeCompare(b.name);
+    }
+
+    if (sort.state.sortKey === "CREATED_AT") {
+      return sort.state.reverse
+        ? a.createdAt - b.createdAt
+        : b.createdAt - a.createdAt;
+    }
+
+    return 0;
+  });
 
   // Paginate sorted data
   const paginatedData = sortedData.slice(
@@ -105,7 +142,7 @@ const CompanyTable = () => {
 
   const handleDownloadPdf = async () => {
     const element = printRef.current;
-    const canvas = await html2canvas(element);
+    const canvas = await html2canvas(element, { backgroundColor: '#000' });
     const data = canvas.toDataURL("image/png");
 
     const pdf = new jsPDF();
@@ -114,6 +151,7 @@ const CompanyTable = () => {
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
     pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.setTextColor(0, 0, 0);
     pdf.save("companies.pdf");
   };
 
@@ -194,23 +232,23 @@ const CompanyTable = () => {
                   </Header>
 
                   <Body>
-                    {tableList.map((item, index) => (
-                      <Row key={`${item.id}-${index}`} item={item}>
+                    {tableList.map((companies, index) => (
+                      <Row key={`${companies.id}-${index}`} item={companies}>
                         <Cell>
                           <img
-                            src={item.logo}
-                            alt={item.name}
+                            src={companies.logo}
+                            alt={companies.name}
                             className="w-10 h-10 rounded-full"
                           />
                         </Cell>
-                        <Cell>{item.name}</Cell>
-                        <Cell>
-                          {item.createdAt.toLocaleDateString("en-IN", {
+                        <Cell>{companies.name}</Cell>
+                         <Cell>
+                          {new Date(companies.createdAt).toLocaleDateString("en-IN", {
                             year: "numeric",
                             month: "short",
                             day: "numeric",
-                          })}
-                        </Cell>
+                          })} 
+                        </Cell> 
                         <Cell>
                           <button className="text-green-400 hover:underline">
                             Edit
