@@ -31,8 +31,24 @@ function ProductsCreation() {
         stock: 0,
     });
 
-    const [loading, setLoading] = useState(false);
-    const [companies, setCompanies] = useState([]);
+    // const [loading, setLoading] = useState(false);
+    // const [companies, setCompanies] = useState([]);
+
+    const handlChange = (e) => {
+        const { name, value } = e.target;
+        if (name.includes("specifications.")) {
+            const specKey = name.split(".")[1];
+            setForm({ ...form, specifications: { ...form.specifications, [specKey]: value } });
+        } else {
+            setForm({ ...form, [name]: value });
+        }
+
+        setForm((prev) => (
+            { 
+                ...prev, [e.target.name]: e.target.value 
+            }
+        ));
+    }
 
   useEffect(() => {
     const fetchCompanies = async () => {

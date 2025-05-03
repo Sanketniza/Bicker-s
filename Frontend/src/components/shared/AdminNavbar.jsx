@@ -223,10 +223,18 @@ function AdminNavbar() {
                             <Button 
                                 variant="ghost" 
                                 className="w-full justify-start hover:bg-red-100/10"
-                                onClick={() => setLocation('/settings')}
+                                onClick={() => navigate('/settings')}
                             >
                                 <Settings className="mr-2 h-4 w-4" />
                                 Settings
+                            </Button>
+                            <Button 
+                                variant="ghost" 
+                                className="w-full justify-start hover:bg-red-100/10"
+                                onClick={() => navigate('/admin-notification')}
+                            >
+                                <Settings className="mr-2 h-4 w-4" />
+                                Notification
                             </Button>
                             <Button 
                                 variant="ghost" 
@@ -237,7 +245,7 @@ function AdminNavbar() {
                                 Logout
                             </Button>
                             </div>
-                           {/*  {
+                            {/* {
                                 shopOwner.orders.length > 0 && (
                                     <div className="border-t pt-4">
                                     <h4 className="mb-4 text-md font-medium text-orange-800">Recent Orders</h4>

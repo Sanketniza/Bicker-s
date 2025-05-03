@@ -7,6 +7,7 @@ import Footer from "../shared/footer";
 import { ErrorSharp } from "@mui/icons-material";
 
 const CompaniesCreation = () => {
+    
     const [formData, setFormData] = useState({
         name: "",
         description: "",

@@ -28,6 +28,7 @@ import AdminProfile from './components/admin/AdminProfile';
 import Protection from './components/ProtectionRoutes/Protection';
 import UserProtection from './components/ProtectionRoutes/UserProtection';
 import Error from './components/ProtectionRoutes/Error';
+import AdminNotification from './components/admin/AdminNotification';
 
 const appRouter = createBrowserRouter([
 
@@ -155,10 +156,17 @@ const appRouter = createBrowserRouter([
         element: <ProductsCreation />
     },
 
+
+
     // {
     //     path: "/admin-profile",
     //     element: <AdminProfile /> // Add Admin />
     // },
+
+    {
+        path: "/admin-notification",
+        element: <Protection><AdminNotification /></Protection>
+    },
 
     {
         path: "/profile",
