@@ -45,6 +45,7 @@ function AdminNavbar() {
   };
 
   const logoutHandler = async () => {
+    
 
     try{
         //* --> This is used to logout the shopOwner.

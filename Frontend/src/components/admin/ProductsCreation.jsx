@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../shared/AdminNavbar";
 import Footer from "../shared/footer";
 import axios from "axios";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
@@ -115,77 +115,81 @@ function ProductsCreation() {
         setForm({ ...form, [field]: updated });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+    // Update the handleSubmit function:
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-        try {
-            const formData = new FormData();
-            
-            // Add basic fields
-            formData.append("title", form.title);
-            formData.append("description", form.description);
-            formData.append("price", form.price);
-            formData.append("location", form.location);
-            formData.append("category", form.category);
-            formData.append("status", form.status);
-            formData.append("companyId", form.companyId);
-            formData.append("stock", form.stock);
-            
-            // Add logo if exists
-            if (form.logoFile) {
-                formData.append("logo", form.logoFile);
-            }
-            
-            // Add specifications as JSON string
-            formData.append("specifications", JSON.stringify(form.specifications));
-            
-            // Add features as JSON string (filter empty ones)
-            const filteredFeatures = form.features.filter(f => f.trim() !== "");
-            formData.append("features", JSON.stringify(filteredFeatures));
-            
-            // Add tags
-            if (form.tags) {
-                formData.append("tags", form.tags);
-            }
-            
-            // Add images
-            imageFiles.forEach((file, index) => {
-                if (file) {
-                    formData.append(`images`, file);
-                }
-            });
-            
-            // Add videos
-            videoFiles.forEach((file, index) => {
-                if (file) {
-                    formData.append(`videos`, file);
-                }
-            });
-
-            const response = await axios.post(
-                "http://localhost:8000/api/v1/product/create", 
-                formData, 
-                {
-                    withCredentials: true,
-                    headers: {
-                        // Don't set Content-Type when using FormData
-                        // Browser will set it properly with boundary info
-                    }
-                }
-            );
-
-            if (response.data.success) {
-                toast.success("Product created successfully!");
-                navigate("/admin-products");
-            }
-        } catch (error) {
-            console.error("Error creating product:", error);
-            toast.error(`Error creating product: ${error.response?.data?.message || error.message}`);
-        } finally {
-            setLoading(false);
+    try {
+        const formData = new FormData();
+        
+        // Add basic fields
+        formData.append("title", form.title);
+        formData.append("description", form.description);
+        formData.append("price", form.price);
+        formData.append("location", form.location);
+        formData.append("category", form.category);
+        formData.append("status", form.status);
+        formData.append("companyId", form.companyId);
+        formData.append("stock", form.stock);
+        
+        // Add logo if exists
+        if (form.logoFile) {
+            formData.append("logo", form.logoFile);
         }
-    };
+        
+        // Convert specifications object to individual fields
+        Object.entries(form.specifications).forEach(([key, value]) => {
+            formData.append(`specifications[${key}]`, value);
+        });
+        
+        // Add features as an array
+        const filteredFeatures = form.features.filter(f => f.trim() !== "");
+        filteredFeatures.forEach((feature, index) => {
+            formData.append(`features[${index}]`, feature);
+        });
+        
+        // Add tags
+        if (form.tags) {
+            formData.append("tags", form.tags);
+        }
+        
+        // Add images
+        imageFiles.forEach((file, index) => {
+            if (file) {
+                formData.append(`images`, file);
+            }
+        });
+        
+        // Add videos
+        videoFiles.forEach((file, index) => {
+            if (file) {
+                formData.append(`videos`, file);
+            }
+        });
+
+        const response = await axios.post(
+            "http://localhost:8000/api/v1/product/create", 
+            formData, 
+            {
+                withCredentials: true,
+                headers: {
+                    // Don't set Content-Type when using FormData
+                }
+            }
+        );
+
+        if (response.data.success) {
+            toast.success("Product created successfully!");
+            navigate("/admin-products");
+        }
+    } catch (error) {
+        console.error("Error creating product:", error);
+        toast.error(`Error creating product: ${error.response?.data?.message || error.message}`);
+    } finally {
+        setLoading(false);
+    }
+};
 
     return (
         <>
