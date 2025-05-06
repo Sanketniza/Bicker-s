@@ -1,12 +1,21 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import AdminNavbar from "../shared/AdminNavbar";
 import Footer from "../shared/footer";
 import { ErrorSharp } from "@mui/icons-material";
+import useGetCompanyById from "@/hooks/useGetSIngleComapany";
+import { useSelector } from "react-redux";
 
 const CompaniesCreation = () => {
+
+     const params = useParams();
+      useGetCompanyById(params.id);
+      const {singleCompany} = useSelector((store) => store.company);
+    //   console.log(singleCompany);
+      
+      
     
     const [formData, setFormData] = useState({
         name: "",
@@ -155,6 +164,25 @@ const CompaniesCreation = () => {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        setFormData({
+            name: singleCompany.name || "",
+            description: singleCompany.description || "",
+            phone: singleCompany.contactDetails?.phone || "",
+            email: singleCompany.contactDetails?.email || "",
+            street: singleCompany.contactDetails?.address?.street || "",
+            city: singleCompany.contactDetails?.address?.city || "",
+            state: singleCompany.contactDetails?.address?.state || "",
+            zip: singleCompany.contactDetails?.address?.zip || "",
+            country: singleCompany.contactDetails?.address?.country || "",
+        });
+        
+        // Set logo preview if available
+        if (singleCompany.logo) {
+            setLogoPreview(singleCompany.logo);
+        }
+    }, [singleCompany]);
 
     return (
         <>

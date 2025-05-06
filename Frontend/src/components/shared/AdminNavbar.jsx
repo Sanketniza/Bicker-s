@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import '../../css/LogoName.css';
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
-import { Bike, CarIcon, HardHat, Home, ListOrdered, Menu, X } from "lucide-react";
+import { Bike, HardHat, Home, ListOrdered, Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useLocation } from 'wouter';
+
 import {
   Sheet,
   SheetContent,
@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '../../store/authSlice';
-import { HouseSharp, OpenInBrowserRounded } from '@mui/icons-material';
+import {  OpenInBrowserRounded } from '@mui/icons-material';
 
 function AdminNavbar() {
 
@@ -30,7 +30,7 @@ function AdminNavbar() {
   const navigate = useNavigate();
 
 
-  const [, setLocation] = useLocation();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

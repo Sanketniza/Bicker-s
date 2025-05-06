@@ -79,37 +79,37 @@ exports.createCompany = async(req, res) => {
     }
 };
 
-exports.getAllCompanies = async(req, res) => {
+// exports.getAllCompanies = async(req, res) => {
 
-    try {
-        // const companies = await Company.find().populate("ownerId", "fullname email role");
+//     try {
+//         // const companies = await Company.find().populate("ownerId", "fullname email role");
 
-        const userId = req.id; // logged in user id
-        const companies = await Company.find({ userId });
+//         const userId = req.id; // logged in user id
+//         const companies = await Company.find({ userId });
 
-        if (!companies || companies.length === 0) {
-            return res.status(404).json({
-                message: "No companies found.",
-                success: false,
-            });
-        }
+//         if (!companies || companies.length === 0) {
+//             return res.status(404).json({
+//                 message: "No companies found.",
+//                 success: false,
+//             });
+//         }
 
-        return res.status(200).json({
-            message: "Companies retrieved successfully.",
-            success: true,
-            companies,
-        });
+//         return res.status(200).json({
+//             message: "Companies retrieved successfully.",
+//             success: true,
+//             companies,
+//         });
 
-    } catch (error) {
-        console.error("Error in getAllCompanies:", error.message);
-        console.log("error at company controller getAllCompanies");
-        return res.status(500).json({
-            message: "Internal server error.",
-            success: false,
-            error: error.message,
-        });
-    }
-}
+//     } catch (error) {
+//         console.error("Error in getAllCompanies:", error.message);
+//         console.log("error at company controller getAllCompanies");
+//         return res.status(500).json({
+//             message: "Internal server error.",
+//             success: false,
+//             error: error.message,
+//         });
+//     }
+// }
 
 exports.getCompanyById = async(req, res) => {
 
@@ -141,6 +141,37 @@ exports.getCompanyById = async(req, res) => {
         });
     }
 };
+
+exports.getAllCompanies = async(req, res) => {
+    try {
+        // Use req.user.id instead of req.id to match with the company's ownerId field
+        const ownerId = req.user.id; 
+        
+        // Find companies where ownerId matches the logged-in user's ID
+        const companies = await Company.find({ ownerId });
+
+        if (!companies || companies.length === 0) {
+            return res.status(200).json({
+                message: "No companies found for this user.",
+                success: true,
+                companies: []
+            });
+        }
+
+        return res.status(200).json({
+            message: "Companies retrieved successfully.",
+            success: true,
+            companies,
+        });
+    } catch (error) {
+        console.error("Error in getAllCompanies:", error.message);
+        return res.status(500).json({
+            message: "Internal server error.",
+            success: false,
+            error: error.message,
+        });
+    }
+}
 
 exports.updateCompany = async(req, res) => {
 

@@ -6,20 +6,24 @@ const companySlice = createSlice({
     name:"company",
 
     initialState:{
-        singleCompany:null,
-        companies:[],
-        searchCompanyByText:"",
+        // singleCompany:null,
+        // companies:[],
+        // searchCompanyByText:"",
+
+        companies: [],
+        singleCompany: {},  // Initialize as empty object, not null
+        loading: false,
+        error: null
     },
 
     reducers:{
         // actions
 
-        setSingleCompany:(state,action) => {
-            state.singleCompany = action.payload;
-        },
-
-        setCompanies:(state,action) => {
+        setCompanies: (state, action) => {
             state.companies = action.payload;
+        },
+        setSingleCompany: (state, action) => {
+            state.singleCompany = action.payload || {}; // Ensure it's never null
         },
 
         setSearchCompanyByText:(state,action) => {

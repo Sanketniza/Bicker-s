@@ -7,7 +7,7 @@ const router = express.Router();
 
 // router.route('/create').post(isAuthenticated, uploadMiddleware, createCompany);
 router.post("/create", isAuthenticated, uploadMiddleware, createCompany);
-router.get("/get", isAuthenticated, getAllCompanies); // Added isAuthenticated for protected route
+router.get("/", isAuthenticated, getAllCompanies); // Added isAuthenticated for protected route
 router.get("/:companyId", getCompanyById); // Removed isAuthenticated for public access
 router.put("/:companyId", isAuthenticated, uploadMiddleware, updateCompany);
 router.delete("/:companyId", isAuthenticated, deleteCompany);
