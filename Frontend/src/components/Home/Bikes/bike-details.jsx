@@ -266,15 +266,7 @@ const handleWishlist = async () => {
 };
 
 
-  const op = [
-    'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-  'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-  'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-    'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-  'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-    'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-]
+
 
 
   return (
@@ -294,8 +286,13 @@ const handleWishlist = async () => {
                     {/* Left Column - Images */}
 
                     <div className="h-[730px] rounded-lg overflow-hidden">
-                        {/* <ImageSlider images={singleProduct?.images || []} interval={5000} className="h-full" /> */}
-                        <ImageSlider images={op} interval={5000} className="h-full" />
+                        {singleProduct?.images?.length > 0 ? (
+                            <ImageSlider images={singleProduct.images} interval={5000} className="h-full" />
+                        ) : (
+                            <div className="flex items-center justify-center h-full text-white">
+                                No Image Is Available
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column - Basic Info */}
@@ -311,10 +308,10 @@ const handleWishlist = async () => {
 
                             <div className="flex gap-2 items-center">
                                 <motion.button
-                                onClick={handleShare}
-                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                    onClick={handleShare}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                 >
                                 <Share2 className="h-5 w-5 text-emerald-500" />
                                 <span className="text-emerald-500 font-medium">Share</span>
@@ -337,14 +334,22 @@ const handleWishlist = async () => {
                         </div>    
 
                         {/* //*:Rating and Reviews */}
-                        <div className="flex items-center gap-2 text-lg">
+                        <div className="flex items-center gap-2 text-lg ">
                             <span className="text-yellow-400 text-xl">
-                            {averageRating ? `${averageRating} ★` : 'No ratings yet'}
+                                {averageRating ? `${averageRating} ★` : 'No ratings yet'}
                             </span>
+
                             <span className="text-gray-400">•</span>
+
                             <span className="text-gray-300">
                                 {(singleProduct?.views / 1000).toFixed(2)}k Reviews
                             </span>
+
+                           
+                            <span className="text-gray-400 ml-40">
+                                Created on {new Date(singleProduct?.createdAt).toLocaleDateString()}
+                            </span>
+                           
 
                         </div>
 

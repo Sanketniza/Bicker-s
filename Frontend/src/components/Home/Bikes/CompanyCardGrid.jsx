@@ -4,15 +4,7 @@ import PropTypes from 'prop-types';
 
 export function CompanyCardGrid({ product }) {
 
-    const op = [
-        'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-      'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/03/27/17/59/vintage-1283299_1280.jpg',
-            'https://cdn.pixabay.com/photo/2016/04/07/06/53/bmw-1313343_1280.jpg',
-    ]
+   
     
     // console.log("CompanyCardGrid product : ", product);
     // console.log("CompanyCardGrid", JSON.stringify(product, null, 2));
@@ -32,7 +24,7 @@ export function CompanyCardGrid({ product }) {
                             id={company._id}
                             name={company.title}
                             price={company.price}
-                            images={op}
+                            images={company.images} // Ensure images prop is passed as array of objects
                             // images={[{ id: company._id, url: company.imageUrl }]} // Ensure images prop is passed as array of objects
                         />
                     ))
