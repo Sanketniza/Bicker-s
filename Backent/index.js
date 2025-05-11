@@ -51,3 +51,23 @@ app.listen(PORT, () => {
     connectDB();
     console.log(`Server is running on port ${PORT}`);
 })
+
+// Add this to your main server file to test your Cloudinary connection
+const cloudinary = require("./utils/cloudinary");
+
+// Test Cloudinary connection on startup
+async function testCloudinaryConnection() {
+  try {
+    const result = await cloudinary.uploader.upload(
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+      { folder: "test" }
+    );
+    console.log("✅ Cloudinary connection successful:", result.secure_url);
+    return true;
+  } catch (error) {
+    console.error("❌ Cloudinary connection failed:", error);
+    return false;
+  }
+}
+
+testCloudinaryConnection();

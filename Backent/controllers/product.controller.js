@@ -4,12 +4,124 @@ const getDataUri = require("../utils/datauri");
 const cloudinary = require("../utils/cloudinary");
 
 // Create Product
+// exports.createProduct = async (req, res) => {
+//     try {
+//         const { title, description, price, stock, location, category, tags, companyId, specifications, features } = req.body;
+
+//         // Validate required fields
+//         if (!title || !description || !price || !stock || !location || !category || !companyId || !features || !specifications) {
+//             return res.status(400).json({
+//                 message: "Please provide all required fields.",
+//                 success: false,
+//             });
+//         }
+
+//         // Check if the company exists
+//         const company = await Company.findById(companyId);
+//         if (!company) {
+//             return res.status(404).json({
+//                 message: "Company not found.",
+//                 success: false,
+//             });
+//         }
+
+//         // Validate ownership
+//         if (company.ownerId.toString() !== req.user.id) {
+//             return res.status(403).json({
+//                 message: "Access denied! You can only create products in your own company.",
+//                 success: false,
+//             });
+//         }
+
+//         // Handle image and video uploads
+//         let imageUrls = [];
+//         let videoUrls = [];
+
+//         if (req.files) {
+//             // Handle images
+//             if (req.files.images) {
+//                 for (const image of req.files.images) {
+//                     const dataUri = getDataUri(image);
+//                     const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
+//                     imageUrls.push(cloudResponse.secure_url);
+//                 }
+//             }
+
+//             // Handle videos
+//             if (req.files.videos) {
+//                 for (const video of req.files.videos) {
+//                     const dataUri = getDataUri(video);
+//                     const cloudResponse = await cloudinary.uploader.upload(dataUri.content, {
+//                         resource_type: "video"
+//                     });
+//                     videoUrls.push(cloudResponse.secure_url);
+//                 }
+//             }
+//         }
+
+//         // Handle tags properly
+//         let parsedTags = [];
+//         if (tags) {
+//             // If tags is a string, try to parse it
+//             try {
+//                 parsedTags = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
+//             } catch (error) {
+//                 console.log("Error parsing tags:", error);
+//                 parsedTags = [];
+//             }
+//         }
+
+//         // Create product
+//         const product = await Product.create({
+//             title,
+//             description,
+//             price: Number(price),
+//             stock: Number(stock),
+//             location,
+//             category,
+//             tags: parsedTags,
+//             shopOwnerId: req.user.id,
+//             ownerId: req.user.id, // Ensure ownerId is set
+//             companyId,
+//             specifications,
+//             features,
+//             images: imageUrls,
+//             videos: videoUrls,
+//         });
+
+//         return res.status(201).json({
+//             message: "Product created successfully.",
+//             success: true,
+//             product,
+//         });
+
+//     } catch (error) {
+//         console.error("Error in createProduct:", error.message);
+//         return res.status(500).json({
+//             message: "Internal server error.",
+//             success: false,
+//             error: error.message,
+//         });
+//     }
+// };
+
+// Create Product
 exports.createProduct = async (req, res) => {
     try {
-        const { title, description, price, stock, location, category, tags, companyId, specifications, features } = req.body;
-
+        const { title, description, price, stock, location, category, tags, companyId } = req.body;
+        
+        console.log("Request body:", req.body);
+        console.log("Request files:", req.files ? Object.keys(req.files) : "No files");
+        
+        if (req.files && req.files.images) {
+            console.log(`Found ${req.files.images.length} images to upload`);
+            req.files.images.forEach((img, i) => 
+                console.log(`Image ${i+1}: ${img.originalname}, Size: ${img.size}, Type: ${img.mimetype}`)
+            );
+        }
+        
         // Validate required fields
-        if (!title || !description || !price || !stock || !location || !category || !companyId || !features || !specifications) {
+        if (!title || !description || !price || !location || !category || !companyId) {
             return res.status(400).json({
                 message: "Please provide all required fields.",
                 success: false,
@@ -33,61 +145,154 @@ exports.createProduct = async (req, res) => {
             });
         }
 
-        // Handle image and video uploads
+        // Parse specifications from form data
+        let specifications = {};
+        try {
+            if (typeof req.body.specifications === 'string') {
+                specifications = JSON.parse(req.body.specifications);
+            } else if (req.body.specifications) {
+                specifications = req.body.specifications;
+            }
+        } catch (error) {
+            console.error("Error parsing specifications:", error);
+            specifications = {};
+        }
+
+        // Parse features from form data
+        let features = [];
+        try {
+            if (typeof req.body.features === 'string') {
+                features = JSON.parse(req.body.features);
+            } else if (req.body.features) {
+                features = req.body.features;
+            }
+        } catch (error) {
+            console.error("Error parsing features:", error);
+            features = [];
+        }
+
+        // Handle image and video uploads with improved error handling
         let imageUrls = [];
         let videoUrls = [];
+        let logoUrl = null;
 
         if (req.files) {
-            // Handle images
-            if (req.files.images) {
-                for (const image of req.files.images) {
-                    const dataUri = getDataUri(image);
-                    const cloudResponse = await cloudinary.uploader.upload(dataUri.content);
-                    imageUrls.push(cloudResponse.secure_url);
+            // Process logo
+            if (req.files.logo && req.files.logo[0]) {
+                try {
+                    console.log("Processing logo:", req.files.logo[0].originalname);
+                    const logoDataUri = getDataUri(req.files.logo[0]);
+                    if (logoDataUri && logoDataUri.content) {
+                        const logoResult = await cloudinary.uploader.upload(logoDataUri.content, {
+                            folder: "product_logos",
+                            resource_type: "auto"
+                        });
+                        logoUrl = logoResult.secure_url;
+                        console.log("Logo uploaded successfully:", logoUrl);
+                    } else {
+                        console.error("Failed to get dataURI for logo");
+                    }
+                } catch (error) {
+                    console.error("Logo upload error:", error);
                 }
             }
 
-            // Handle videos
-            if (req.files.videos) {
+            // Process images
+            if (req.files.images && req.files.images.length > 0) {
+                console.log(`Processing ${req.files.images.length} images`);
+                
+                for (const image of req.files.images) {
+                    try {
+                        console.log("Processing image:", image.originalname);
+                        const imageDataUri = getDataUri(image);
+                        
+                        if (!imageDataUri || !imageDataUri.content) {
+                            console.error("Failed to get dataURI for image:", image.originalname);
+                            continue;
+                        }
+                        
+                        console.log(`Uploading image: ${image.originalname} to Cloudinary...`);
+                        const imageResult = await cloudinary.uploader.upload(imageDataUri.content, {
+                            folder: "product_images",
+                            resource_type: "auto"
+                        });
+                        
+                        imageUrls.push(imageResult.secure_url);
+                        console.log("Image uploaded successfully:", imageResult.secure_url);
+                    } catch (error) {
+                        console.error(`Error uploading image ${image.originalname}:`, error);
+                    }
+                }
+            } else {
+                console.log("No images found in the request");
+            }
+
+            // Process videos
+            if (req.files.videos && req.files.videos.length > 0) {
+                console.log(`Processing ${req.files.videos.length} videos`);
+                
                 for (const video of req.files.videos) {
-                    const dataUri = getDataUri(video);
-                    const cloudResponse = await cloudinary.uploader.upload(dataUri.content, {
-                        resource_type: "video"
-                    });
-                    videoUrls.push(cloudResponse.secure_url);
+                    try {
+                        console.log("Processing video:", video.originalname);
+                        const videoDataUri = getDataUri(video);
+                        
+                        if (!videoDataUri || !videoDataUri.content) {
+                            console.error("Failed to get dataURI for video");
+                            continue;
+                        }
+                        
+                        console.log(`Uploading video: ${video.originalname} to Cloudinary...`);
+                        const videoResult = await cloudinary.uploader.upload(videoDataUri.content, {
+                            resource_type: "video",
+                            folder: "product_videos",
+                            timeout: 300000 // 5 minute timeout for videos
+                        });
+                        
+                        videoUrls.push(videoResult.secure_url);
+                        console.log("Video uploaded successfully:", videoResult.secure_url);
+                    } catch (error) {
+                        console.error(`Error uploading video ${video.originalname}:`, error);
+                    }
                 }
             }
         }
 
-        // Handle tags properly
+        // Handle tags
         let parsedTags = [];
         if (tags) {
-            // If tags is a string, try to parse it
             try {
                 parsedTags = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
             } catch (error) {
                 console.log("Error parsing tags:", error);
-                parsedTags = [];
             }
         }
 
-        // Create product
-        const product = await Product.create({
+        // Create product with all the data
+        console.log("Creating product with image count:", imageUrls.length);
+        console.log("Image URLs:", imageUrls);
+        
+        const productData = {
             title,
             description,
             price: Number(price),
-            stock: Number(stock),
+            stock: Number(stock || 0),
             location,
             category,
             tags: parsedTags,
             shopOwnerId: req.user.id,
-            ownerId: req.user.id, // Ensure ownerId is set
+            ownerId: req.user.id,
             companyId,
             specifications,
             features,
             images: imageUrls,
-            videos: videoUrls,
-        });
+            videos: videoUrls
+        };
+
+        if (logoUrl) {
+            productData.logo = logoUrl;
+        }
+
+        const product = await Product.create(productData);
 
         return res.status(201).json({
             message: "Product created successfully.",
@@ -96,11 +301,11 @@ exports.createProduct = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error in createProduct:", error.message);
+        console.error("Error in createProduct:", error);
         return res.status(500).json({
             message: "Internal server error.",
             success: false,
-            error: error.message,
+            error: error.message || "Unknown error",
         });
     }
 };

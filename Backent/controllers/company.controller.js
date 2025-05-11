@@ -1,5 +1,6 @@
 const Company = require("../models/company.model");
 const User = require("../models/user.model");
+
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/datauri");
 

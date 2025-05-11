@@ -1,5 +1,5 @@
 const express = require('express');
-const { singleUpload } = require('../Middlewares/multer');
+const { uploadMiddleware } = require('../Middlewares/multer');
 const isAuthenticated = require('../Middlewares/isAuthenticated');
 const {
     register,
@@ -14,7 +14,7 @@ const router = express.Router();
 router.route('/register').post(register);
 router.route('/login').post(login);
 router.route('/logout').get(logout);
-router.route('/profile/update').post(isAuthenticated, singleUpload, updateProfile);
+router.route('/profile/update').post(isAuthenticated, uploadMiddleware, updateProfile);
 router.route('/delete-user/:userId').delete(isAuthenticated, deleteProfile);
 // router.route('/verify-user/:token').get(verifyUser);
 
