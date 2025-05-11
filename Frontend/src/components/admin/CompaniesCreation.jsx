@@ -47,12 +47,12 @@ const CompaniesCreation = () => {
     // Handle file input changes. This function sets the logoFile state with the selected file and creates a preview URL for the logo.
     // It uses the URL.createObjectURL method to create a temporary URL for the selected file, which can be used to display a preview of the logo.
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setLogoFile(file);
-            setLogoPreview(URL.createObjectURL(file));
-        }
-    };
+    const file = e.target.files[0];
+    if (file) {
+        setLogoFile(file); // Store the actual file
+        setLogoPreview(URL.createObjectURL(file)); // Create a preview URL
+    }
+};
         
     // Handle form submission. This function is called when the form is submitted.
     // It prevents the default form submission behavior, sets the loading state to true, and validates the required fields (name and description).
@@ -108,7 +108,7 @@ const CompaniesCreation = () => {
             
             // Add logo file if exists
             if (logoFile) {
-                formDataToSubmit.append("file", logoFile);
+                formDataToSubmit.append("logo", logoFile);
             }
 
             // Send request to create company
