@@ -368,9 +368,9 @@ const handleWishlist = async () => {
                                     {singleProduct?.shopOwnerId?.phone}
                                 </p>
 
-                                <p className="flex items-center gap-2 text-gray-300">
-                                    <MessageSquare className="h-5 w-5 text-emerald-500" />
-                                    {singleProduct?.description}
+                                <p className="flex items-start gap-2 text-gray-300">
+                                    <MessageSquare className="h-5 w-5 text-emerald-500 flex-shrink-0" />
+                                    <span className="flex-1">{singleProduct?.description}</span>
                                 </p>
                                 
                             </div>
