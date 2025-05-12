@@ -357,18 +357,22 @@ const handleWishlist = async () => {
                         <div className="space-y-4 bg-white/5 p-4 rounded-lg">
                             <h2 className="text-xl font-semibold text-white">{singleProduct?.shopOwnerId?.fullname}</h2>
                             <div className="space-y-2">
+
                                 <p className="flex items-center gap-2 text-gray-300">
-                                <MapPin className="h-5 w-5 text-emerald-500" />
-                                {singleProduct?.location}
+                                    <MapPin className="h-5 w-5 text-emerald-500" />
+                                    {singleProduct?.location}
                                 </p>
+
                                 <p className="flex items-center gap-2 text-gray-300">
-                                <Phone className="h-5 w-5 text-emerald-500" />
-                                {singleProduct?.shopOwnerId?.phone}
+                                    <Phone className="h-5 w-5 text-emerald-500" />
+                                    {singleProduct?.shopOwnerId?.phone}
                                 </p>
+
                                 <p className="flex items-center gap-2 text-gray-300">
-                                <MessageSquare className="h-5 w-5 text-emerald-500" />
-                                {singleProduct?.description}
+                                    <MessageSquare className="h-5 w-5 text-emerald-500" />
+                                    {singleProduct?.description}
                                 </p>
+                                
                             </div>
                         </div>
                     

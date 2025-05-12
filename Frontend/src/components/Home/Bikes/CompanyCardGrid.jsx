@@ -17,34 +17,31 @@ export function CompanyCardGrid({ product }) {
   return (
         <div className="mx-auto px-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
+                
                 {
-                    product.map((company) => (
-                        <CompanyCard
-                            key={company._id}
-                            id={company._id}
-                            name={company.title}
-                            price={company.price}
-                            images={company.images} // Ensure images prop is passed as array of objects
-                            // images={[{ id: company._id, url: company.imageUrl }]} // Ensure images prop is passed as array of objects
-                        />
-                    ))
+                    product.map((item) => (
+                    <CompanyCard
+                        key={item._id}
+                        id={item._id}
+                        name={item.title || "Unknown Product"} // Map title to name
+                        price={item.price || 0} // Default to 0 if price is undefined
+                        images={item.images || []} // Ensure images is always an array
+                    />
+                ))
                 }
+                
             </div>
         </div>
     );
 }
 
 CompanyCardGrid.propTypes = {
-
   product: PropTypes.arrayOf(
-
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            name: PropTypes.string.isRequired,
-            price: PropTypes.number.isRequired,
-            images: PropTypes.arrayOf(PropTypes.string).isRequired, // Ensure images prop is defined
-        })
-
-    ).isRequired,
-
+    PropTypes.shape({
+      _id: PropTypes.string,
+      title: PropTypes.string,
+      price: PropTypes.number,
+      images: PropTypes.array
+    })
+  ).isRequired,
 };

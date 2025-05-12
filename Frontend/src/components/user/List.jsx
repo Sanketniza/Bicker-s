@@ -14,26 +14,27 @@ import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
 export function List() {
 
   const { allProducts } = useSelector(state => state.product);
-    // console.log("list allProducts : " , allProducts);
-    // allProducts.forEach(product => {
-    //     console.log("hello" , `${product._id}, 
-    //                             ${product.title}, 
-    //                             ${product.description}`, 
-    //                             `${product.price}`, 
-    //                             `${product.shopOwnerId}`);
-    // });
+    console.log("list allProducts : " , allProducts);
+    allProducts.forEach(product => {
+        console.log("hello" , `${product._id}, 
+                                ${product.title}, 
+                                ${product.description}`, 
+                                `${product.price}`, 
+                                `${product.shopOwnerId}`);
+    });
 
 
 
     const [products, setProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [priceRange, setPriceRange] = useState({ min: 0, max: 100000 });
+    const [priceRange, setPriceRange] = useState({ min: 0, max: 900000000 });
     const [showFilters, setShowFilters] = useState(false);
 
-    useEffect(() => {
-        // Fetch bike data from bike.js
-        setProducts(allProducts);
-    }, []);
+// 1. First, fix the useEffect dependency
+useEffect(() => {
+    // Update products whenever allProducts changes
+    setProducts(allProducts);
+}, [allProducts]); // Add allProducts as dependency
 
     useEffect(() => {
         console.log('Current search query:', searchQuery);
@@ -50,6 +51,8 @@ export function List() {
 
         return matchesSearch && matchesPrice;
     });
+
+    console.log("Filtered Products: ", filteredProducts);
 
    
 
@@ -114,43 +117,20 @@ export function List() {
                     }
                     </div>
 
+                    
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
-                         {/* {
+                        {filteredProducts.length > 0 ? (
                             filteredProducts.map((product) => (
-                                <motion.div 
-                                    key={product.id} 
-                                    className="relative group"
-                                    whileHover={{ y: -5 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                <CompanyCard
-                                    id={product.id}
-                                    name={product.title}
-                                    // description={product.description}
-                                    // images={product.images}
-                                    images={op}
-                                    price={product.price}
-                                />
-                                </motion.div>
+                                <div className="relative" key={product._id}> {/* Use _id instead of id */}
+                                    <CompanyCardGrid product={[product]} />
+                                </div>
                             ))
-                        }  */}
-
-               
-                        {
-
-                            filteredProducts.map((product) => (
-                                allProducts && allProducts.length > 0 ? (
-                                    <div className="relative" key={product.id}>
-                                        <CompanyCardGrid product={[product]} />
-                                    </div>
-                                ) : (
-                                    <span className="text" key={product.id} >No Products Found</span>
-                                )
-
-                            ))
-                        }
-
-                     </div>       
+                        ) : (
+                            <div className="col-span-full text-center py-10">
+                                <span className="text-xl text-gray-400">No Products Found</span>
+                            </div>
+                        )}
+                    </div>       
                         
             </div>
         </>

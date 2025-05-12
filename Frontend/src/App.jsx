@@ -3,17 +3,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingScreen } from "../src/components/ui/loading";
 import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme-provider';
-import FluidCursor from './components/FluidCursor'; // Import FluidCursor component
 
 // components
 import Login from './components/shared/Login';
 import Signup from './components/shared/Signup';
 import BikeDetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home';
-import FavoritesPage from './components/user/favorites';
 import Profile from './components/user/Profile';
 import WishlistPage from './components/user/WishList';
-import CompaniesPage from './components/Home/Bikes';
 import Electric from './components/user/Electric';
 import List from './components/user/List';
 import CompanyTable from './components/admin/CompanyTable';
@@ -24,7 +21,6 @@ import AdminProduct from './components/admin/AdminProduct';
 import AdminOrder from './components/admin/AdminOrder';
 import CompaniesCreation from './components/admin/CompaniesCreation';
 import ProductsCreation from './components/admin/ProductsCreation';
-import AdminProfile from './components/admin/AdminProfile';
 import Protection from './components/ProtectionRoutes/Protection';
 import UserProtection from './components/ProtectionRoutes/UserProtection';
 import Error from './components/ProtectionRoutes/Error';

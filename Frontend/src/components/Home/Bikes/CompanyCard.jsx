@@ -125,11 +125,11 @@ export function CompanyCard({ id: companyId, name, images = [], price }) {
 }
 
 CompanyCard.propTypes = {
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string, // Changed from number to string for MongoDB _id
     name: PropTypes.string.isRequired,
-    price: PropTypes.number, // ✅ Make price optional
-    images: PropTypes.arrayOf(PropTypes.string), // ✅ Make images optional
-};
+    price: PropTypes.number,
+    images: PropTypes.array, // Allow any array format
+};;
 
 CompanyCard.defaultProps = {
     images: [], // ✅ Fallback value for images
