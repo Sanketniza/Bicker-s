@@ -11,7 +11,7 @@ import BikeDetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home';
 import Profile from './components/user/Profile';
 import WishlistPage from './components/user/WishList';
-import Electric from './components/user/Electric';
+import Electric from './components/Home/Electric';
 import List from './components/user/List';
 import CompanyTable from './components/admin/CompanyTable';
 import UpdataProfile from './components/user/UpdateProfile';

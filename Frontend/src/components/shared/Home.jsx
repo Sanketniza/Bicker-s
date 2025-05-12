@@ -15,8 +15,10 @@ import { LoadingScreen } from "../ui/loading";
 // import CompaniesPage from "../Home/Bikes";
 
 import BikesSpotlight from "../Home/Bikes";
-// import BikeDetails from "../../components/Home/Bikes/bike-details";
-// import { Route } from 'wouter';
+import Electric from "../Home/Electric";
+import Scooter from "../Home/Scooter";
+import Car from "../Home/Car";
+
 import Footer from './footer';
 
 
@@ -60,20 +62,21 @@ function Home() {
 
                         ) : (    */}
                         <>
-                              <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 1 }}
-                              >
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 1 }}
+                            >
 
                                 <Navbar />
                                 <Nav />
                                 <Ad />
                             
                                 <BikesSpotlight />
-                                {/* <BikesSpotlight />
-                                <BikesSpotlight /> */}
+                                <Electric />
+                                <Scooter />
+                                <Car />
                                 
                                 {/* <Route path="/bike/:id" component={BikeDetails}/> */}
 
