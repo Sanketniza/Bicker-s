@@ -17,11 +17,16 @@ import { jsPDF } from "jspdf";
 import { useNavigate } from "react-router-dom";
 import useGetAllProduct from "@/hooks/useGetAllProduct";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 function ProductTable() {
   useGetAllProduct();
+
+  
+  const { companies } = useSelector((store) => store.company);
   const { allProducts } = useSelector((store) => store.product);
   const products = allProducts || [];
+//   console.log("products" , products);
   
   const [search, setSearch] = useState("");
   const printRef = useRef();
@@ -138,9 +143,41 @@ function ProductTable() {
     });
   };
 
+  //* getting company name (another way to do it)
+//     const [companies, setCompanies] = useState({});
+  
+//   // Fetch companies data
+//   useEffect(() => {
+//     async function fetchCompanies() {
+//       try {
+//         const response = await axios.get('http://localhost:8000/api/v1/company', {
+//           withCredentials: true
+//         });
+        
+//         if (response.data.success) {
+//           // Create a mapping of company ID to company name
+//           const companyMap = {};
+//           response.data.companies.forEach(company => {
+//             companyMap[company._id] = company.name || company.title;
+//           });
+//           setCompanies(companyMap);
+//         }
+//       } catch (error) {
+//         console.error("Error fetching companies:", error);
+//       }
+//     }
+    
+//     fetchCompanies();
+//   }, []);
+
+// Function to handle company edit
+  const handleEdit = (companyId) => {
+    navigate(`/admin/product-edit/${companyId}`);
+  };
+
   return (
         <div className="mx-10">
-            <div className="relative p-10 mx-auto my-10 border rounded-lg shadow-2xl border-orange-500/30 max-w-5xl bg-black/20 backdrop-blur-sm overflow-auto">
+            <div className="relative p-10 mx-auto my-10 border rounded-lg shadow-2xl border-orange-500/30 max-w-7xl bg-black/20 backdrop-blur-sm overflow-auto">
                 <div
                     className="absolute inset-0 rounded-lg opacity-30 blur-xl"
                     style={{
@@ -224,6 +261,7 @@ function ProductTable() {
                             <Header>
                             <HeaderRow theme={theme}>
                                 <HeaderCell>Product Image</HeaderCell>
+                                <HeaderCell>Company Name</HeaderCell>
                                 <HeaderCell>Product Name</HeaderCell>
                                 <HeaderCell>Created At</HeaderCell>
                                 <HeaderCell>Action</HeaderCell>
@@ -249,22 +287,34 @@ function ProductTable() {
                                     </div>
                                     )}
                                 </Cell>
+                                
+                                {/* <Cell>
+                                    {companies[product?.companyId] || "Unknown Company"}
+                                </Cell> */}
+
+                                <Cell>
+                                    {companies.find(c => c._id === product.companyId)?.name || "Untitled"}
+                                </Cell>
+
                                 <Cell>{product.title || "Untitled"}</Cell>
+
                                 <Cell>
                                     {formatDate(product.createdAt)}
                                 </Cell>
+
                                 <Cell>
                                     <button 
-                                    className="text-green-400 hover:underline"
-                                    onClick={() => navigate(`/admin-products/edit/${product._id}`)}
+                                        className="text-green-400 hover:underline"
+                                        onClick={() => handleEdit(product._id)}
                                     >
                                     Edit
                                     </button>
                                 </Cell>
+
                                 <Cell>
                                     <button 
-                                    className="text-green-400 hover:underline"
-                                    onClick={() => handleOrderClick(product)}
+                                        className="text-green-400 hover:underline"
+                                        onClick={() => handleOrderClick(product)}
                                     >
                                     View
                                     </button>

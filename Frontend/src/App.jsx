@@ -27,6 +27,7 @@ import Error from './components/ProtectionRoutes/Error';
 import AdminNotification from './components/admin/AdminNotification';
 import OrderDetails from './components/user/OrderDetails';
 import CompanyEdit from './components/admin/CompanyEdit';
+import ProductEdit from './components/admin/ProductEdit';
 
 const appRouter = createBrowserRouter([
 
@@ -134,15 +135,7 @@ const appRouter = createBrowserRouter([
         path: "/admin-order",
         element: <Protection><AdminOrder /></Protection>
     },
-
-
-
-
-
-     // {
-    //     path: "/companytable/:id",
-    //     element: <CompanyTable />
-    // },
+   
 
     {
         path: "/companytable",
@@ -162,6 +155,11 @@ const appRouter = createBrowserRouter([
     {
         path: "/admin/companies-edit/:id",
         element: <CompanyEdit />
+    },
+
+    {
+        path: "/admin/product-edit/:id",
+        element: <ProductEdit />
     },
 
 
