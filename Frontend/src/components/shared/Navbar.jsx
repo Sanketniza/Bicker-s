@@ -148,7 +148,7 @@ function Navbar() {
                             whileHover={{ color: "#6674CC" }}
                             className="cursor-pointer text-white-800">
                         <NavLink 
-                            to="/signup"
+                            to="/order-details"
                             className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                         >  
                             <div className="flex items-center gap-1">

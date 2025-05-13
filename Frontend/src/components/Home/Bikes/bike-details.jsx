@@ -30,9 +30,9 @@ export default function BikeDetails() {
 
     const navigate = useNavigate();
   
-  const dispatch = useDispatch();
-  const params = useParams();
-  const productId = params.id;
+    const dispatch = useDispatch();
+    const params = useParams();
+    const productId = params.id;
 //   console.log("Product ID:", productId);
 
   const { singleProduct  } = useSelector(state => state.product);
@@ -40,7 +40,7 @@ export default function BikeDetails() {
 //   console.log("Wishlist:", wishlist);
 
 
-  useEffect(() => {
+   useEffect(() => {
 
 		const fetchSingleBike = async () => {
 
@@ -83,156 +83,43 @@ export default function BikeDetails() {
 //   console.log("Single Product title :", singleProduct?.title);
 //   console.log("Single info ID:", singleProduct?.specifications[0]?.EngineType);
 
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
+    const [showForm, setShowForm] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
 
-  const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
    
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!singleProduct?._id || !singleProduct?.shopOwnerId?._id) {
-        toast.error("Product information incomplete. Please try again later.", {
-            style: {
-                color: '#ef4444',
-                backgroundColor: '#09090B',
-                fontSize: '18px',
-                borderColor: '#ef4444',
-                padding: '10px 20px'
-            }
-        });
-        return;
-    }
-
-    try {
-        setIsLoading(true); // Add this state variable to your component
-
-        const response = await axios.post('http://localhost:8000/api/v1/order/', {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            message: formData.message,
-            productId: productId,
-            shopOwnerId: singleProduct?.shopOwnerId?._id
-        }, {
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (response.data.success) {
-            toast.success("Your message has been sent to the seller!", {
-                style: {
-                    color: '#10B981',
-                    backgroundColor: '#09090B',
-                    fontSize: '18px',
-                    borderColor: '#10B981',
-                    padding: '10px 20px'
-                }
-            });
-            // Reset form data
-            setFormData({
-                name: '',
-                email: '',
-                phone: '',
-                message: ''
-            });
-            setShowForm(false);
-        }
-    } catch (error) {
-        console.error("Error sending message:", error);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         
-        const errorMsg = error.response?.data?.message || "Failed to send message. Please try again.";
-        toast.error(errorMsg, {
-            style: {
-                color: '#ef4444',
-                backgroundColor: '#09090B',
-                fontSize: '18px',
-                borderColor: '#ef4444',
-                padding: '10px 20px'
-            }
-        });
-        
-        // If it's an authentication error, suggest login
-        if (error.response?.status === 401) {
-            toast.error("Please login to contact the seller", {
+        if (!singleProduct?._id || !singleProduct?.shopOwnerId?._id) {
+            toast.error("Product information incomplete. Please try again later.", {
                 style: {
                     color: '#ef4444',
                     backgroundColor: '#09090B',
                     fontSize: '18px',
                     borderColor: '#ef4444',
                     padding: '10px 20px'
-                },
-                action: {
-                    label: "Login",
-                    onClick: () => navigate("/login")
                 }
             });
+            return;
         }
-    } finally {
-        setIsLoading(false); // Add this state variable to your component
-    }
-};
 
+        try {
+            setIsLoading(true); // Add this state variable to your component
 
-const { wishList } = useSelector(state => state.wishlist);
-const [isFavorite, setIsFavorite] = useState(false);
-
-useEffect(() => {
-    if (singleProduct) {
-        const exists = wishList.some(item => item._id === singleProduct._id);
-        setIsFavorite(exists);
-    }
-}, [wishList, singleProduct]);
-
-const handleWishlist = async () => {
-    if (!singleProduct) {
-        toast.error("Product information not available", {
-            style: {
-                color: '#ef4444',
-                backgroundColor: '#09090B',
-                fontSize: '20px',
-                borderColor: '#ef4444',
-                padding: '10px 20px'
-            }
-        });
-        return;
-    }
-
-    try {
-        if (isFavorite) {
-            const res = await axios.delete(`http://localhost:8000/api/v1/wishlist/remove/${singleProduct._id}`, {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (res.data.success) {
-                dispatch(removeFromWishList(singleProduct._id));
-                toast.success("Removed from wishlist!", {
-                    style: {
-                        color: '#10B981',
-                        backgroundColor: '#09090B',
-                        fontSize: '20px',
-                        borderColor: '#10B981',
-                        padding: '10px 20px'
-                    }
-                });
-                setIsFavorite(false);
-            }
-        } 
-        
-        else {
-            const res = await axios.post('http://localhost:8000/api/v1/wishlist/add', {
-                productId: singleProduct._id
+            const response = await axios.post('http://localhost:8000/api/v1/order/', {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                message: formData.message,
+                productId: productId,
+                shopOwnerId: singleProduct?.shopOwnerId?._id
             }, {
                 withCredentials: true,
                 headers: {
@@ -240,41 +127,154 @@ const handleWishlist = async () => {
                 }
             });
 
-            if (res.data.success) {
-                const productData = {
-                    _id: singleProduct._id,
-                    title: singleProduct.title,
-                    price: singleProduct.price,
-                    images: singleProduct.images
-                };
-
-                dispatch(addToWishList(productData));
-                toast.success("Added to wishlist!", {
+            if (response.data.success) {
+                toast.success("Your message has been sent to the seller!", {
                     style: {
                         color: '#10B981',
                         backgroundColor: '#09090B',
-                        fontSize: '20px',
+                        fontSize: '18px',
                         borderColor: '#10B981',
                         padding: '10px 20px'
                     }
                 });
-                setIsFavorite(true);
+                // Reset form data
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                });
+                setShowForm(false);
             }
+        } catch (error) {
+            console.error("Error sending message:", error);
+            
+            const errorMsg = error.response?.data?.message || "Failed to send message. Please try again.";
+            toast.error(errorMsg, {
+                style: {
+                    color: '#ef4444',
+                    backgroundColor: '#09090B',
+                    fontSize: '18px',
+                    borderColor: '#ef4444',
+                    padding: '10px 20px'
+                }
+            });
+            
+            // If it's an authentication error, suggest login
+            if (error.response?.status === 401) {
+                toast.error("Please login to contact the seller", {
+                    style: {
+                        color: '#ef4444',
+                        backgroundColor: '#09090B',
+                        fontSize: '18px',
+                        borderColor: '#ef4444',
+                        padding: '10px 20px'
+                    },
+                    action: {
+                        label: "Login",
+                        onClick: () => navigate("/login")
+                    }
+                });
+            }
+        } finally {
+            setIsLoading(false); // Add this state variable to your component
         }
-    } catch (error) {
-        console.error('Wishlist operation failed:', error);
-        const errorMessage = error.response?.data?.message || `Failed to ${isFavorite ? 'remove from' : 'add to'} wishlist!`;
-        toast.error(errorMessage, {
-            style: {
-                color: '#ef4444',
-                backgroundColor: '#09090B',
-                fontSize: '20px',
-                borderColor: '#ef4444',
-                padding: '10px 20px'
+    };
+
+
+    const { wishList } = useSelector(state => state.wishlist);
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        if (singleProduct) {
+            const exists = wishList.some(item => item._id === singleProduct._id);
+            setIsFavorite(exists);
+        }
+    }, [wishList, singleProduct]);
+
+    const handleWishlist = async () => {
+        if (!singleProduct) {
+            toast.error("Product information not available", {
+                style: {
+                    color: '#ef4444',
+                    backgroundColor: '#09090B',
+                    fontSize: '20px',
+                    borderColor: '#ef4444',
+                    padding: '10px 20px'
+                }
+            });
+            return;
+        }
+
+        try {
+            if (isFavorite) {
+                const res = await axios.delete(`http://localhost:8000/api/v1/wishlist/remove/${singleProduct._id}`, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (res.data.success) {
+                    dispatch(removeFromWishList(singleProduct._id));
+                    toast.success("Removed from wishlist!", {
+                        style: {
+                            color: '#10B981',
+                            backgroundColor: '#09090B',
+                            fontSize: '20px',
+                            borderColor: '#10B981',
+                            padding: '10px 20px'
+                        }
+                    });
+                    setIsFavorite(false);
+                }
+            } 
+            
+            else {
+                const res = await axios.post('http://localhost:8000/api/v1/wishlist/add', {
+                    productId: singleProduct._id
+                }, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (res.data.success) {
+                    const productData = {
+                        _id: singleProduct._id,
+                        title: singleProduct.title,
+                        price: singleProduct.price,
+                        images: singleProduct.images
+                    };
+
+                    dispatch(addToWishList(productData));
+                    toast.success("Added to wishlist!", {
+                        style: {
+                            color: '#10B981',
+                            backgroundColor: '#09090B',
+                            fontSize: '20px',
+                            borderColor: '#10B981',
+                            padding: '10px 20px'
+                        }
+                    });
+                    setIsFavorite(true);
+                }
             }
-        });
-    }
-};
+        } catch (error) {
+            console.error('Wishlist operation failed:', error);
+            const errorMessage = error.response?.data?.message || `Failed to ${isFavorite ? 'remove from' : 'add to'} wishlist!`;
+            toast.error(errorMessage, {
+                style: {
+                    color: '#ef4444',
+                    backgroundColor: '#09090B',
+                    fontSize: '20px',
+                    borderColor: '#ef4444',
+                    padding: '10px 20px'
+                }
+            });
+        }
+    };
 
 
     const handleShare = async () => {

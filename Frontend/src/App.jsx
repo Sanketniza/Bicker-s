@@ -25,6 +25,8 @@ import Protection from './components/ProtectionRoutes/Protection';
 import UserProtection from './components/ProtectionRoutes/UserProtection';
 import Error from './components/ProtectionRoutes/Error';
 import AdminNotification from './components/admin/AdminNotification';
+import OrderDetails from './components/user/OrderDetails';
+import CompanyEdit from './components/admin/CompanyEdit';
 
 const appRouter = createBrowserRouter([
 
@@ -90,6 +92,11 @@ const appRouter = createBrowserRouter([
         element: <UserProtection><UpdataProfile /></UserProtection>
     },
 
+    {
+        path:"/order-details",
+        element: <UserProtection><OrderDetails /></UserProtection>
+    },
+
     // ------------ Admin Routes -------------
 
     // {
@@ -150,6 +157,11 @@ const appRouter = createBrowserRouter([
     {
         path: "/admin-products/products-creation",
         element: <ProductsCreation />
+    },
+
+    {
+        path: "/admin/companies-edit/:id",
+        element: <CompanyEdit />
     },
 
 
