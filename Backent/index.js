@@ -56,18 +56,18 @@ app.listen(PORT, () => {
 const cloudinary = require("./utils/cloudinary");
 
 // Test Cloudinary connection on startup
-async function testCloudinaryConnection() {
-  try {
-    const result = await cloudinary.uploader.upload(
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
-      { folder: "test" }
-    );
-    console.log("✅ Cloudinary connection successful:", result.secure_url);
-    return true;
-  } catch (error) {
-    console.error("❌ Cloudinary connection failed:", error);
-    return false;
-  }
-}
+// async function testCloudinaryConnection() {
+//   try {
+//     const result = await cloudinary.uploader.upload(
+//       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+//       { folder: "test" }
+//     );
+//     console.log("✅ Cloudinary connection successful:", result.secure_url);
+//     return true;
+//   } catch (error) {
+//     console.error("❌ Cloudinary connection failed:", error);
+//     return false;
+//   }
+// }
 
-testCloudinaryConnection();
+// testCloudinaryConnection();

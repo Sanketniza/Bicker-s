@@ -1,79 +1,109 @@
- const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+//  const jwt = require("jsonwebtoken");
+// const User = require("../models/user.model");
 
-const isAuthenticated = async(req, res, next) => {
+// const isAuthenticated = async(req, res, next) => {
+//     try {
+
+//         const token = req.cookies.token;
+//         // const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
+//         if (!token) {
+//             return res.status(401).json({
+//                 message: "User not authenticated",
+//                 success: false,
+//             });
+//         }
+
+//         const decoded = await jwt.verify(token, process.env.SECRET_KEY);
+//         if (!decoded) {
+//             return res.status(401).json({
+//                 message: "Invalid token",
+//                 success: false
+//             });
+//         }
+
+//         req.user = decoded;
+//         next();
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({
+//             message: "Authentication error",
+//             success: false
+//         });
+//     }
+// };
+
+
+// module.exports = isAuthenticated; 
+
+
+
+const jwt = require('jsonwebtoken');
+const User = require('../models/user.model');
+
+const authenticate = async (req, res, next) => {
     try {
-
+        // Get token from cookies
         const token = req.cookies.token;
-        // const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
-
+        
+        // console.log("Authentication middleware - Cookie token:", token ? "Present" : "Missing");
+        
         if (!token) {
             return res.status(401).json({
-                message: "User not authenticated",
                 success: false,
+                message: 'Authentication required. Please log in.'
             });
         }
-
-        const decoded = await jwt.verify(token, process.env.SECRET_KEY);
+        
+        // Verify token
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        // console.log("Token decoded successfully:", decoded.id);
+        
         if (!decoded) {
             return res.status(401).json({
-                message: "Invalid token",
-                success: false
+                success: false,
+                message: 'Invalid authentication token.'
             });
         }
-
-        req.user = decoded;
+        
+        // Get user from token
+        const user = await User.findById(decoded.id).select('-password');
+        
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: 'User not found.'
+            });
+        }
+        
+        // console.log("User authenticated:", user._id);
+        
+        // Add user to request object
+        req.user = user;
         next();
     } catch (error) {
-        console.log(error);
+        console.error('Authentication error:', error.message);
+        
+        // Handle different JWT errors 
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid token format.'
+            });
+        }
+        
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({
+                success: false,
+                message: 'Token has expired. Please log in again.'
+            });
+        }
+        
         return res.status(500).json({
-            message: "Authentication error",
-            success: false
+            success: false,
+            message: 'Server error during authentication.'
         });
     }
 };
 
-
-module.exports = isAuthenticated; 
-
-
-/* 
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
-
-const isAuthenticated = async (req, res, next) => {
-  try {
-    let token;
-
-    // First check cookie
-    if (req.cookies && req.cookies.token) {
-      token = req.cookies.token;
-    }
-
-    // Then check Authorization header
-    else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-      token = req.headers.authorization.split(" ")[1];
-    }
-
-    if (!token) {
-      return res.status(401).json({
-        message: "User not authenticated",
-        success: false,
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-    req.user = decoded; // Save decoded token (user ID and role)
-    next();
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      message: "Authentication error",
-      success: false,
-    });
-  }
-};
-
-module.exports = isAuthenticated;
- */
+module.exports = authenticate;

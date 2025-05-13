@@ -5,6 +5,6 @@ const authenticate = require('../Middlewares/isAuthenticated');
 const router = express.Router();
 
 router.post('/toggle', authenticate, addLikeOrDislike);
-router.get('/count/:productId', getLikesAndDislikesCount);
+router.get('/count/:productId', authenticate , getLikesAndDislikesCount);
 
 module.exports = router;

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 // Add styling with styled-components
 const StyledWrapper = styled.div`
@@ -125,100 +126,142 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const Like = ({ className }) => {
+
+
+
+const Like = ({ className, productId }) => {
   const { id } = useParams(); // product ID from URL
-  const [showContainer, setShowContainer] = useState(true);
+  const actualProductId = productId || id; // Use passed productId or URL parameter
+//   const [showContainer, setShowContainer] = useState(true);
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
   const [isLike, setIsLike] = useState(false);
   const [isDislike, setIsDislike] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCounts = async () => {
-      if (!id) return; // Don't fetch if no ID is available
+      if (!actualProductId) {
+        console.error("No product ID available");
+        return;
+      }
       
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/like/count/${id}`, {
+        setIsLoading(true);
+        const response = await axios.get(`http://localhost:8000/api/v1/like/count/${actualProductId}`, {
           withCredentials: true
         });
-        setLikeCount(response.data.likes);
-        setDislikeCount(response.data.dislikes);
-        setIsLike(response.data.isLike);
-        setIsDislike(response.data.isDislike);
+        
+        if (response.data.success) {
+          setLikeCount(response.data.likes);
+          setDislikeCount(response.data.dislikes);
+          setIsLike(response.data.isLike);
+          setIsDislike(response.data.isDislike);
+        }
       } catch (error) {
-        console.error("Error fetching like/dislike count:", error.message);
+        console.error("Error fetching like/dislike count:", error);
+        toast.error("Couldn't fetch reaction counts");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchCounts();
-  }, [id]);
+  }, [actualProductId]);
 
   const handleLike = async () => {
-    if (!id) {
+    if (!actualProductId) {
       console.error("No product ID available");
+      toast.error("Product ID is missing");
       return;
     }
 
     try {
+      setIsLoading(true);
+      const action = isLike ? 'remove' : 'like';
+      
       const response = await axios.post('http://localhost:8000/api/v1/like/toggle', 
-        { productId: id, action: isLike ? 'remove' : 'like' },
+        { productId: actualProductId, type: action }, // Using 'type' instead of 'action'
         { withCredentials: true }
       );
-      setLikeCount(response.data.likes);
-      setDislikeCount(response.data.dislikes);
-      setIsLike(response.data.isLike);
-      setIsDislike(false); // Ensure dislike is reset when liking
+      
+      if (response.data.success) {
+        setLikeCount(response.data.likes);
+        setDislikeCount(response.data.dislikes);
+        setIsLike(response.data.isLike);
+        setIsDislike(response.data.isDislike);
+      } else {
+        toast.error(response.data.message || "Failed to process reaction");
+      }
     } catch (error) {
-      console.error("Like failed:", error.message);
+      console.error("Like action failed:", error);
+      toast.error("Failed to process reaction");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDislike = async () => {
-    if (!id) {
+    if (!actualProductId) {
       console.error("No product ID available");
+      toast.error("Product ID is missing");
       return;
     }
 
     try {
+      setIsLoading(true);
+      const action = isDislike ? 'remove' : 'dislike';
+      
       const response = await axios.post('http://localhost:8000/api/v1/like/toggle', 
-        { productId: id, action: isDislike ? 'remove' : 'dislike' },
+        { productId: actualProductId, type: action }, // Using 'type' instead of 'action'
         { withCredentials: true }
       );
-      setLikeCount(response.data.likes);
-      setDislikeCount(response.data.dislikes);
-      setIsDislike(response.data.isDislike);
-      setIsLike(false); // Ensure like is reset when disliking
+      
+      if (response.data.success) {
+        setLikeCount(response.data.likes);
+        setDislikeCount(response.data.dislikes);
+        setIsLike(response.data.isLike);
+        setIsDislike(response.data.isDislike);
+      } else {
+        toast.error(response.data.message || "Failed to process reaction");
+      }
     } catch (error) {
-      console.error("Dislike failed:", error.message);
+      console.error("Dislike action failed:", error);
+      toast.error("Failed to process reaction");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleClose = () => {
-    setShowContainer(false);
-  };
+//   const handleClose = () => {
+//     setShowContainer(false);
+//   };
 
-  if (!showContainer) {
-    return null;
-  }
+//   if (!showContainer) {
+//     return null;
+//   }
 
   return (
     <StyledWrapper className={className}>
       <div className="like-dislike-container">
-        <div className="tool-box">
-          <button className="btn-close" onClick={handleClose}>×</button>
-        </div>
+        
 
         <p className="text-content">What did you think<br />of this post?</p>                
 
         <div className="icons-box">
           <div className="icons">
-            <label className="btn-label" htmlFor="like-checkbox">
+            <label 
+              className="btn-label" 
+              htmlFor="like-checkbox"
+              style={{ opacity: isLoading ? 0.5 : 1, pointerEvents: isLoading ? 'none' : 'auto' }}
+            >
               <input 
                 className="input-box" 
                 id="like-checkbox" 
                 type="checkbox" 
                 onChange={handleLike}
                 checked={isLike}
+                disabled={isLoading}
               />
               <svg className="svgs" id="icon-like-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{ fill: isLike ? '#4CAF50' : '#666' }}>
                 <path d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z" />
@@ -234,13 +277,18 @@ const Like = ({ className }) => {
           </div>
 
           <div className="icons">
-            <label className="btn-label" htmlFor="dislike-checkbox">
+            <label 
+              className="btn-label" 
+              htmlFor="dislike-checkbox"
+              style={{ opacity: isLoading ? 0.5 : 1, pointerEvents: isLoading ? 'none' : 'auto' }}
+            >
               <input 
                 className="input-box" 
                 id="dislike-checkbox" 
                 type="checkbox" 
                 onChange={handleDislike}
                 checked={isDislike}
+                disabled={isLoading}
               />
               <div className="fireworks">
                 <div className="checked-dislike-fx" />
