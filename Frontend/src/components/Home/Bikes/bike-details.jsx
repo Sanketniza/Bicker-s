@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Ensure useParams is imported from react-router-dom
+import { useNavigate, useParams } from 'react-router-dom'; // Ensure useParams is imported from react-router-dom
 import { motion } from 'framer-motion';
 import { ImageSlider } from './ImageSlider';
 import { 
@@ -27,6 +27,8 @@ import HoverRating from '../../user/my-ui/Ratting';
 import Footer from '@/components/shared/footer';
 
 export default function BikeDetails() {
+
+    const navigate = useNavigate();
   
   const dispatch = useDispatch();
   const params = useParams();
@@ -36,8 +38,6 @@ export default function BikeDetails() {
   const { singleProduct  } = useSelector(state => state.product);
 //   const { wishlist } = useSelector(state => state.wishlist);
 //   console.log("Wishlist:", wishlist);
-  
- 
 
 
   useEffect(() => {
@@ -90,6 +90,96 @@ export default function BikeDetails() {
     phone: '',
     message: ''
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+   
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!singleProduct?._id || !singleProduct?.shopOwnerId?._id) {
+        toast.error("Product information incomplete. Please try again later.", {
+            style: {
+                color: '#ef4444',
+                backgroundColor: '#09090B',
+                fontSize: '18px',
+                borderColor: '#ef4444',
+                padding: '10px 20px'
+            }
+        });
+        return;
+    }
+
+    try {
+        setIsLoading(true); // Add this state variable to your component
+
+        const response = await axios.post('http://localhost:8000/api/v1/order/', {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+            productId: productId,
+            shopOwnerId: singleProduct?.shopOwnerId?._id
+        }, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.data.success) {
+            toast.success("Your message has been sent to the seller!", {
+                style: {
+                    color: '#10B981',
+                    backgroundColor: '#09090B',
+                    fontSize: '18px',
+                    borderColor: '#10B981',
+                    padding: '10px 20px'
+                }
+            });
+            // Reset form data
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                message: ''
+            });
+            setShowForm(false);
+        }
+    } catch (error) {
+        console.error("Error sending message:", error);
+        
+        const errorMsg = error.response?.data?.message || "Failed to send message. Please try again.";
+        toast.error(errorMsg, {
+            style: {
+                color: '#ef4444',
+                backgroundColor: '#09090B',
+                fontSize: '18px',
+                borderColor: '#ef4444',
+                padding: '10px 20px'
+            }
+        });
+        
+        // If it's an authentication error, suggest login
+        if (error.response?.status === 401) {
+            toast.error("Please login to contact the seller", {
+                style: {
+                    color: '#ef4444',
+                    backgroundColor: '#09090B',
+                    fontSize: '18px',
+                    borderColor: '#ef4444',
+                    padding: '10px 20px'
+                },
+                action: {
+                    label: "Login",
+                    onClick: () => navigate("/login")
+                }
+            });
+        }
+    } finally {
+        setIsLoading(false); // Add this state variable to your component
+    }
+};
 
 
 const { wishList } = useSelector(state => state.wishlist);
@@ -187,9 +277,6 @@ const handleWishlist = async () => {
 };
 
 
-
-
-
     const handleShare = async () => {
 
 		const url = window.location.href;
@@ -213,19 +300,7 @@ const handleWishlist = async () => {
     };
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    toast.success("FormSubmission Successfully!❤️❤️ ", {
-      style: {
-        color: '#10B981',
-        backgroundColor: '#09090B',          
-        fontSize: '20px',
-        borderColor: '#10B981',
-        padding: '10px 20px'
-      }
-    });
-    setShowForm(false);
-  };
+
 
   const { ratings = [], averageRating = 0 } = useSelector((state) => state.rating);
 
@@ -265,8 +340,6 @@ const handleWishlist = async () => {
         toast.error("Failed to submit rating. Please try again.");
     }
 };
-
-
 
 
 
@@ -590,10 +663,19 @@ const handleWishlist = async () => {
                         <motion.button
                             type="submit"
                             className="w-full py-2 bg-orange-500 text-white rounded-md font-bold text-[20px]"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                            whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                            disabled={isLoading}
                         >
-                            Send Message
+                            {isLoading ? (
+                                <span className="flex items-center justify-center">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Sending...
+                                </span>
+                            ) : "Send Message"}
                         </motion.button>
                         </form>
                     </motion.div>

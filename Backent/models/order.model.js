@@ -1,63 +1,72 @@
 const mongoose = require('mongoose');
 
-// Define the Application/Order Schema
 const orderSchema = new mongoose.Schema({
-
+    // Existing fields
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User (normal user)
+        ref: 'User',
         required: true,
     },
-
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product', // Reference to the Product (bike/car)
+        ref: 'Product',
         required: true,
     },
-
     shopOwnerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the Shop Owner
+        ref: 'User',
         required: true,
     },
-
     status: {
         type: String,
         enum: ['pending', 'approved', 'rejected', 'completed'],
-        default: 'pending', // Track the application status
+        default: 'pending',
     },
-
     message: {
         type: String,
         maxlength: 5000,
-        default: '', // Optional message from the user to the shop owner
+        default: '',
     },
-
+    
+    // New fields for customer information
+    customerName: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    customerEmail: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    customerPhone: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    
+    // Existing fields
     createdAt: {
         type: Date,
         default: Date.now,
     },
-
     paymentStatus: {
         type: String,
         enum: ['pending', 'completed', 'failed'],
         default: 'pending'
     },
-
     totalAmount: {
         type: Number,
-        // required: true
     },
-
-
-
+    
+    // Add a field to identify if this is a contact inquiry or an actual order
+    orderType: {
+        type: String,
+        enum: ['contact', 'purchase'],
+        default: 'contact' // Default to contact inquiry
+    }
 }, {
-    timestamps: true, // Adds createdAt and updatedAt fields
+    timestamps: true,
 });
-
-// Create the Application/Order Model
-// const Application = mongoose.model('Application', applicationSchema);
-
-// module.exports = Application;
 
 module.exports = mongoose.model('Order', orderSchema);

@@ -4,15 +4,94 @@ const User = require("../models/user.model");
 
 
 // Create a new order
+// exports.createOrder = async(req, res) => {
+//     try {
+//         const { productId, shopOwnerId, message } = req.body;
+//         const userId = req.user.id;
+
+//         // Validate required fields
+//         if (!productId || !shopOwnerId) {
+//             return res.status(400).json({
+//                 message: "Product ID and Shop Owner ID are required.",
+//                 success: false,
+//             });
+//         }
+
+//         // Check if the product exists
+//         const product = await Product.findById(productId);
+//         if (!product) {
+//             return res.status(404).json({
+//                 message: "Product not found.",
+//                 success: false,
+//             });
+//         }
+
+//         // Check if the product is active and in stock
+//         if (product.status !== "active" || product.stock <= 0) {
+//             return res.status(400).json({
+//                 message: "Product is either inactive or out of stock.",
+//                 success: false,
+//             });
+//         }
+
+//         // Check if the user already placed an order for the same product
+//         const existingOrder = await Order.findOne({
+//             userId: req.user.id,
+//             productId: productId,
+//         });
+
+//         if (existingOrder) {
+//             return res.status(400).json({
+//                 message: "You have already placed an order for this product.",
+//                 success: false,
+//             });
+//         }
+
+//         // Create a new order
+//         const order = await Order.create({
+//             userId,
+//             productId,
+//             shopOwnerId,
+//             message: message || "",
+//         });
+
+//         // Reduce the product stock by 1
+//         product.stock -= 1;
+//         await product.save();
+
+//         return res.status(201).json({
+//             message: "Order created successfully.",
+//             success: true,
+//             order,
+//         });
+
+//     } catch (error) {
+//         console.error("Error in createOrder:", error.message);
+//         return res.status(500).json({
+//             message: "Internal server error.",
+//             success: false,
+//             error: error.message,
+//         });
+//     }
+// };
+
+// Create a new order
 exports.createOrder = async(req, res) => {
     try {
-        const { productId, shopOwnerId, message } = req.body;
-        const userId = req.user.id;
+        const { productId, shopOwnerId, message, name, email, phone } = req.body;
+        const userId = req.user ? req.user.id : null;
 
-        // Validate required fields
+        // Input validation
         if (!productId || !shopOwnerId) {
             return res.status(400).json({
                 message: "Product ID and Shop Owner ID are required.",
+                success: false,
+            });
+        }
+
+        if (!name || !email || !phone) {
+            return res.status(400).json({
+                message: "Name, email and phone are required.",
                 success: false,
             });
         }
@@ -26,41 +105,23 @@ exports.createOrder = async(req, res) => {
             });
         }
 
-        // Check if the product is active and in stock
-        if (product.status !== "active" || product.stock <= 0) {
-            return res.status(400).json({
-                message: "Product is either inactive or out of stock.",
-                success: false,
-            });
-        }
-
-        // Check if the user already placed an order for the same product
-        const existingOrder = await Order.findOne({
-            userId: req.user.id,
-            productId: productId,
-        });
-
-        if (existingOrder) {
-            return res.status(400).json({
-                message: "You have already placed an order for this product.",
-                success: false,
-            });
-        }
-
-        // Create a new order
+        // Create a new order/inquiry
         const order = await Order.create({
-            userId,
+            userId: userId || shopOwnerId, // If user is not logged in, use shop owner as default
             productId,
             shopOwnerId,
             message: message || "",
+            customerName: name,
+            customerEmail: email,
+            customerPhone: phone,
+            orderType: 'contact' // Mark as contact inquiry
         });
 
-        // Reduce the product stock by 1
-        product.stock -= 1;
-        await product.save();
+        // Send notification to shop owner (can be implemented later)
+        // TODO: Implement notification logic here
 
         return res.status(201).json({
-            message: "Order created successfully.",
+            message: "Your inquiry has been sent to the seller.",
             success: true,
             order,
         });
@@ -68,13 +129,12 @@ exports.createOrder = async(req, res) => {
     } catch (error) {
         console.error("Error in createOrder:", error.message);
         return res.status(500).json({
-            message: "Internal server error.",
+            message: "Failed to submit your inquiry. Please try again.",
             success: false,
             error: error.message,
         });
     }
 };
-
 
 // Get orders by user
 exports.getOrdersByUser = async(req, res) => {
