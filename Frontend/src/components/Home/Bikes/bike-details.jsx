@@ -24,6 +24,7 @@ import { EventAvailable, Policy } from '@mui/icons-material';
 import { addToWishList, removeFromWishList } from '@/store/wishListSlice';
 import { addRating, fetchAverageRating, fetchRatings, updateRating } from '@/store/ratingSlice';
 import HoverRating from '../../user/my-ui/Ratting';
+import Footer from '@/components/shared/footer';
 
 export default function BikeDetails() {
   
@@ -602,6 +603,7 @@ const handleWishlist = async () => {
                 </div>
             </div>
             
+            <Footer />
         </>
     );
 }

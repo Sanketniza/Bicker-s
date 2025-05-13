@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { addToWishList, clearWishList, removeFromWishList } from '@/store/wishListSlice';
+import Footer from '../shared/footer';
 
 
 export default function WishlistPage() {
@@ -177,15 +178,18 @@ export default function WishlistPage() {
                             
 
                             <div className="flex justify-between items-center mb-8">
-                        <h1 className="text-3xl font-bold text-emerald-500">Your Wishlist</h1>
-                        <Button 
-                            onClick={handleClearWishlist}
-                            variant="destructive"
-                            className="hover:bg-rose-600"
-                        >
-                            Clear Wishlist
-                        </Button>
-                    </div>
+                                <h1 className="text-3xl font-bold text-emerald-500 relative mb-4">
+                                    Your Wishlist
+                                    <span className="block w-full h-1 bg-orange-500 rounded-full absolute bottom--1"></span>
+                                </h1>
+                                <Button 
+                                    onClick={handleClearWishlist}
+                                    variant="destructive"
+                                    className="hover:bg-rose-600"
+                                >
+                                    Clear Wishlist
+                                </Button>
+                            </div>
 
                     {/* ✅ Total Price */}
                     {
@@ -226,7 +230,8 @@ export default function WishlistPage() {
                             </div>
                         </div>
                     </div>
-            
+                                
+               <Footer />                 
         </>
     );
 }

@@ -10,6 +10,7 @@ import Navbar from '../shared/Navbar';
 import SearchBar from './Search'; // Import SearchBar component
 import { useSelector } from 'react-redux';
 import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
+import Footer from '../shared/footer';
 
 export function List() {
 
@@ -133,6 +134,8 @@ useEffect(() => {
                     </div>       
                         
             </div>
+
+            <Footer />
         </>
     );
 }
