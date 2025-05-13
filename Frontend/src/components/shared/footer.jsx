@@ -6,10 +6,10 @@ export function Footer() {
 
   const socialLinks = [
     { icon: Facebook, href: '#', color: '#1877F2' },
-    { icon: Instagram, href: '#', color: '#E4405F' },
+    { icon: Instagram, href: 'https://www.instagram.com/sanket_talekar1717/', color: '#E4405F' },
     { icon: Twitter, href: '#', color: '#1DA1F2' },
-    { icon: Mail, href: '#', color: '#EA4335' },
-    { icon: Linkedin, href: '#', color: '#0A66C2' },
+    { icon: Mail, href: 'Bikers@gmail.com', color: '#EA4335' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/sanket-talekar-94087a263', color: '#0A66C2' },
   ];
 
   return (
@@ -42,11 +42,11 @@ export function Footer() {
                         <div className="flex flex-wrap gap-4">
                         {socialLinks.map((social, index) => (
                             <motion.a
-                            key={index}
-                            href={social.href}
-                            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
+                                key={index}
+                                href={social.href}
+                                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                             <social.icon
                                 className="w-5 h-5"
