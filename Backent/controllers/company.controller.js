@@ -175,12 +175,11 @@ exports.getAllCompanies = async(req, res) => {
 }
 
 exports.updateCompany = async(req, res) => {
-
     try {
-
         const { companyId } = req.params;
-        const { name, description, contactDetails } = req.body;
-
+        const { name, description } = req.body;
+        
+        // Find the company
         const company = await Company.findById(companyId);
         if (!company) {
             return res.status(404).json({
@@ -204,16 +203,32 @@ exports.updateCompany = async(req, res) => {
             company.logo = cloudResponse.secure_url;
         }
 
-        // Update fields
+        // Update basic fields
         if (name) company.name = name;
         if (description) company.description = description;
-        if (contactDetails) {
-            company.contactDetails = {
-                ...company.contactDetails,
-                ...contactDetails,
-            };
+        
+        // Process contact details from form-data format
+        const phone = req.body['contactDetails[phone]'] || req.body['contactDetails.phone'];
+        const email = req.body['contactDetails[email]'] || req.body['contactDetails.email'];
+        const address = req.body['contactDetails[address]'] || req.body['contactDetails.address'];
+        
+        // Update contact details if any provided
+        if (phone || email || address) {
+            // Initialize contact details if they don't exist
+            if (!company.contactDetails) {
+                company.contactDetails = {};
+            }
+            
+            if (phone) company.contactDetails.phone = phone;
+            if (email) company.contactDetails.email = email;
+            if (address) company.contactDetails.address = address;
         }
 
+        
+
+
+
+        // Save the updated company
         await company.save();
 
         return res.status(200).json({
@@ -221,10 +236,8 @@ exports.updateCompany = async(req, res) => {
             success: true,
             company,
         });
-
     } catch (error) {
         console.error("Error in updateCompany:", error.message);
-        console.log("error at company controller updateCompany");
         return res.status(500).json({
             message: "Internal server error.",
             success: false,
