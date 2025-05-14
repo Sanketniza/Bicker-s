@@ -143,11 +143,14 @@ function ProductEdit() {
                         <h1 className="text-4xl font-bold text-white">
                             <span className="text-emerald-500">Edit</span> Product
                         </h1>
+
+                        {/* Divider */}
+                        <div className="my-10 border-t border-gray-700"></div>
                         
                         {product && (
                             <div className="mt-4 mb-8">
-                                <h2 className="text-xl text-white">{product.title}</h2>
-                                <p className="text-gray-400">ID: {id}</p>
+                                <h2 className="text-xl text-white"><span className="text-yellow-500"> Name :- </span>{product.title}</h2>
+                                {/* <p className="text-gray-400">ID: {id}</p> */}
                             </div>
                         )}
 
@@ -175,7 +178,13 @@ function ProductEdit() {
                                     </>
                                 ) : "Delete Product"}
                             </button>
+
+                            {/* Divider */}
                         </div>
+                        <div className="my-10 border-t border-gray-700"></div>
+
+
+
                     </div>
                 </div>
             </div>
