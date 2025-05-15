@@ -1,9 +1,24 @@
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import one from '../../assets/adv/1.jpg';
-import two from '../../assets/adv/2.jpg';
-import three from '../../assets/adv/RE Classic500.jpg';
-import four from '../../assets/adv/Yamaha.jpg';
+
+
+import one from '../../assets/adv/1.jpeg';
+import two from '../../assets/adv/2.jpeg';
+import three from '../../assets/adv/3.jpeg';
+import four from '../../assets/adv/4.jpeg';
+import five from '../../assets/adv/5.jpeg';
+import six from '../../assets/adv/6.jpeg';
+import seven from '../../assets/adv/7.jpeg';
+import eight from '../../assets/adv/8.jpeg';
+import nine from '../../assets/adv/9.jpeg';
+import ten from '../../assets/adv/10.jpeg';
+import eleven from '../../assets/adv/11.jpeg';
+import twelve from '../../assets/adv/12.jpeg';
+import thirteen from '../../assets/adv/13.jpeg';
+import fourteen from '../../assets/adv/14.jpeg';
+import fifteen from '../../assets/adv/15.jpeg';
+
+
 
 import '../../css/ad.css';
 
@@ -13,6 +28,17 @@ const generateSlides = () => {
         { src: two, alt: 'Image 2' },
         { src: three, alt: 'Image 3' },
         { src: four, alt: 'Image 4' },
+        { src: five, alt: 'Image 5' },
+        { src: six, alt: 'Image 6' },
+        { src: seven, alt: 'Image 7' },
+        { src: eight, alt: 'Image 8' },
+        { src: nine, alt: 'Image 9' },
+        { src: ten, alt: 'Image 10' },
+        { src: eleven, alt: 'Image 11' },
+        { src: twelve, alt: 'Image 12' },
+        { src: thirteen, alt: 'Image 13' },
+        { src: fourteen, alt: 'Image 14' },
+        { src: fifteen, alt: 'Image 15' },
     ];
 };
 

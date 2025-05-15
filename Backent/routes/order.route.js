@@ -28,6 +28,30 @@
 
 // module.exports = router;
 
+// const express = require("express");
+// const router = express.Router();
+// const {
+//     createOrder,
+//     getOrdersByUser,
+//     getOrdersByShopOwner,
+//     updateOrderStatus,
+//     deleteOrder,
+// } = require("../controllers/order.controller");
+
+// const authenticate = require("../Middlewares/isAuthenticated");
+// const optionalAuth = require("../Middlewares/isOptionalAuth"); // Create this middleware
+
+// // Create a new order (with optional authentication)
+// router.post("/", optionalAuth, createOrder);
+
+// // Other routes remain the same
+// router.get("/:userId", authenticate, getOrdersByUser);
+// router.get("/shop-owner", authenticate, getOrdersByShopOwner);
+// router.patch("/:orderId/status", authenticate, updateOrderStatus);
+// router.delete("/:orderId", authenticate, deleteOrder);
+
+// module.exports = router;
+
 const express = require("express");
 const router = express.Router();
 const {
@@ -39,14 +63,16 @@ const {
 } = require("../controllers/order.controller");
 
 const authenticate = require("../Middlewares/isAuthenticated");
-const optionalAuth = require("../Middlewares/isOptionalAuth"); // Create this middleware
+const optionalAuth = require("../Middlewares/isOptionalAuth");
+
+// IMPORTANT: Order matters - place specific routes before parameterized routes
+router.get("/shop-owner", authenticate, getOrdersByShopOwner);  // This must come BEFORE /:userId
 
 // Create a new order (with optional authentication)
 router.post("/", optionalAuth, createOrder);
 
-// Other routes remain the same
-router.get("/:userId", authenticate, getOrdersByUser);
-router.get("/shop-owner", authenticate, getOrdersByShopOwner);
+// Other routes
+router.get("/:userId", authenticate, getOrdersByUser);  // This now comes AFTER /shop-owner
 router.patch("/:orderId/status", authenticate, updateOrderStatus);
 router.delete("/:orderId", authenticate, deleteOrder);
 

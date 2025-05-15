@@ -3,77 +3,7 @@ const Product = require("../models/product.model");
 const User = require("../models/user.model");
 
 
-// Create a new order
-// exports.createOrder = async(req, res) => {
-//     try {
-//         const { productId, shopOwnerId, message } = req.body;
-//         const userId = req.user.id;
 
-//         // Validate required fields
-//         if (!productId || !shopOwnerId) {
-//             return res.status(400).json({
-//                 message: "Product ID and Shop Owner ID are required.",
-//                 success: false,
-//             });
-//         }
-
-//         // Check if the product exists
-//         const product = await Product.findById(productId);
-//         if (!product) {
-//             return res.status(404).json({
-//                 message: "Product not found.",
-//                 success: false,
-//             });
-//         }
-
-//         // Check if the product is active and in stock
-//         if (product.status !== "active" || product.stock <= 0) {
-//             return res.status(400).json({
-//                 message: "Product is either inactive or out of stock.",
-//                 success: false,
-//             });
-//         }
-
-//         // Check if the user already placed an order for the same product
-//         const existingOrder = await Order.findOne({
-//             userId: req.user.id,
-//             productId: productId,
-//         });
-
-//         if (existingOrder) {
-//             return res.status(400).json({
-//                 message: "You have already placed an order for this product.",
-//                 success: false,
-//             });
-//         }
-
-//         // Create a new order
-//         const order = await Order.create({
-//             userId,
-//             productId,
-//             shopOwnerId,
-//             message: message || "",
-//         });
-
-//         // Reduce the product stock by 1
-//         product.stock -= 1;
-//         await product.save();
-
-//         return res.status(201).json({
-//             message: "Order created successfully.",
-//             success: true,
-//             order,
-//         });
-
-//     } catch (error) {
-//         console.error("Error in createOrder:", error.message);
-//         return res.status(500).json({
-//             message: "Internal server error.",
-//             success: false,
-//             error: error.message,
-//         });
-//     }
-// };
 
 // Create a new order
 exports.createOrder = async(req, res) => {
@@ -159,19 +89,31 @@ exports.getOrdersByUser = async(req, res) => {
     }
 };
 
-// Get orders by shop owner
+
 exports.getOrdersByShopOwner = async(req, res) => {
     try {
+        // console.log("Getting orders for shop owner ID:", req.user.id);
+        
         const orders = await Order.find({ shopOwnerId: req.user.id })
-            .populate("productId", "title price location")
+            .populate({
+                path: "productId",
+                select: "title price location companyId",
+                populate: {
+                    path: "companyId",
+                    select: "name logo"
+                }
+            })
             .populate("userId", "name email")
             .sort({ createdAt: -1 });
-
+        
+        // console.log("Found orders:", orders.length);
+        
         return res.status(200).json({
             message: "Orders fetched successfully.",
             success: true,
             data: orders,
         });
+
     } catch (error) {
         console.error("Error in getOrdersByShopOwner:", error.message);
         return res.status(500).json({
