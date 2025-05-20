@@ -43,24 +43,27 @@ const generateSlides = () => {
 };
 
 const Ad = () => {
-     const options = {
+    const options = {
         type: 'loop',
         gap: '1rem',
         autoplay: true,
         pauseOnHover: false,
         resetProgress: false,
-        heightRatio: 0.4, // Aspect ratio (0.5 = 2:1)
-        cover: true,
+        height: '400px',
+        width: '100%',
+        perPage: 1,
+        perMove: 1,
+        focus: 'center',
+        cover: false, // Changed to false to let our custom styling handle this
         pagination: false,
-        
         arrows: true,
         breakpoints: {
             640: {
-                heightRatio: 0.6,
+                height: '300px',
                 gap: '0.5rem',
             },
             1024: {
-                heightRatio: 0.4,
+                height: '400px',
             },
         },
         classes: {
@@ -78,37 +81,39 @@ const Ad = () => {
             >
                 <SplideTrack>
                     {generateSlides().map((slide) => (
-                        <SplideSlide key={slide.src}>
-                            <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-xl">
+                        <SplideSlide key={slide.src} className="flex items-center justify-center">
+                            <div className="relative h-full w-full rounded-xl overflow-hidden">
                                 <img 
                                     src={slide.src} 
                                     alt={slide.alt} 
-                                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500" 
+                                    className="absolute inset-0 w-full h-full object-cover"
+                                    style={{
+                                        objectPosition: 'center'
+                                    }}
                                 />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
                             </div>
                         </SplideSlide>
                     ))}
                 </SplideTrack>
 
                 <div className="splide__progress mt-2" style={{ backgroundColor: '#F6B445' }}>
-                        <div className="splide__progress__bar" />
+                    <div className="splide__progress__bar" />
+                </div>
+
+                <button className="splide__toggle mx-auto flex flex-col items-center justify-center my-3">
+                    <span className="splide__toggle__pause">Pause</span>
+                    <span className="splide__toggle__play">Play</span>
+
+                    <div id="clip">
+                        <div id="leftTop" className="corner"></div>
+                        <div id="rightBottom" className="corner"></div>
+                        <div id="rightTop" className="corner"></div>
+                        <div id="leftBottom" className="corner"></div>
                     </div>
-
-                    <button className="splide__toggle mx-auto flex flex-col items-center justify-center my-3">
-                        <span className="splide__toggle__pause">Pause</span>
-                        <span className="splide__toggle__play">Play</span>
-
-                        <div id="clip">
-                            <div id="leftTop" className="corner"></div>
-                            <div id="rightBottom" className="corner"></div>
-                            <div id="rightTop" className="corner"></div>
-                            <div id="leftBottom" className="corner"></div>
-                        </div>
-                            <span id="rightArrow" className="arrow"></span>
-                            <span id="leftArrow" className="arrow"></span>
-                    </button>
-
-                {/* </div> */}
+                    <span id="rightArrow" className="arrow"></span>
+                    <span id="leftArrow" className="arrow"></span>
+                </button>
             </Splide>
         </div>
     ); 

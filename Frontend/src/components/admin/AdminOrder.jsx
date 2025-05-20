@@ -30,11 +30,11 @@ function AdminOrder() {
     const { user } = useSelector(state => state.auth); // Add this to get the current user
 
 // Add this to your useEffect
-useEffect(() => {
-    console.log("Current user ID:", user?._id);
-    console.log("Expected shop owner ID for orders:", "67c1639fbe847adea03c78f6");
-    fetchOrders();
-}, []);
+// useEffect(() => {
+//     console.log("Current user ID:", user?._id);
+//     console.log("Expected shop owner ID for orders:", "67c1639fbe847adea03c78f6");
+//     fetchOrders();
+// }, []);
 
 
 
@@ -51,13 +51,30 @@ useEffect(() => {
             withCredentials: true
         });
         
-        console.log("Orders response:", response.data);
+        // console.log("Orders response:", response.data);
 
         if (response.data.success) {
             setOrders(response.data.data);
-            console.log("Orders count:", response.data.data.length);
+            // console.log("Orders count:", response.data.data.length);
+            toast.success("Orders fetched successfully!", {
+                style: {
+                    color: '#10B981',
+                    backgroundColor: '#09090B',
+                    fontSize: '20px',
+                    borderColor: '#10B981',
+                    padding: '10px 20px'
+                }
+            });
         } else {
-            toast.error("Failed to fetch orders");
+            toast.error("Failed to fetch orders. Please try again later.", {
+                style: {
+                    color: '#f44336',
+                    backgroundColor: '#fff',
+                    fontSize: '18px',
+                    borderColor: '#f44336',
+                    padding: '10px 20px'
+                }
+            });
         }
     } catch (error) {
         console.error("Error fetching orders:", error.response?.data || error.message);
@@ -78,7 +95,15 @@ useEffect(() => {
             );
             
             if (response.data.success) {
-                toast.success("Order status updated successfully");
+                toast.success("Order status updated successfully", {
+                    style: {
+                        color: '#10B981',
+                        backgroundColor: '#09090B',
+                        fontSize: '20px',
+                        borderColor: '#10B981',
+                        padding: '10px 20px'
+                    }
+                });
                 
                 // Update local state to reflect the change
                 setOrders(prevOrders => 
@@ -89,7 +114,19 @@ useEffect(() => {
                     )
                 );
             } else {
-                toast.error(response.data.message || "Failed to update status");
+                toast.error(
+                    <span style={{ color: '#f44336' }}>
+                        {response.data.message || "Failed to update status"}
+                    </span>,
+                    {
+                        style: {
+                            backgroundColor: '#fff',
+                            fontSize: '16px',
+                            borderColor: '#f44336',
+                            padding: '10px 20px'
+                        }
+                    }
+                );
             }
         } catch (error) {
             console.error("Error updating order status:", error);
@@ -190,8 +227,7 @@ useEffect(() => {
         },
     ]);
 
-    // Get product name helper
-   // Get product name helper
+   
    
 // Get product name helper
 const getProductName = (productIdField) => {
@@ -321,7 +357,7 @@ const getCompanyName = (productIdField) => {
                                             value={pagination.state.size}
                                             onChange={(e) => pagination.fns.onSetSize(Number(e.target.value))}
                                         >
-                                            {[5, 10, 20, 50].map((size) => (
+                                            {[2, 5, 10, 20, 50].map((size) => (
                                                 <option key={size} value={size}>
                                                     {size}
                                                 </option>
@@ -349,8 +385,8 @@ const getCompanyName = (productIdField) => {
                                                         <Cell>
                                                             <div>
                                                                 <p className="font-medium">{order.customerName || "Unknown"}</p>
-                                                                <p className="text-xs text-gray-400">{order.customerEmail}</p>
-                                                                <p className="text-xs text-gray-400">{order.customerPhone}</p>
+                                                                <p className="text-xs text-sky-400 mb-2">{order.customerEmail}</p>
+                                                                <p className="text-xs text-red-400">{order.customerPhone}</p>
                                                             </div>
                                                         </Cell>
                                                         
