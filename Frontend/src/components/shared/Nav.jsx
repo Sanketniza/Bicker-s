@@ -8,7 +8,7 @@ const Navbar = () => {
 
   const menuItems = [
     { name: "BIKES", subMenu: ["Sports", "Cruiser", "Off-Road"] },
-    { name: "SCOOTERS", subMenu: ["Electric", "Petrol", "Hybrid"] },
+    { name: "SCOOTERS", subMenu: ["All", "Petrol", "Hybrid"] },
     { name: "ELECTRIC ZONE", subMenu: ["Bikes", "Scooters", "Charging Stations"] },
     { name: "BIKE FINANCE", subMenu: ["Loans", "EMI Calculator", "Offers"] },
     { name: "USED BIKES", subMenu: ["Buy", "Sell", "Exchange"] },
@@ -30,9 +30,24 @@ const Navbar = () => {
       setOpenDropdown(null);
     }, 100); // Small delay to avoid accidental closing
   };
+  const getNavigationPath = (subItem) => {
+    // Special case for "Sports" to navigate to electric-zone
+    if (subItem === "Sports") {
+      return "/bike-zone";
+    }
+
+    if (subItem === "All") {
+      return "/scooter-zone";
+    }
+    if (subItem === "Bikes") {
+      return "/electric-zone";
+    }
+    // Default behavior for other items
+    return `/${subItem.toLowerCase().replace(/ /g, '-')}`;
+  };
 
   const handleSubMenuClick = (subItem) => {
-    navigate(`/${subItem.toLowerCase().replace(/ /g, '-')}`);
+    navigate(getNavigationPath(subItem));
   };
 
   return (
@@ -55,8 +70,7 @@ const Navbar = () => {
               <button className="text-white font-semibold hover:text-blue-400">
                 {item.name} ▼
               </button>   
-              {openDropdown === index && (
-                <motion.div 
+              {openDropdown === index && (                <motion.div 
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
@@ -67,7 +81,7 @@ const Navbar = () => {
                   </div>
                   {item.subMenu.map((subItem, subIndex) => (
                     <Link 
-                      to={subItem.toLowerCase()} 
+                      to={getNavigationPath(subItem)} 
                       key={subIndex} 
                       className="block px-4 py-2 hover:bg-orange-600"
                       onClick={() => setIsMenuOpen(false)}
@@ -102,8 +116,7 @@ const Navbar = () => {
                 >
                   {item.name} ▼
                 </button>
-                {openDropdown === index && (
-                  <motion.div 
+                {openDropdown === index && (                  <motion.div 
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
@@ -114,7 +127,7 @@ const Navbar = () => {
                     </div>
                     {item.subMenu.map((subItem, subIndex) => (
                       <Link 
-                        to={subItem.toLowerCase()} 
+                        to={getNavigationPath(subItem)} 
                         key={subIndex} 
                         className="block px-4 py-2 hover:bg-orange-600"
                         onClick={() => setIsMenuOpen(false)}

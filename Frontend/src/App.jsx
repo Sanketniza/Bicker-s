@@ -11,7 +11,11 @@ import BikeDetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home';
 import Profile from './components/user/Profile';
 import WishlistPage from './components/user/WishList';
+
 import Electric from './components/Home/Electric';
+import Scooter from './components/Home/Scooter';
+import Bike from './components/Home/Bikes';
+
 import List from './components/user/List';
 import CompanyTable from './components/admin/CompanyTable';
 import UpdataProfile from './components/user/UpdateProfile';
@@ -76,9 +80,19 @@ const appRouter = createBrowserRouter([
     },
 
     {
+        path: "/bike-zone",
+        element: <UserProtection><Bike /></UserProtection>
+    },
+    {
         path: "/electric-zone",
         element: <UserProtection><Electric /></UserProtection>
     },
+
+    {
+        path: "/scooter-zone",
+        element: <UserProtection><Scooter /></UserProtection>
+    },
+
     {
         path: "/road-zone",
         element: <UserProtection><BikeDetails /></UserProtection>
