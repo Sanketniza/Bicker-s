@@ -224,7 +224,7 @@ function Navbar() {
                                 <Button 
                                     variant="ghost" 
                                     className="w-full justify-start hover:bg-red-100/10"
-                                    onClick={() => setLocation('/orders')}
+                                    onClick={() => navigate('/order-details')}
                                 >
                                     <Package className="mr-2 h-4 w-4" />
                                     Orders History

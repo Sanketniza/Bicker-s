@@ -49,7 +49,7 @@ const Ad = () => {
         autoplay: true,
         pauseOnHover: false,
         resetProgress: false,
-        height: '400px',
+        height: '500px',
         width: '100%',
         perPage: 1,
         perMove: 1,

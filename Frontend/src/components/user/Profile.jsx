@@ -5,6 +5,7 @@ import Navbar from '../shared/Navbar';
 import { useSelector } from 'react-redux';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import UpdateProfile from './UpdateProfile';
+import Footer from '../shared/footer';
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
@@ -178,6 +179,8 @@ export default function Profile() {
           )}
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }
