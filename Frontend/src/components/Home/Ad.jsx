@@ -6,6 +6,7 @@ import one from '../../assets/adv/1.jpeg';
 import two from '../../assets/adv/2.jpeg';
 import three from '../../assets/adv/3.jpeg';
 import four from '../../assets/adv/4.jpeg';
+// import four from '../../assets/adv/44.jpeg';
 import five from '../../assets/adv/5.jpeg';
 import six from '../../assets/adv/6.jpeg';
 import seven from '../../assets/adv/7.jpeg';
@@ -17,6 +18,7 @@ import twelve from '../../assets/adv/12.jpeg';
 import thirteen from '../../assets/adv/13.jpeg';
 import fourteen from '../../assets/adv/14.jpeg';
 import fifteen from '../../assets/adv/15.jpeg';
+
 
 
 

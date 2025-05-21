@@ -210,53 +210,6 @@ exports.logout = async (req, res) => {
 };
 
 
-
-/* exports.logout = async (req, res) => {
-    try {
-
-          // Check if the user is authenticated
-          if (!req.user) {
-            return res.status(401).json({
-                message: "User not authenticated",
-                success: false,
-            });
-        }
-
-        // Get user details from database using the ID from JWT
-        const user = await User.findById(req.user.id);
-
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found",
-                success: false,
-            });
-        }
-        
-       
-
-
-        // Clear the cookie regardless of authentication status
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict'
-        });
-
-        // Always return success response
-        return res.status(200).json({
-            success: true,
-            message: `${user.fullname} has logged out successfully`,
-        });
-
-    } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            success: false,
-            message: 'Internal server error'
-        });
-    }
-};
- */
 exports.updateProfile = async (req, res) => {
   try {
     const { fullname, phone, bio, socialMediaLinks, paymentInfo } = req.body;
@@ -378,36 +331,3 @@ exports.deleteProfile = async(req, res) => {
     }
 
 };
-
-// exports.verifyUser = async(req, res) => {
-//     try {
-//         const { token } = req.params;
-
-//         // Find user with verification token
-//         const user = await User.findOne({ verificationToken: token });
-
-//         if (!user) {
-//             return res.status(400).json({
-//                 message: "Invalid verification token",
-//                 success: false
-//             });
-//         }
-
-//         // Update user verification status
-//         user.isVerified = true;
-//         user.verificationToken = undefined; // Clear the token after verification
-//         await user.save();
-
-//         return res.status(200).json({
-//             message: "Email verified successfully",
-//             success: true
-//         });
-
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({
-//             message: "Error verifying email",
-//             success: false
-//         });
-//     }
-// };
