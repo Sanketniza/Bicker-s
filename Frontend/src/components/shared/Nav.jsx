@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
+
 const Navbar = () => {
   const navigate = useNavigate();
 
@@ -33,22 +34,25 @@ const Navbar = () => {
   const getNavigationPath = (subItem) => {
     // Special case for "Sports" to navigate to electric-zone
     if (subItem === "Sports") {
+      
       return "/bike-zone";
     }
 
     if (subItem === "All") {
       return "/scooter-zone";
     }
+
     if (subItem === "Bikes") {
       return "/electric-zone";
     }
+
     // Default behavior for other items
     return `/${subItem.toLowerCase().replace(/ /g, '-')}`;
   };
 
-  const handleSubMenuClick = (subItem) => {
-    navigate(getNavigationPath(subItem));
-  };
+//   const handleSubMenuClick = (subItem) => {
+//     navigate(getNavigationPath(subItem));
+//   };
 
   return (
     <div className="sticky top-0 z-50 w-full bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] shadow-[0px_10px_10px_-5px_rgba(102,116,204,0.5)]">
