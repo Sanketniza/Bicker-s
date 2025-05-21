@@ -16,10 +16,9 @@ import { Label, RadioGroup } from '@radix-ui/react-dropdown-menu';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { USER_API_END_POINT } from '@/utils/api';
 import { setError, setLoading, setUser } from '@/store/authSlice';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 
 function SignUp() {
     const [input, setInput] = useState({
@@ -29,6 +28,7 @@ function SignUp() {
       phone: "",
       role: "user",
     });
+    const [showPassword, setShowPassword] = useState(false);
   
     const { loading, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -261,17 +261,27 @@ function SignUp() {
                                     />
                                 </div>
                                 
-                                
-                                <div className="relative">
+                                  <div className="relative">
                                     <img src={ppassword} className="absolute w-5 h-5 left-3 top-8" alt="password" />
                                     <input 
-                                        type="text"
+                                        type={showPassword ? "text" : "password"}
                                         name="password"
                                         onChange={changeEventHandler}
                                         value={input.password} 
                                         placeholder="Enter your Password" 
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                     />
+                                    <button 
+                                        type="button"
+                                        className="absolute inset-y-0 right-0 top-4 flex items-center px-2"
+                                        style={{right: '-6.0rem'}}
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? 
+                                            <EyeOff className="w-5 h-5 text-gray-400" /> : 
+                                            <Eye className="w-5 h-5 text-gray-400" />
+                                        }
+                                    </button>
                                 </div>
                                 
                                 <div className="relative">

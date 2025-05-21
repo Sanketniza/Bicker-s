@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setUser } from '@/store/authSlice';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Label, RadioGroup } from '@radix-ui/react-dropdown-menu';
 
@@ -27,6 +27,7 @@ function Login() {
         password: '',
         role:""
     });
+    const [showPassword, setShowPassword] = useState(false);
 
     const {loading, user} = useSelector(state => state.auth);
     const navigate = useNavigate();
@@ -208,18 +209,27 @@ function Login() {
                                         onChange={changeEventHandler}
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                     />
-                                </div>
-
-                                <div className="relative">
+                                </div>                                <div className="relative">
                                     <img src={ppassword} className="absolute w-5 h-5 left-3 top-8" alt="email" />
                                     <input 
-                                        type="text" 
+                                        type={showPassword ? "text" : "password"} 
                                         name="password"
                                         value={input.password}
                                         onChange={changeEventHandler}
                                         placeholder="Enter your Password" 
                                         className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
                                     />
+                                    <button 
+                                        type="button"
+                                        className="absolute inset-y-0 right-0 top-4 flex items-center px-2"
+                                        style={{right: '-6.0rem'}}
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? 
+                                            <EyeOff className="w-5 h-5 text-gray-400" /> : 
+                                            <Eye className="w-5 h-5 text-gray-400" />
+                                        }
+                                    </button>
                                 </div>
 
                                 <div className='flex items-center justify-between mx-2'>

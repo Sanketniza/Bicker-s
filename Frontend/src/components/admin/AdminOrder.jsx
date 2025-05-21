@@ -56,15 +56,15 @@ function AdminOrder() {
         if (response.data.success) {
             setOrders(response.data.data);
             // console.log("Orders count:", response.data.data.length);
-            toast.success("Orders fetched successfully!", {
-                style: {
-                    color: '#10B981',
-                    backgroundColor: '#09090B',
-                    fontSize: '20px',
-                    borderColor: '#10B981',
-                    padding: '10px 20px'
-                }
-            });
+            // toast.success("Orders fetched successfully!", {
+            //     style: {
+            //         color: '#10B981',
+            //         backgroundColor: '#09090B',
+            //         fontSize: '20px',
+            //         borderColor: '#10B981',
+            //         padding: '10px 20px'
+            //     }
+            // });
         } else {
             toast.error("Failed to fetch orders. Please try again later.", {
                 style: {
