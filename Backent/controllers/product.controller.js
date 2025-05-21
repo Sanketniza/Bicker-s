@@ -245,9 +245,11 @@ exports.getProductsByCompany = async(req, res) => {
 
 // Get All Products
 exports.getAllProducts = async(req, res) => {
-
     try {
-        const products = await Product.find();
+        // Populate both owner IDs to help with client-side filtering
+        const products = await Product.find()
+            .populate('shopOwnerId', '_id')
+            .populate('ownerId', '_id');
 
         if (!products) {
             return res.status(404).json({
@@ -261,8 +263,6 @@ exports.getAllProducts = async(req, res) => {
             success: true,
             products,
         });
-
-
     } catch (error) {
         console.error("Error in getAllProducts:", error.message);
         return res.status(500).json({
@@ -492,6 +492,42 @@ exports.getProductById = async(req, res) => {
 
     } catch (error) {
         console.error("Error in getProductById:", error.message);
+        return res.status(500).json({
+            message: "Internal server error.",
+            success: false,
+            error: error.message,
+        });
+    }
+};
+
+// Get Products owned by the current user
+exports.getUserProducts = async(req, res) => {
+    try {
+        // Get the current user ID from the authenticated request
+        const userId = req.user.id;
+        
+        // Find products where either shopOwnerId or ownerId matches the current user
+        const products = await Product.find({
+            $or: [
+                { shopOwnerId: userId },
+                { ownerId: userId }
+            ]
+        }).populate('companyId', 'name');
+
+        if (!products) {
+            return res.status(404).json({
+                message: "No products found.",
+                success: false,
+            });
+        }
+
+        return res.status(200).json({
+            message: "Your products retrieved successfully.",
+            success: true,
+            products,
+        });
+    } catch (error) {
+        console.error("Error in getUserProducts:", error.message);
         return res.status(500).json({
             message: "Internal server error.",
             success: false,

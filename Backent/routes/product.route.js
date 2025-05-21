@@ -6,6 +6,7 @@ const {
     getAllProducts,
     updateProduct,
     deleteProduct,
+    getUserProducts,
 } = require("../controllers/product.controller");
 const isAuthenticated = require("../Middlewares/isAuthenticated");
 const { productUpload } = require("../Middlewares/multer");
@@ -16,6 +17,7 @@ const router = express.Router();
 router.post("/create", isAuthenticated, productUpload, createProduct);
 router.put("/:productId", isAuthenticated, productUpload, updateProduct);
 router.delete("/:productId/:companyId", isAuthenticated, deleteProduct);
+router.get("/my-products", isAuthenticated, getUserProducts);
 
 // Public routes (no authentication required)
 router.get("/company/:companyId", getProductsByCompany);
