@@ -40,31 +40,29 @@ function SignUp() {
             [e.target.name]: e.target.value,
         });
     };
-  
     const submitHandler = async (e) => {
-
         e.preventDefault();
     
-        // Log the input data to debug
-        // console.log("Form Data:", input);
-    
         try {
-
             dispatch(setLoading(true));
     
-            const response = await axios.post("http://localhost:8000/api/v1/user/register",input, // Send input directly as JSON
+            const response = await axios.post(
+                "http://localhost:8000/api/v1/user/register",
+                input,
                 {
                     headers: {
-                        "Content-Type": "application/json", // Set to JSON
+                        "Content-Type": "application/json",
                     },
-
                     withCredentials: true,
                 }
             );
     
             if (response.data.success) {
-                //dispatch(setUser(response.data.user)); // Use 'user' as per backend response
-                navigate("/login");
+                // Redirect to verification page with email
+                navigate(`/verify-email?email=${input.email}`, { 
+                    state: { email: input.email } 
+                });
+                
                 toast.success(response.data.message, {
                     style: {
                         color: "#10B981",
@@ -74,12 +72,9 @@ function SignUp() {
                         padding: "10px 20px",
                     },
                 });
-            } 
-            
-            else {
+            } else {
                 toast.error(response.data.message);
             }
-
         } catch (error) {
             console.error("Error:", error);
             toast.error(error.response?.data?.message || "Something went wrong");

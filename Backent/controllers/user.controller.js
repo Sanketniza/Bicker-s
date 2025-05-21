@@ -35,8 +35,15 @@ exports.register = async(req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-
-        // const verificationToken = crypto.randomBytes(32).toString('hex');
+        // Generate OTP for email verification
+        const { generateOTP, getEmailVerificationTemplate } = require("../utils/otpGenerator");
+        const { sendEmail } = require("../utils/sendEmail");
+        
+        const otp = generateOTP();
+        
+        // Set OTP expiry to 10 minutes from now
+        const otpExpiry = new Date();
+        otpExpiry.setMinutes(otpExpiry.getMinutes() + 10);
 
         const user = await User.create({
             fullname,
@@ -44,6 +51,9 @@ exports.register = async(req, res) => {
             password: hashedPassword,
             phone,
             role,
+            isVerified: false,
+            otp: otp,
+            otpExpiry: otpExpiry,
             // address: {
             //     street: address.street || '',
             //     city: address.city || '',
@@ -52,17 +62,26 @@ exports.register = async(req, res) => {
             //     country: address.country || ''
             // },
             // profile: profileUrl,
-            // verificationToken // Add the verification token
         });
 
-        // Send verification email
-        // await sendVerificationEmail(email, verificationToken);
+        // Send verification email with OTP
+        const emailTemplate = getEmailVerificationTemplate(otp);
+        await sendEmail({
+            email: user.email,
+            subject: "Email Verification - Bicker's",
+            message: emailTemplate,
+        });
 
         return res.status(201).json({
             success: true,
-            user,
+            user: {
+                id: user._id,
+                fullname: user.fullname,
+                email: user.email,
+                role: user.role,
+                isVerified: user.isVerified
+            },
             message: "User registered successfully. Please check your email to verify your account.",
-            // verificationToken // Include this for testing purposes
         });
 
     } catch (error) {
@@ -106,15 +125,15 @@ exports.login = async(req, res) => {
                 message: "Invalid password",
                 success: false,
             });
+        }        // check if user is verified
+        if (!user.isVerified) {
+            return res.status(400).json({
+                message: "Please verify your email before logging in",
+                success: false,
+                needsVerification: true,
+                email: user.email
+            });
         }
-
-        // check if user is verified
-        // if (!user.isVerified) {
-        //     return res.status(400).json({
-        //         message: "User is not verified",
-        //         success: false,
-        //     });
-        // }
 
         // check for role
         if (user.role !== role) {

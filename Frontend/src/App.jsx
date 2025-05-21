@@ -32,6 +32,9 @@ import AdminNotification from './components/admin/AdminNotification';
 import OrderDetails from './components/user/OrderDetails';
 import CompanyEdit from './components/admin/CompanyEdit';
 import ProductEdit from './components/admin/ProductEdit';
+import ForgetPassword from './components/auth/ForgetPassword';
+import OTPVerification from './components/auth/OTPVerification';
+import ResetPassword from './components/auth/ResetPassword';
 
 const appRouter = createBrowserRouter([
 
@@ -196,6 +199,25 @@ const appRouter = createBrowserRouter([
     {
         path: "*",
         element: <Error />
+    },
+
+
+    //* authentication routes
+    {
+        path: "/forgot-password",
+        element: <ForgetPassword />
+    },
+    {
+        path: "/verify-email",
+        element: <OTPVerification />
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword />
+    },
+    {
+        path: "/reset-password/:token",
+        element: <ResetPassword />
     }
 ]);
 

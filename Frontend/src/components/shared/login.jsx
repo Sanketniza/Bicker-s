@@ -38,13 +38,10 @@ function Login() {
             ...input, [e.target.name]: e.target.value 
         });
     }
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try{
-
             dispatch(setLoading(true));
             const res = await axios.post('http://localhost:8000/api/v1/user/login', input , {
                 headers: {
@@ -56,7 +53,7 @@ function Login() {
             if(res.data.success) {
                 dispatch(setUser(res.data.user));
                 if(res.data.user.role === 'user') {
-                navigate("/");
+                    navigate("/");
                 } else {
                     navigate("/admin");
                 }
@@ -70,14 +67,22 @@ function Login() {
                     }
                 });
             }
-
-        }catch(e){
-            console.log(e , "Error at login");
-            toast.error('Invalid Credentials');
+        } catch(error) {
+            console.log(error, "Error at login");
+            
+            // Check if the error is due to unverified email
+            if (error.response?.data?.needsVerification) {
+                // Redirect to verification page with email
+                toast.error('Please verify your email before logging in');
+                navigate(`/verify-email?email=${error.response.data.email}`, { 
+                    state: { email: error.response.data.email } 
+                });
+            } else {
+                toast.error(error.response?.data?.message || 'Invalid Credentials');
+            }
         } finally {
             dispatch(setLoading(false));
         }
-        
     }
 
     useEffect(() => {
@@ -230,6 +235,10 @@ function Login() {
                                             <Eye className="w-5 h-5 text-gray-400" />
                                         }
                                     </button>
+
+                                    <div>
+                                        <Link to='/forgot-password' className="float-right text-sm mr-4  text-[#4A4C51] hover:text-[#EF4444]">Forgot Password?</Link>
+                                    </div>
                                 </div>
 
                                 <div className='flex items-center justify-between mx-2'>

@@ -45,24 +45,37 @@ const userSchema = new mongoose.Schema({
         state: { type: String, trim: true, default: '' },
         zip: { type: String, trim: true, default: '' },
         country: { type: String, trim: true, default: '' },
-    },
-
-    socialMediaLinks: {
+    },    socialMediaLinks: {
         instagram: { type: String, trim: true, default: '' },
         facebook: { type: String, trim: true, default: '' },
         twitter: { type: String, trim: true, default: '' },
         linkedin: { type: String, trim: true, default: '' },
     },
 
-    // verificationToken: {
-    //     type: String,
-    //     default: '',
-    // },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
 
-    // isVerified: {
-    //     type: Boolean,
-    //     default: true
-    // },
+    otp: {
+        type: String,
+        default: null,
+    },
+
+    otpExpiry: {
+        type: Date,
+        default: null,
+    },
+
+    passwordResetToken: {
+        type: String,
+        default: null,
+    },
+
+    passwordResetExpires: {
+        type: Date,
+        default: null,
+    },
 
     paymentInfo: {
         bankAccount: { type: String, trim: true, default: '' },
