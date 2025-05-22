@@ -17,6 +17,7 @@ import { jsPDF } from "jspdf";
 import { useNavigate } from "react-router-dom";
 import useGetUserProducts from "@/hooks/useGetUserProducts";
 import { useSelector } from "react-redux";
+import { RiProductHuntLine, RiShoppingBag3Line } from "react-icons/ri";
 
 function ProductTable() {
   useGetUserProducts();
@@ -198,9 +199,9 @@ function ProductTable() {
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-                    </div>
-                ) : products.length === 0 ? (
+                    </div>                ) : products.length === 0 ? (
                     <div className="text-center py-10">
+                    <RiProductHuntLine className="mx-auto text-gray-400 text-8xl mb-4" />
                     <p className="text-xl text-gray-400">No products found</p>
                     <button 
                         onClick={() => navigate('/admin-products/products-creation')} 

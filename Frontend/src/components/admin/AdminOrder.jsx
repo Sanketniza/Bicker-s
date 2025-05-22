@@ -17,6 +17,7 @@ import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import { useSort } from "@table-library/react-table-library/sort";
 import { toast } from "sonner";
+import { RiShoppingCartLine } from "react-icons/ri";
 
 function AdminOrder() {
     const [orders, setOrders] = useState([]);
@@ -321,9 +322,9 @@ const getCompanyName = (productIdField) => {
                         {isLoading ? (
                             <div className="flex justify-center items-center py-20">
                                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-                            </div>
-                        ) : filteredOrders.length === 0 ? (
+                            </div>                        ) : filteredOrders.length === 0 ? (
                             <div className="text-center py-10">
+                                <RiShoppingCartLine className="mx-auto text-gray-400 text-8xl mb-4" />
                                 <p className="text-xl text-gray-400">No orders found</p>
                             </div>
                         ) : (

@@ -1,6 +1,7 @@
 import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
 import { useSelector } from 'react-redux';
 import useGetAllProduct from '@/hooks/useGetAllProduct';
+import { Car as CarIcon } from 'lucide-react';
 
 export default function CompaniesPage() {
   useGetAllProduct();
@@ -30,9 +31,11 @@ export default function CompaniesPage() {
           {scooterProducts.length > 0 ? (
             <div className="relative">
               <CompanyCardGrid product={scooterProducts} />
+            </div>          ) : (
+            <div className="text-center py-10">
+              <CarIcon className="mx-auto text-gray-400 w-20 h-20 mb-4" />
+              <span className="text-xl text-gray-400">No Cars Found</span>
             </div>
-          ) : (
-            <span className="text-xl text-gray-400">No Cars Found</span>
           )}
         </div>
       </div>

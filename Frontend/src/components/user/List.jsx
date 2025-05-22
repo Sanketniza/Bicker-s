@@ -3,7 +3,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { CompanyCard } from '../Home/Bikes/CompanyCard';
 import { Label } from '../ui/label';
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
 // import { sampleCompanies } from '../../JavaScript/bike'; // Import bike data
 import Navbar from '../shared/Navbar';
@@ -125,9 +125,9 @@ useEffect(() => {
                                 <div className="relative" key={product._id}> {/* Use _id instead of id */}
                                     <CompanyCardGrid product={[product]} />
                                 </div>
-                            ))
-                        ) : (
+                            ))                        ) : (
                             <div className="col-span-full text-center py-10">
+                                <ShoppingBag className="mx-auto text-gray-400 w-20 h-20 mb-4" />
                                 <span className="text-xl text-gray-400">No Products Found</span>
                             </div>
                         )}

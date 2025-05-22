@@ -1,6 +1,7 @@
 import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
 import { useSelector } from 'react-redux';
 import useGetAllProduct from '@/hooks/useGetAllProduct';
+import { Bike } from 'lucide-react';
 
 export default function CompaniesPage() {
  useGetAllProduct(); // Fetch all products
@@ -32,9 +33,11 @@ export default function CompaniesPage() {
                     bikeProducts.length > 0 ? (
                         <div className="relative">
                         <CompanyCardGrid product={bikeProducts} />
+                        </div>                    ) : (
+                        <div className="text-center py-10">
+                            <Bike className="mx-auto text-gray-400 w-20 h-20 mb-4" />
+                            <span className="text-xl text-gray-400">No Bikes Found</span>
                         </div>
-                    ) : (
-                        <span className="text-xl text-gray-400">No Bikes Found</span>
                     )
                 }
                 </div>

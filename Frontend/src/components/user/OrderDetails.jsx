@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import axios from "axios"
 import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
+import { Loader2, ShoppingBag } from "lucide-react"
 import { format } from "date-fns"
 
 
@@ -104,9 +104,9 @@ function OrderDetails() {
                         {loading ? (
                             <div className="flex items-center justify-center h-40">
                                 <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
-                            </div>
-                        ) : filteredOrders.length === 0 ? (
+                            </div>                        ) : filteredOrders.length === 0 ? (
                             <div className="text-center text-orange-500 py-10">
+                                <ShoppingBag className="mx-auto text-orange-500 w-16 h-16 mb-4" />
                                 <p>No orders found</p>
                             </div>
                         ) : (

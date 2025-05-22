@@ -1,6 +1,7 @@
 import useGetAllProduct from '@/hooks/useGetAllProduct';
 import { CompanyCardGrid } from '../Home/Bikes/CompanyCardGrid';
 import { useSelector } from 'react-redux';
+import { Zap } from 'lucide-react';
 
 
 export default function CompaniesPage() {
@@ -33,9 +34,11 @@ export default function CompaniesPage() {
           {electricProducts.length > 0 ? (
             <div className="relative">
               <CompanyCardGrid product={electricProducts} />
+            </div>          ) : (
+            <div className="text-center py-10">
+              <Zap className="mx-auto text-gray-400 w-20 h-20 mb-4" />
+              <span className="text-xl text-gray-400">No Electric Bikes Found</span>
             </div>
-          ) : (
-            <span className="text-xl text-gray-400">No Electric Bikes Found</span>
           )}
         </div>
       </div>
