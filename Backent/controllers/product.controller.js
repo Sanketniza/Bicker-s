@@ -245,6 +245,7 @@ exports.getProductsByCompany = async(req, res) => {
 
 // Get All Products
 exports.getAllProducts = async(req, res) => {
+
     try {
         // Populate both owner IDs to help with client-side filtering
         const products = await Product.find()
