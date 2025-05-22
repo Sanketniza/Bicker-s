@@ -4,6 +4,7 @@ import { Loader2, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import Navbar from '../shared/Navbar';
+import ppassword from '../../assets/icons/pass.png';
 
 function ResetPassword() {
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -302,42 +303,46 @@ function ResetPassword() {
                         // Password Reset Step
                         <>
                             <h2 className="mb-4 text-2xl font-bold text-center text-white">Reset Your Password</h2>
-                            <p className="mb-6 text-center text-gray-300">
+                            <p className="mb-6 text-center text-[#10B981]">
                                 Create a new password for your account
                             </p>
                             
                             <div className="space-y-4">
                                 <div className="relative">
+                                    <img src={ppassword} className="absolute w-5 h-5 left-3 top-4" alt="email" />
                                     <input 
                                         type={showPassword ? "text" : "password"} 
                                         placeholder="New Password" 
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full p-3 pl-4 pr-10 mb-4 text-white border-2 border-transparent rounded-full focus:border-emerald-500 bg-gray-800" 
+                                        className="w-full p-3 pl-10 pr-10 mb-4 text-white border-2 border-transparent rounded-full focus:border-emerald-500 bg-gray-800" 
                                         required
                                     />
                                     <button 
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-3 text-gray-400"
+                                        className="absolute right-1 top-1 text-gray-400"
+                                        style={{right: '-6.0rem'}}
                                     >
                                         {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                     </button>
                                 </div>
                                 
                                 <div className="relative">
+                                    <img src={ppassword} className="absolute w-5 h-5 left-3 top-4" alt="email" />
                                     <input 
                                         type={showConfirmPassword ? "text" : "password"} 
                                         placeholder="Confirm Password" 
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
-                                        className="w-full p-3 pl-4 pr-10 mb-4 text-white border-2 border-transparent rounded-full focus:border-emerald-500 bg-gray-800" 
+                                        className="w-full p-3 pl-10 pr-10 mb-4 text-white border-2 border-transparent rounded-full focus:border-emerald-500 bg-gray-800" 
                                         required
                                     />
                                     <button 
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="absolute right-3 top-3 text-gray-400"
+                                        className="absolute right-3 top-1 text-gray-400"
+                                        style={{right: '-6.0rem'}}
                                     >
                                         {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                     </button>

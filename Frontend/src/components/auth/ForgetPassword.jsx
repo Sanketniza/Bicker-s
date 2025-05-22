@@ -74,9 +74,9 @@ function ForgetPassword() {
                         </p>
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="p-3 border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#EF4444] hover:border-l-[#EF4444] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                            <div className="p-3 border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#59ce41] hover:border-l-[#59ce41] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
                                 <motion.div 
-                                    className="p-3 bg-emerald-500 rounded-full"
+                                    className="p-3 w-12 h-12 bg-emerald-500 rounded-full"
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
                                     transition={{ duration: 0.2 }}
@@ -90,9 +90,9 @@ function ForgetPassword() {
                                 </div>
                             </div>
                             
-                            <div className="p-3 border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#00ccff] hover:border-l-[#00ccff] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
+                            <div className="p-3  bg-[#0D0D0D] border border-transparent rounded-lg  hover:border-t-[#00ccff] hover:border-l-[#00ccff] hover:border-b-transparent hover:border-r-transparent cursor-pointer">
                                 <motion.div 
-                                    className="p-3 bg-[#00ccff] rounded-full"
+                                    className="p-3 w-12 h-12 bg-[#00ccff] rounded-full"
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
                                     transition={{ duration: 0.2 }}
@@ -101,12 +101,14 @@ function ForgetPassword() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                 </motion.div>
-                                <div className="mt-2 p-10">
+                                <div className="mt-2 ">
                                     <h3 className="text-lg font-semibold text-[#00ccff]">Email Delivery</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>                    {/* Right side form */}
+
+                    </div>
+                                        {/* Right side form */}
                     <div className="w-full max-w-md p-6 mt-8 rounded-xl shadow-lg bg-[#16171C] md:mt-0">
                         <h2 className="mb-4 text-2xl font-bold text-white">Reset Your Password</h2>
                         <p className="mb-6 text-gray-300">
@@ -125,7 +127,7 @@ function ForgetPassword() {
                                 />
                             </div>
 
-                            <p className="my-4 text-xs text-center text-white">
+                            <p className="my-4 text-lg text-center text-white">
                                 Remember your password? <Link to='/login' className="text-emerald-500 hover:underline">Log in</Link>
                             </p>
 
