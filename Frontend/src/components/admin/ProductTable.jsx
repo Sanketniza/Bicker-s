@@ -19,11 +19,9 @@ import useGetUserProducts from "@/hooks/useGetUserProducts";
 import { useSelector } from "react-redux";
 
 function ProductTable() {
-  // Call the custom hook to fetch products for the current user
   useGetUserProducts();
-  
-  // Get data from Redux store
-  const { companies } = useSelector((store) => store.company);
+
+    const { companies } = useSelector((store) => store.company);
   const { allProducts, loading } = useSelector((store) => store.product);
   const products = allProducts || [];
   
@@ -195,27 +193,21 @@ function ProductTable() {
                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
                     >
                     Download as PDF
-                    </button>                </div>                
+                    </button>                </div>
+
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
-                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-                      <p className="ml-4 text-white">Loading your products...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
                     </div>
                 ) : products.length === 0 ? (
                     <div className="text-center py-10">
-                      <div className="mb-4">
-                        <svg className="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                      </div>
-                      <p className="text-xl text-gray-400 mb-2">No products found</p>
-                      <p className="text-gray-500 mb-4">You haven&apos;t created any products yet.</p>
-                      <button 
-                          onClick={() => navigate('/admin-products/products-creation')} 
-                          className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-                      >
-                          Create Your First Product
-                      </button>
+                    <p className="text-xl text-gray-400">No products found</p>
+                    <button 
+                        onClick={() => navigate('/admin-products/products-creation')} 
+                        className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                    >
+                        Create Your First Product
+                    </button>
                     </div>
                 ) : (
                     <div ref={printRef}>
@@ -322,10 +314,9 @@ function ProductTable() {
                         )}
                     </Table>
                     </div>                )}
-                
-                {/* Show pagination only if we have products and we're not loading */}
+
                 {!loading && products.length > 0 && (
-                <div className="flex justify-between items-center mt-4 text-sm text-white/80">
+                    <div className="flex justify-between items-center mt-4 text-sm text-white/80">
                     <div>
                         Page {pagination.state.page + 1} of{" "}
                         {Math.ceil(sortedData.length / pagination.state.size)}

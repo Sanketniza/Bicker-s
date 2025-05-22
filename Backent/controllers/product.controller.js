@@ -489,9 +489,7 @@ exports.getProductById = async(req, res) => {
             message: "Product retrieved successfully.",
             success: true,
             product,
-        });
-
-    } catch (error) {
+        });    } catch (error) {
         console.error("Error in getProductById:", error.message);
         return res.status(500).json({
             message: "Internal server error.",
@@ -504,26 +502,18 @@ exports.getProductById = async(req, res) => {
 // Get Products owned by the current user
 exports.getUserProducts = async(req, res) => {
     try {
-        // Get the current user ID from the authenticated request
         const userId = req.user.id;
         
-        // Find products where either shopOwnerId or ownerId matches the current user
+        // Find products where the user is either the shop owner or the owner
         const products = await Product.find({
             $or: [
                 { shopOwnerId: userId },
                 { ownerId: userId }
             ]
         }).populate('companyId', 'name');
-
-        if (!products) {
-            return res.status(404).json({
-                message: "No products found.",
-                success: false,
-            });
-        }
-
+        
         return res.status(200).json({
-            message: "Your products retrieved successfully.",
+            message: "User products retrieved successfully.",
             success: true,
             products,
         });
