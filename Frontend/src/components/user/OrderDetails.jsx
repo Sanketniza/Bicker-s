@@ -100,7 +100,7 @@ function OrderDetails() {
                         </div>
                     </div>
 
-                    <div className="mt-8 overflow-x-auto">
+                    <div className="mt-8 overflow-x-auto "> 
                         {loading ? (
                             <div className="flex items-center justify-center h-40">
                                 <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
@@ -110,7 +110,7 @@ function OrderDetails() {
                                 <p>No orders found</p>
                             </div>
                         ) : (
-                            <table className="min-w-full border-collapse bg-transparent">
+                            <table className="min-w-full border-collapse bg-transparent ">
                                 <thead>
                                     <tr className="border-b border-gray-700">
                                         <th className="p-3 text-left text-orange-500">Customer Name</th>
@@ -118,18 +118,23 @@ function OrderDetails() {
                                         <th className="p-3 text-left text-orange-500">Product</th>
                                         <th className="p-3 text-left text-orange-500">Status</th>
                                         <th className="p-3 text-left text-orange-500">Type</th>
+                                        <th className="p-3 text-left text-orange-500">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {currentOrders.map((order) => (
                                         <tr key={order._id} className="border-b border-gray-700 hover:bg-black/40">
+
                                             <td className="p-3 text-white">{order.customerName}</td>
+
                                             <td className="p-3 text-white">
                                                 {format(new Date(order.createdAt), 'MMM dd, yyyy')}
                                             </td>
+
                                             <td className="p-3 text-white">
                                                 {order.productId?.title || "N/A"}
                                             </td>
+
                                             <td className="p-3">
                                                 <span className={`px-2 py-1 rounded-full text-xs ${
                                                     order.status === 'pending' ? 'bg-yellow-500/20 text-yellow-500' : 
@@ -141,6 +146,7 @@ function OrderDetails() {
                                                     {order.status || "N/A"}
                                                 </span>
                                             </td>
+
                                             <td className="p-3 text-white">
                                                 <span className={`px-2 py-1 rounded-full text-xs ${
                                                     order.orderType === 'contact' ? 'bg-purple-500/20 text-purple-500' : 
@@ -149,6 +155,20 @@ function OrderDetails() {
                                                     {order.orderType || "N/A"}
                                                 </span>
                                             </td>
+
+                                            <td className="p-3">
+                                                <button 
+                                                    className=" text-sm font-semibold text-red-500 text-left "
+                                                    onClick={() => {
+                                                        // Handle action here
+                                                        
+                                                        toast.success("Action performed successfully!");
+                                                    }}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+
                                         </tr>
                                     ))}
                                 </tbody>
@@ -200,6 +220,7 @@ function OrderDetails() {
                             </div>
                         )}
                     </div>
+
                 </div>
             </div>
 
