@@ -275,14 +275,14 @@ function ProductTable() {
                                         </span>
                                     </div>
                                     )}
-                                </Cell>
-                                
-                                {/* <Cell>
+                                </Cell>                                {/* <Cell>
                                     {companies[product?.companyId] || "Unknown Company"}
                                 </Cell> */}
 
                                 <Cell>
-                                    {companies.find(c => c._id === product.companyId)?.name || "Untitled"}
+                                    {typeof product.companyId === 'object' && product.companyId !== null 
+                                        ? product.companyId.name 
+                                        : companies.find(c => c._id === product.companyId)?.name || "Untitled"}
                                 </Cell>
 
                                 <Cell>{product.title || "Untitled"}</Cell>

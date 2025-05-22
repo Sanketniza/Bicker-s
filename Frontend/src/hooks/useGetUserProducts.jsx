@@ -30,8 +30,12 @@ const useGetUserProducts = () => {
                     withCredentials: true
                 });
 
-                if (res.data.success) {
-                    const products = res.data.products;
+                if (res.data.success) {                    const products = res.data.products;
+                    
+                    // Log a product to check company data structure
+                    if (products.length > 0) {
+                        console.log("Sample product with company data:", products[0]);
+                    }
                     
                     // Apply search filtering if needed
                     const filteredProducts = searchedQuery 
