@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import { toast } from "sonner"
-import { Loader2, ShoppingBag } from "lucide-react"
+import { Loader2, ShoppingBag, Trash2 } from "lucide-react"
 import { format } from "date-fns"
 
 
@@ -40,6 +40,34 @@ function OrderDetails() {
             fetchOrders();
         }
     }, [user]);
+    
+    // Function to handle order deletion
+    const handleDeleteOrder = async (orderId) => {
+        if (!window.confirm("Are you sure you want to delete this order?")) {
+            return;
+        }
+        
+        try {
+            setLoading(true);
+            const response = await axios.delete(`http://localhost:8000/api/v1/order/${orderId}`, {
+                withCredentials: true
+            });
+            
+            if (response.data.success) {
+                // Remove the deleted order from state
+                setOrders(prevOrders => prevOrders.filter(order => order._id !== orderId));
+                toast.success("Order deleted successfully!");
+            } else {
+                toast.error(response.data.message || "Failed to delete order");
+            }
+        } catch (error) {
+            console.error("Error deleting order:", error);
+            const errorMessage = error.response?.data?.message || "Failed to delete order";
+            toast.error(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
     
     // Filter orders based on search
     const filteredOrders = orders.filter(order => 
@@ -154,17 +182,13 @@ function OrderDetails() {
                                                 }`}>
                                                     {order.orderType || "N/A"}
                                                 </span>
-                                            </td>
-
-                                            <td className="p-3">
+                                            </td>                                            <td className="p-3">
                                                 <button 
-                                                    className=" text-sm font-semibold text-red-500 text-left "
-                                                    onClick={() => {
-                                                        // Handle action here
-                                                        
-                                                        toast.success("Action performed successfully!");
-                                                    }}
+                                                    className="flex items-center gap-1 text-sm font-semibold text-rose-500 hover:text-rose-600 transition-colors"
+                                                    onClick={() => handleDeleteOrder(order._id)}
+                                                    title="Delete this order"
                                                 >
+                                                    <Trash2 size={16} />
                                                     Delete
                                                 </button>
                                             </td>
