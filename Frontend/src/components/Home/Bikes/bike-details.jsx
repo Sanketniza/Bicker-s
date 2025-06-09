@@ -341,6 +341,9 @@ export default function BikeDetails() {
     }
 };
 
+console.log('====================================');
+console.log("video" , singleProduct?.videos);
+console.log('====================================');
 
 
   return (
@@ -359,15 +362,42 @@ export default function BikeDetails() {
                     <div className="grid md:grid-cols-2 gap-8">
                     {/* Left Column - Images */}
 
-                    <div className="h-[730px] rounded-lg overflow-hidden">
-                        {singleProduct?.images?.length > 0 ? (
-                            <ImageSlider images={singleProduct.images} interval={5000} className="h-full" />
-                        ) : (
-                            <div className="flex items-center justify-center h-full text-white">
-                                No Image Is Available
-                            </div>
-                        )}
+
+                    <div>
+
+                        <div className="h-[730px] rounded-lg overflow-hidden">
+                            {singleProduct?.images?.length > 0 ? (
+                                <ImageSlider images={singleProduct.images} interval={5000} className="h-full" />
+                            ) : (
+                                <div className="flex items-center justify-center h-full text-white">
+                                    No Image Is Available
+                                </div>
+                            )}
+                        </div>
+
+
+                         {/* // video section     */}
+                        <div className="mt-6 h-[30px] border border-[#246FAC] rounded-lg overflow-hidden">
+                            {
+                                singleProduct?.videos?.length > 0 ? (
+                                    <div className="h-[730px] rounded-lg overflow-hidden">
+                                        <iframe 
+                                            src={singleProduct.videos} 
+                                            title="Bike Video" 
+                                            className="w-full h-full rounded-lg"
+                                            allowFullScreen
+                                        ></iframe>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-center h-full text-white">
+                                        No Video Is Available
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
+
+                   
 
                     {/* Right Column - Basic Info */}
                     <div className="space-y-6">
