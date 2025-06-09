@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // Ensure useParams is imported from react-router-dom
+import { Link, useNavigate, useParams } from 'react-router-dom'; // Ensure useParams is imported from react-router-dom
 import { motion } from 'framer-motion';
 import { ImageSlider } from './ImageSlider';
 import { 
@@ -341,9 +341,9 @@ export default function BikeDetails() {
     }
 };
 
-console.log('====================================');
-console.log("video" , singleProduct?.videos);
-console.log('====================================');
+// console.log('====================================');
+// console.log("video" , singleProduct?.videos);
+// console.log('====================================');
 
 
   return (
@@ -378,23 +378,10 @@ console.log('====================================');
 
                          {/* // video section     */}
                         <div className="mt-6 h-[30px] border border-[#246FAC] rounded-lg overflow-hidden">
-                            {
-                                singleProduct?.videos?.length > 0 ? (
-                                    <div className="h-[730px] rounded-lg overflow-hidden">
-                                        <iframe 
-                                            src={singleProduct.videos} 
-                                            title="Bike Video" 
-                                            className="w-full h-full rounded-lg"
-                                            allowFullScreen
-                                        ></iframe>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center justify-center h-full text-white">
-                                        No Video Is Available
-                                    </div>
-                                )
-                            }
+                            {/* <Link to={`/video/${singleProduct?.videos}`} className="flex items-center justify-center h-full text-white"> View Video </Link> */}
+                            <Link to={'/video/singleProduct?._id'} className="flex items-center justify-center h-full text-white"> View Video </Link>
                         </div>
+
                     </div>
 
                    

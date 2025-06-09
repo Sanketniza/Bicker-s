@@ -36,6 +36,7 @@ import ProductEdit from './components/admin/ProductEdit';
 import ForgetPassword from './components/auth/ForgetPassword';
 import OTPVerification from './components/auth/OTPVerification';
 import ResetPassword from './components/auth/ResetPassword';
+import Video from './components/Home/Bikes/Video';
 
 const appRouter = createBrowserRouter([
 
@@ -114,6 +115,11 @@ const appRouter = createBrowserRouter([
     {
         path:"/order-details",
         element: <UserProtection><OrderDetails /></UserProtection>
+    },
+
+    {
+        path:"/video/:id",
+        element: <UserProtection><Video /></UserProtection> // Placeholder for video component
     },
 
     // ------------ Admin Routes -------------
