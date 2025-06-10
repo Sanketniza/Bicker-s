@@ -17,7 +17,8 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-    // Create or find a modal container at the document root level
+  
+  // Create or find a modal container at the document root level
   useEffect(() => {
     let element = document.getElementById('delete-account-modal-root');
     if (!element) {
@@ -39,13 +40,28 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
       document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
+  
+  // Focus input when modal opens
+  useEffect(() => {
+    if (isOpen && modalRoot) {
+      const timer = setTimeout(() => {
+        const inputElement = document.querySelector('#delete-account-modal-root input');
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, modalRoot]);
+  
   const handleConfirmDelete = async () => {
     if (confirmText.toLowerCase() !== "delete my account") {
       toast.error("Please type 'delete my account' to confirm deletion");
       return;
     }
 
-    setIsDeleting(true);    try {
+    setIsDeleting(true);
+    try {
       // Get user ID from the Redux store - check both _id and id fields
       const userId = user?._id || user?.id;
       
@@ -57,7 +73,6 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
       
       console.log("Attempting to delete user with ID:", userId);
       
-      // Using the ID directly without toString conversion
       const response = await axios.delete(
         `http://localhost:8000/api/v1/user/delete-user/${userId}`,
         {
@@ -118,19 +133,20 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
   if (!isOpen || !modalRoot) return null;
 
   const modalContent = (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto overflow-x-hidden">
+    <div className=" fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto overflow-x-hidden">
+
       <div className="fixed inset-0 bg-black/80" onClick={onClose}></div>
-      <div className="bg-black border border-red-500/20 rounded-lg p-8 w-11/12 max-w-md z-[10000] relative my-8">
+      <div className="bg-black border border-red-500/20 rounded-lg p-8 w-[600px]  z-[10000] relative my-8" tabIndex="-1">
         <button 
           onClick={onClose}
-          className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors duration-200 p-1 rounded-full hover:bg-red-500/20"
+          className=" absolute  right-0 text-gray-400 hover:text-white transition-colors duration-200 p-1 rounded-full focus:outline-none *:focus:ring-2 focus:ring-red-500 hover:bg-red-500/10"
           aria-label="Close modal"
         >
           <X className="h-5 w-5" />
         </button>
         
-        <div className="flex items-center gap-2 mb-4">
-          <AlertTriangle className="h-6 w-6 text-red-500" />
+        <div className="flex items-center gap-2 mb-4 pt-3">
+          <AlertTriangle className="h-6 w-6 text-green-500" />
           <h2 className="text-xl font-bold text-red-500">Delete Your Account Permanently</h2>
         </div>
         
@@ -144,6 +160,7 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
         <div className="my-4 bg-red-900/20 p-4 rounded border border-red-500/30">
           <p className="text-red-400 mb-2">To confirm, type "delete my account" in the field below:</p>
           <Input
+            id="confirm-delete-input"
             value={confirmText}
             onChange={(e) => setConfirmText(e.target.value)}
             className="bg-black/50 border-red-500/30 text-white"

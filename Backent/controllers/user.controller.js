@@ -326,10 +326,12 @@ exports.deleteProfile = async(req, res) => {
             });
         }        // Convert MongoDB ObjectId to string for comparison
         const userToDeleteId = userToDelete._id.toString();
-        const requesterIdStr = typeof requesterId === 'object' ? requesterId.toString() : requesterId;
+        const requesterIdStr = requesterId && typeof requesterId === 'object' ? requesterId.toString() : requesterId;
         
         console.log("User to delete ID (string):", userToDeleteId);
         console.log("Requester ID (string):", requesterIdStr);
+        console.log("User to delete ID type:", typeof userToDeleteId);
+        console.log("Requester ID type:", typeof requesterIdStr);
         
         // Check if the requester is the owner or an admin
         if (userToDeleteId !== requesterIdStr && requesterRole !== 'admin') {

@@ -43,10 +43,9 @@ const User = require('../models/user.model');
 
 const authenticate = async (req, res, next) => {
     try {
-        // Get token from cookies
-        const token = req.cookies.token;
+        // Get token from cookies        const token = req.cookies.token;
         
-        // console.log("Authentication middleware - Cookie token:", token ? "Present" : "Missing");
+        console.log("Authentication middleware - Cookie token:", token ? "Present" : "Missing");
         
         if (!token) {
             return res.status(401).json({
@@ -54,10 +53,9 @@ const authenticate = async (req, res, next) => {
                 message: 'Authentication required. Please log in.'
             });
         }
-        
-        // Verify token
+          // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        // console.log("Token decoded successfully:", decoded.id);
+        console.log("Token decoded successfully:", decoded.id);
         
         if (!decoded) {
             return res.status(401).json({
