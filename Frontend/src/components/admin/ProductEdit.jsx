@@ -652,7 +652,7 @@ const handleDeleteExistingVideo = (index) => {
                                     )}
                                     
                                     {/* New images */}
-                                    <p className="text-sm text-gray-400 mb-2">Add New Images</p>
+                                    {/* <p className="text-sm text-gray-400 mb-2">Add New Images</p> */}
                                     {imagePreviews.slice(existingImages.length).map((preview, index) => (
                                         <div key={index} className="flex items-center space-x-2 mb-2">
                                             <input
@@ -717,7 +717,7 @@ const handleDeleteExistingVideo = (index) => {
                                     )}
                                     
                                     {/* New videos */}
-                                    <p className="text-sm text-gray-400 ">Add New Videos</p>
+                                    {/* <p className="text-sm text-gray-400 ">Add New Videos</p> */}
                                     {videoPreviews.slice(existingVideos.length).map((preview, index) => (
                                         <div key={index} className="flex items-center space-x-2 mb-2">
                                             <input

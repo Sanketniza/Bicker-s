@@ -32,8 +32,10 @@ export default function CompaniesPage() {
                 {
                     bikeProducts.length > 0 ? (
                         <div className="relative">
-                        <CompanyCardGrid product={bikeProducts} />
-                        </div>                    ) : (
+                            <CompanyCardGrid product={bikeProducts} />
+                        </div>    
+                        
+                    ) : (
                         <div className="text-center py-10">
                             <Bike className="mx-auto text-gray-400 w-20 h-20 mb-4" />
                             <span className="text-xl text-gray-400">No Bikes Found</span>
