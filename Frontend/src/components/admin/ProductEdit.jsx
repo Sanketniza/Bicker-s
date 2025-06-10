@@ -115,9 +115,7 @@ function ProductEdit() {
         // Create preview URLs for existing media
         setImagePreviews(productImages);
         setVideoPreviews(productVideos);
-        
-        // Build specifications object with defaults
-         const specs = product.specifications || {};
+          // Build specifications object with defaults
         const defaultSpecs = {
             EngineType: "",
             Displacement: "",
@@ -125,17 +123,26 @@ function ProductEdit() {
             Condition: ""
         };
 
-        // Filter out any non-primitive values and ensure only expected keys
-        const cleanSpecs = {};
-        Object.entries(specs).forEach(([key, value]) => {
-            // Only include string/number values and skip if value is object/array
-            if (typeof value !== 'object' && value !== null) {
-                cleanSpecs[key] = value;
-            }
-        });
+        // Handle specifications, which is an array in the database but we need as an object in the form
+        let extractedSpecs = {};
         
-         // Merge with default specs to ensure all fields exist
-        const mergedSpecs = { ...defaultSpecs, ...cleanSpecs };
+        // Check if specifications is an array and has at least one element
+        if (Array.isArray(product.specifications) && product.specifications.length > 0) {
+            // Extract values from the first specifications object
+            const specObj = product.specifications[0];
+            extractedSpecs = {
+                EngineType: specObj.EngineType || "",
+                Displacement: specObj.Displacement || "",
+                Power: specObj.Power || "",
+                Condition: specObj.Condition || ""
+            };
+        } else if (product.specifications && typeof product.specifications === 'object') {
+            // If it's already an object (not in array form)
+            extractedSpecs = product.specifications;
+        }
+        
+        // Merge with default specs to ensure all fields exist
+        const mergedSpecs = { ...defaultSpecs, ...extractedSpecs };
         
         // Rest of your existing code
         setForm({
