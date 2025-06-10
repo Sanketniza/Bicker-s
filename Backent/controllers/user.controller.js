@@ -307,46 +307,166 @@ exports.updateProfile = async (req, res) => {
 };
 
 exports.deleteProfile = async(req, res) => {
-
     try {
-
         const { userId } = req.params; // User ID to delete (passed in URL params)
-        const requesterId = req.user.id; // ID of the authenticated user (from isAuthorized middleware)
+        const requesterId = req.user._id; // ID of the authenticated user (from isAuthenticated middleware)
         const requesterRole = req.user.role; // Role of the requester (admin or normal user)
+
+        console.log("Delete request - User ID:", userId);
+        console.log("Requester ID:", requesterId);
+        console.log("Requester Role:", requesterRole);
 
         // Fetch user to delete
         const userToDelete = await User.findById(userId);
         if (!userToDelete) {
+            console.log("User not found with ID:", userId);
             return res.status(404).json({
+                success: false,
                 message: 'User not found',
             });
-        }
-
+        }        // Convert MongoDB ObjectId to string for comparison
+        const userToDeleteId = userToDelete._id.toString();
+        const requesterIdStr = typeof requesterId === 'object' ? requesterId.toString() : requesterId;
+        
+        console.log("User to delete ID (string):", userToDeleteId);
+        console.log("Requester ID (string):", requesterIdStr);
+        
         // Check if the requester is the owner or an admin
-        if (userToDelete._id.toString() !== requesterId && requesterRole !== 'admin') {
+        if (userToDeleteId !== requesterIdStr && requesterRole !== 'admin') {
+            console.log("Access denied - IDs don't match and not an admin");
             return res.status(403).json({
+                success: false,
                 message: 'Access denied! You can only delete your own account.',
             });
         }
 
-        // Delete associated data (e.g., products posted by the user)
-        await Product.deleteMany({ userId: userToDelete._id });
+        // Start by importing all required models
+        try {
+            const Company = require("../models/company.model");
+            const Cart = require("../models/cart.model");
+            const Order = require("../models/order.model");
+            const Rating = require("../models/rating.model");
+            const Review = require("../models/review.model");
+            const Wishlist = require("../models/wishlist.model");
+            const Like = require("../models/like.model");
+            const Notification = require("../models/notification.model");
+            
+            console.log("Deleting associated data for user:", userId);
+            
+            // Delete user's data - use try/catch for each operation to continue even if some fail
+            try {
+                // Delete user's products
+                const deletedProducts = await Product.deleteMany({ 
+                    $or: [
+                        { ownerId: userToDelete._id },
+                        { shopOwnerId: userToDelete._id }
+                    ]
+                });
+                console.log("Deleted products:", deletedProducts.deletedCount);
+            } catch (err) {
+                console.error("Error deleting products:", err.message);
+            }
+            
+            try {
+                // Delete companies owned by the user
+                const deletedCompanies = await Company.deleteMany({ ownerId: userToDelete._id });
+                console.log("Deleted companies:", deletedCompanies.deletedCount);
+            } catch (err) {
+                console.error("Error deleting companies:", err.message);
+            }
+            
+            try {
+                // Delete user's cart
+                const deletedCarts = await Cart.deleteMany({ userId: userToDelete._id });
+                console.log("Deleted carts:", deletedCarts.deletedCount);
+            } catch (err) {
+                console.error("Error deleting carts:", err.message);
+            }
+            
+            try {
+                // Delete user's orders
+                const deletedOrders = await Order.deleteMany({ 
+                    $or: [
+                        { userId: userToDelete._id },
+                        { shopOwnerId: userToDelete._id }
+                    ]
+                });
+                console.log("Deleted orders:", deletedOrders.deletedCount);
+            } catch (err) {
+                console.error("Error deleting orders:", err.message);
+            }
+            
+            try {
+                // Delete user's ratings and reviews
+                const deletedRatings = await Rating.deleteMany({ userId: userToDelete._id });
+                console.log("Deleted ratings:", deletedRatings.deletedCount);
+                
+                const deletedReviews = await Review.deleteMany({ userId: userToDelete._id });
+                console.log("Deleted reviews:", deletedReviews.deletedCount);
+            } catch (err) {
+                console.error("Error deleting ratings/reviews:", err.message);
+            }
+            
+            try {
+                // Delete user's wishlist items
+                const deletedWishlistItems = await Wishlist.deleteMany({ userId: userToDelete._id });
+                console.log("Deleted wishlist items:", deletedWishlistItems.deletedCount);
+            } catch (err) {
+                console.error("Error deleting wishlist items:", err.message);
+            }
+            
+            try {
+                // Delete user's likes
+                const deletedLikes = await Like.deleteMany({ userId: userToDelete._id });
+                console.log("Deleted likes:", deletedLikes.deletedCount);
+            } catch (err) {
+                console.error("Error deleting likes:", err.message);
+            }
+            
+            try {
+                // Delete user's notifications
+                const deletedNotifications = await Notification.deleteMany({ 
+                    $or: [
+                        { userId: userToDelete._id },
+                        { senderId: userToDelete._id }
+                    ]
+                });
+                console.log("Deleted notifications:", deletedNotifications.deletedCount);
+            } catch (err) {
+                console.error("Error deleting notifications:", err.message);
+            }
 
-        // Delete the user account
+        } catch (err) {
+            console.error("Error loading models:", err.message);
+            // Continue with user deletion even if related data deletion fails
+        }
+
+        // Finally, delete the user account itself
+        console.log("Deleting user account");
         await userToDelete.deleteOne();
+        console.log("User account deleted successfully");
+        
+        // Clear user cookie
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict'
+        });
+        
+        console.log("User cookie cleared");
 
         return res.status(200).json({
-            message: 'User account and associated data deleted successfully.',
+            success: true,
+            message: 'User account and all associated data deleted successfully.',
         });
 
     } catch (error) {
-        console.log(error.message);
-        console.log("Error in deleteProfile controller");
+        console.error("Error in deleteProfile controller:", error);
 
         return res.status(500).json({
+            success: false,
             message: 'An error occurred while deleting the user account.',
             error: error.message
         });
     }
-
 };

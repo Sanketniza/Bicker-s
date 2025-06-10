@@ -2,20 +2,31 @@ import { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { Save, ArrowLeft, Edit2 } from 'lucide-react';
+import { Save, ArrowLeft, Edit2, Trash2 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { setUser } from '../../store/authSlice';
 import axios from 'axios';
+import DeleteAccountModal from './DeleteAccountModal'; // Import DeleteAccountModal
+import { useLocation } from 'react-router-dom';
 
 const UpdateProfile = ({ onClose }) => {
-
-
+  const location = useLocation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
   // Local state to manage editable fields and editing mode
   const [isEditable, setIsEditable] = useState(false);
+  // State to control delete account modal visibility
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  
+  // Check URL parameter to open delete modal if redirected from navbar
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.get('openDeleteModal') === 'true') {
+      setIsDeleteModalOpen(true);
+    }
+  }, [location.search]);
 
   const [profileData, setProfileData] = useState({
 
@@ -166,9 +177,7 @@ const UpdateProfile = ({ onClose }) => {
                     />
                 
                 ) 
-            }
-
-            <div className="relative flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0 md:space-x-4">
+            }            <div className="relative flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0 md:space-x-4">
                 <h1 className="text-3xl md:text-4xl font-bold text-white text-center md:text-left">
                     <span className="text-emerald-500">Edit</span> Profile
                 </h1>
@@ -202,6 +211,29 @@ const UpdateProfile = ({ onClose }) => {
                     </Button>
                 </div>
             </div>
+              {/* Delete Account Section */}
+            <div className="my-8 pt-6 border-t border-red-500/30">
+                <div className="flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h2 className="text-xl font-bold text-red-500">Danger Zone</h2>
+                        <p className="text-sm text-gray-400">Once you delete your account, there is no going back. Please be certain.</p>
+                    </div>
+                    <Button
+                        onClick={() => setIsDeleteModalOpen(true)}
+                        variant="destructive"
+                        className="mt-4 md:mt-0 bg-red-600 hover:bg-red-700 flex items-center gap-2"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                        Delete Account
+                    </Button>
+                </div>
+            </div>
+            
+            {/* Delete Account Modal */}
+            <DeleteAccountModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+            />
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">

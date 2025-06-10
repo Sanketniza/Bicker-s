@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../../css/LogoName.css';
 import logo from '../../assets/photo/logo.png';
 import { motion } from "motion/react";
-import { Bike, HardHat, ListOrdered, Menu, X } from "lucide-react";
+import { Bike, Delete, HardHat, ListOrdered, Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from 'wouter';
 import {
@@ -24,12 +24,10 @@ import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
 import AdminHome from '../admin/AdminHome';
 
 function Navbar() {
-
   const {user} = useSelector((state) => state.auth);  
 //   console.log("user from navbar",user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   const [, setLocation] = useLocation();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -236,6 +234,16 @@ function Navbar() {
                                 >
                                     <Settings className="mr-2 h-4 w-4" />
                                     Settings
+                                </Button>                                <Button 
+                                    variant="ghost" 
+                                    className="w-full justify-start hover:bg-red-100/10 text-red-500"
+                                    onClick={() => {
+                                        navigate('/profile?openDeleteModal=true');
+                                        setIsDrawerOpen(false);
+                                    }}
+                                >
+                                    <Delete className="mr-2 h-4 w-4" />
+                                    Delete Account
                                 </Button>
 
                                 <Button 
@@ -371,10 +379,7 @@ function Navbar() {
                     </motion.li>
                 </motion.ul>
                 </div>
-            )}
-
-
-            </div>
+            )}            </div>
         </>
     );
 }
