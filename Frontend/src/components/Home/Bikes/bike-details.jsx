@@ -352,20 +352,20 @@ export default function BikeDetails() {
 
             <Navbar />
             
-            <div className="min-h-screen py-12 bg-[#09090B]">
+            <div className="min-h-screen py-6 md:py-12 bg-[#09090B]">
                 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold text-[#246FAC] mb-10 text-start" style={{ textDecoration: "underline solid #FFB903 0.1em" }}>Bike Details Page :-</h1>
-                <div className="bg-black/20 backdrop-blur-sm border border-emerald-500/30 rounded-lg shadow-2xl p-6 md:p-8">
+                    <h1 className="text-2xl md:text-4xl font-bold text-[#246FAC] mb-6 md:mb-10 text-start" style={{ textDecoration: "underline solid #FFB903 0.1em" }}>Bike Details Page</h1>
+                <div className="bg-black/20 backdrop-blur-sm border border-emerald-500/30 rounded-lg shadow-2xl p-4 md:p-8">
                     {/* Main Info Section */}
 
-                    <div className="grid md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {/* Left Column - Images */}
 
 
                     <div>
 
-                        <div className="h-[730px] rounded-lg overflow-hidden">
+                        <div className="h-[300px] md:h-[500px] lg:h-[730px] rounded-lg overflow-hidden">
                             {singleProduct?.images?.length > 0 ? (
                                 <ImageSlider images={singleProduct.images} interval={5000} className="h-full" />
                             ) : (
@@ -377,10 +377,7 @@ export default function BikeDetails() {
 
 
                          {/* // video section     */}
-                        <div className="mt-6 h-[30px] border border-[#246FAC] rounded-lg overflow-hidden">
-                            {/* <Link to={`/video/${singleProduct?.videos}`} className="flex items-center justify-center h-full text-white"> View Video </Link> */}
-                            {/* <Link to={'/video/singleProduct?._id'} className="flex items-center justify-center h-full text-white"> View Video </Link> */}
-
+                        <div className="mt-4 md:mt-6 h-[30px] border border-[#246FAC] rounded-lg overflow-hidden">
                             {
                                    singleProduct?.videos?.length > 0 ? (
                                     <Link to={`/video/${singleProduct?._id}`} className="flex items-center justify-center h-full text-white"> View Video </Link>
@@ -393,65 +390,62 @@ export default function BikeDetails() {
                         </div>
 
                     </div>
-
                    
 
                     {/* Right Column - Basic Info */}
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                         <div className="flex justify-center items-start">
-                            <h1 className="text-4xl font-bold text-white">{singleProduct?.title}</h1> 
+                            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">{singleProduct?.title}</h1> 
                         </div>
 
-                        <div className="flex justify-between items-start">
-                            <h5 className="text-3xl font-bold text-emerald-500">
+                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <h5 className="text-2xl md:text-3xl font-bold text-emerald-500">
                                 Rs {singleProduct?.price?.toLocaleString()}
                             </h5>
 
-                            <div className="flex gap-2 items-center">
+                            <div className="flex flex-wrap gap-2 items-center justify-center sm:justify-start">
                                 <motion.button
                                     onClick={handleShare}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
+                                    className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors border border-emerald-500/30"
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                 >
-                                <Share2 className="h-5 w-5 text-emerald-500" />
-                                <span className="text-emerald-500 font-medium">Share</span>
+                                <Share2 className="h-4 w-4 md:h-5 md:w-5 text-emerald-500" />
+                                <span className="text-emerald-500 font-medium text-sm md:text-base">Share</span>
                                 </motion.button>
                                 
                                 <motion.button
                                     onClick={handleWishlist}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors border border-rose-500/30"
+                                    className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors border border-rose-500/30"
                                 >
                                     <Heart 
-                                        className={`h-5 w-5 ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-rose-500'}`}
+                                        className={`h-4 w-4 md:h-5 md:w-5 ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-rose-500'}`}
                                     />
 
-                                    <span className="text-rose-500 font-medium">
-                                        {isFavorite ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                                    <span className="text-rose-500 font-medium text-sm md:text-base">
+                                        {isFavorite ? 'Remove' : 'Wishlist'}
                                     </span>
                                 </motion.button>
 
                             </div>
                         </div>    
 
-                        {/* //*:Rating and Reviews */}
-                        <div className="flex items-center gap-2 text-lg ">
-                            <span className="text-yellow-400 text-xl">
-                                {averageRating ? `${averageRating} ★` : 'No ratings yet'}
-                            </span>
+                        {/* //*:Rating and Reviews */}                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-lg">
+                            <div className="flex items-center gap-2">
+                                <span className="text-yellow-400 text-xl">
+                                    {averageRating ? `${averageRating} ★` : 'No ratings yet'}
+                                </span>
 
-                            <span className="text-gray-400">•</span>
+                                <span className="text-gray-400">•</span>
 
-                            <span className="text-gray-300">
-                                {(singleProduct?.views / 1000).toFixed(2)}k Reviews
-                            </span>
-
+                                <span className="text-gray-300">
+                                    {(singleProduct?.views / 1000).toFixed(2)}k Reviews
+                                </span>
+                            </div>
                            
-                            <span className="text-gray-400 ml-40">
+                            <span className="text-gray-400 sm:ml-auto">
                                 Created on {new Date(singleProduct?.createdAt).toLocaleDateString()}
                             </span>
-                           
-
                         </div>
 
                         {/* Shop Owner Info */}

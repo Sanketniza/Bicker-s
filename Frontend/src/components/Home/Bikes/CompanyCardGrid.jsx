@@ -13,10 +13,9 @@ export function CompanyCardGrid({ product }) {
 
 // product.forEach(company => console.log("product di ", company.id));
 
-
   return (
-        <div className="mx-auto px-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
+        <div className="mx-auto px-2 sm:px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8 justify-items-center">
                 
                 {
                     product.map((item) => (

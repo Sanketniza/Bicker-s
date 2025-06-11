@@ -158,14 +158,12 @@ export default function WishlistPage() {
 
     return (
         <>
-            <Navbar />
-
-            <div className="py-1 bg-[#09090B]">
-                        <div className="mx-10">
+            <Navbar />            <div className="py-1 bg-[#09090B]">
+                        <div className="mx-3 sm:mx-10">
             
                             
             
-                            <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-7xl bg-black/20 backdrop-blur-sm">
+                            <div className="relative p-4 sm:p-10 mx-auto my-10 sm:my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-7xl bg-black/20 backdrop-blur-sm">
                             {/* Glow effect */}
                             
                             <div
@@ -177,34 +175,31 @@ export default function WishlistPage() {
             
                             
 
-                            <div className="flex justify-between items-center mb-8">
-                                <h1 className="text-3xl font-bold text-emerald-500 relative mb-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                                <h1 className="text-2xl sm:text-3xl font-bold text-emerald-500 relative mb-2 sm:mb-4">
                                     Your Wishlist
                                     <span className="block w-full h-1 bg-orange-500 rounded-full absolute bottom--1"></span>
                                 </h1>
                                 <Button 
                                     onClick={handleClearWishlist}
                                     variant="destructive"
-                                    className="hover:bg-rose-600"
+                                    className="w-full sm:w-auto hover:bg-rose-600"
                                 >
                                     Clear Wishlist
                                 </Button>
-                            </div>
-
-                    {/* ✅ Total Price */}
+                            </div>                    {/* ✅ Total Price */}
                     {
                         wishlist.length > 0 && (
-                            <div className="mb-8 text-xl text-gray-300">
+                            <div className="mb-6 sm:mb-8 text-lg sm:text-xl text-gray-300">
                                 Total Price: <span className="text-emerald-500 font-bold">₹{totalPrice.toLocaleString()}</span>
                             </div>
                         )
                     }
-                                
-                                {
+                                  {
                                     wishlist.length > 0 ? (
-                                        <div className="flex flex-wrap gap-6">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                                             {wishlist.map(item => (
-                                                <div key={item._id} className="relative p-6">
+                                                <div key={item._id} className="relative p-2 sm:p-6">
                                                     <CompanyCard 
                                                         id={item._id}
                                                         name={item.title}
@@ -214,7 +209,7 @@ export default function WishlistPage() {
                                                     />
                                                     <Button
                                                         onClick={() => handleRemove(item._id)}
-                                                        className="w-8 h-8 absolute top-7 left-64 bg-rose-500/10 rounded-full text-rose-500 hover:bg-rose-500/30"
+                                                        className="w-8 h-8 absolute top-7 right-4 sm:right-7 bg-rose-500/10 rounded-full text-rose-500 hover:bg-rose-500/30"
                                                     >
                                                         <X className="h-4 w-4" />
                                                     </Button>
@@ -222,7 +217,7 @@ export default function WishlistPage() {
                                             ))}
                                         </div>
                                     ) : (
-                                        <p className="text-gray-400">No items in wishlist</p>
+                                        <p className="text-gray-400 text-center py-10">No items in wishlist</p>
                                     )
                                 }
 

@@ -29,14 +29,13 @@ export default function Profile() {
   const handleCloseEdit = () => {
     setIsEditing(false);
   };
-
   if (!user) {
     return (
       <>
         <Navbar />
-        <div className="mx-10 my-20 text-center text-white">
-          <h1 className="text-2xl">Loading profile...</h1>
-          <p>Or you might need to log in to view your profile.</p>
+        <div className="mx-4 sm:mx-10 my-10 sm:my-20 text-center text-white">
+          <h1 className="text-xl sm:text-2xl">Loading profile...</h1>
+          <p className="text-sm sm:text-base mt-2">Or you might need to log in to view your profile.</p>
         </div>
       </>
     );
@@ -58,9 +57,8 @@ export default function Profile() {
 
   return (
         <>
-        <Navbar />
-        <div className="mx-10">
-            <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
+        <Navbar />        <div className="mx-4 sm:mx-10">
+            <div className="relative p-4 sm:p-10 mx-auto my-10 sm:my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
             {/* Glow effect */}
             <div
                 className="absolute inset-0 rounded-lg opacity-30 blur-xl"
@@ -72,9 +70,8 @@ export default function Profile() {
             {isEditing ? (
                 <UpdateProfile onClose={handleCloseEdit} />
             ) : (
-                <>
-                <div className="relative flex justify-between items-center mb-8">
-                    <h1 className="text-4xl font-bold text-white">
+                <>                <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-white">
                     <span className="text-emerald-500">My</span> Profile
                     </h1>
                     <Button
@@ -83,30 +80,28 @@ export default function Profile() {
                     className="gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 border-emerald-500/30"
                     >
                     <Edit2 className="h-4 w-4" />
-                    Edit Profile
+                    <span className="sm:inline">Edit Profile</span>
                     </Button>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6 text-white">
-                    <div className="space-y-4">
-                    <div>
+                </div>                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 text-white overflow-x-hidden">
+                    <div className="space-y-4 w-full">
+                    <div className="bg-black/20 p-3 sm:p-4 rounded-lg border border-emerald-500/20">
                         <label className="text-sm font-medium text-emerald-500">Name</label>
-                        <p className="mt-1">{user.fullname || 'Not provided'}</p>
+                        <p className="mt-1 text-sm sm:text-base break-words">{user.fullname || 'Not provided'}</p>
                     </div>
 
-                    <div>
+                    <div className="bg-black/20 p-3 sm:p-4 rounded-lg border border-emerald-500/20">
                         <label className="text-sm font-medium text-[#F97316]">Email</label>
-                        <p className="mt-1">{user.email || 'Not provided'}</p>
+                        <p className="mt-1 text-sm sm:text-base break-words">{user.email || 'Not provided'}</p>
                     </div>
 
-                    <div>
+                    <div className="bg-black/20 p-3 sm:p-4 rounded-lg border border-emerald-500/20">
                         <label className="text-sm font-medium text-[#F97316]">Phone</label>
-                        <p className="mt-1">{user.phone || 'Not provided'}</p>
+                        <p className="mt-1 text-sm sm:text-base">{user.phone || 'Not provided'}</p>
                     </div>
 
-                    <div>
+                    <div className="bg-black/20 p-3 sm:p-4 rounded-lg border border-emerald-500/20">
                         <label className="text-sm font-medium text-[#F97316]">Address</label>
-                        <p className="mt-1">
+                        <p className="mt-1 text-sm sm:text-base break-words">
                         {user.address && Object.values(user.address).some(val => val)
                             ? `${user.address.street}, ${user.address.city}, ${user.address.state} ${user.address.zip}, ${user.address.country}`
                             : 'Not provided'}
@@ -115,21 +110,19 @@ export default function Profile() {
                     </div>
 
                     <div className="space-y-4">
-                    <div>
+                    <div className="bg-black/20 p-3 sm:p-4 rounded-lg border border-emerald-500/20">
                         <label className="text-sm font-medium text-[#F97316]">Bio</label>
-                        <p className="mt-1">{user.bio || 'Not provided'}</p>
-                    </div>
-
-                    <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
+                        <p className="mt-1 text-sm sm:text-base break-words">{user.bio || 'Not provided'}</p>
+                    </div>                    <div className="bg-emerald-500/5 p-3 sm:p-4 rounded-lg border border-emerald-500/30">
                         <label className="text-sm font-medium text-emerald-500">Social Media</label>
-                        <div className="mt-2 flex gap-4">
+                        <div className="mt-2 flex flex-wrap gap-6 justify-start">
                         <a
                             href={user.socialMediaLinks?.facebook || '#'}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:text-blue-700"
                         >
-                            <Facebook />
+                            <Facebook size={24} />
                         </a>
 
                         <a
@@ -138,7 +131,7 @@ export default function Profile() {
                             rel="noopener noreferrer"
                             className="text-sky-500 hover:text-sky-600"
                         >
-                            <Twitter />
+                            <Twitter size={24} />
                         </a>
 
                         <a
@@ -147,7 +140,7 @@ export default function Profile() {
                             rel="noopener noreferrer"
                             className="text-pink-600 hover:text-pink-700"
                         >
-                            <Instagram />
+                            <Instagram size={24} />
                         </a>
 
                         <a
@@ -156,15 +149,15 @@ export default function Profile() {
                             rel="noopener noreferrer"
                             className="text-blue-700 hover:text-blue-800"
                         >
-                            <Linkedin />
+                            <Linkedin size={24} />
                         </a>
 
                         </div>
                     </div>
 
-                    <div className="bg-emerald-500/5 p-4 rounded-lg border border-emerald-500/30">
+                    <div className="bg-emerald-500/5 p-3 sm:p-4 rounded-lg border border-emerald-500/30">
                         <label className="text-sm font-medium text-emerald-500">Payment Information</label>
-                        <p className="mt-1">
+                        <p className="mt-1 text-sm sm:text-base break-words">
                         {user.paymentInfo?.bankAccount
                             ? `Bank: ${user.paymentInfo.bankAccount}`
                             : user.paymentInfo?.upiId

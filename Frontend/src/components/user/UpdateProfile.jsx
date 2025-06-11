@@ -164,7 +164,9 @@ const UpdateProfile = ({ onClose }) => {
   };
 
   return (
-        <div className="relative p-10 mx-auto my-20 border rounded-lg shadow-2xl border-emerald-500/30 max-w-4xl bg-black/20 backdrop-blur-sm">
+
+
+        <div className="relative ">
             {/* Glow effect */}
 
             {

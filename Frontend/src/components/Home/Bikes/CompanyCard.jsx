@@ -36,11 +36,9 @@ export function CompanyCard({ id: companyId, name, images = [], price }) {
         setIsHovered(false);
         x.set(0);
         y.set(0);
-    }
-
-    return (
+    }    return (
         <motion.div
-            className="relative w-[290px]"
+            className="relative w-full max-w-[290px]"
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={handleMouseLeave}
@@ -78,19 +76,17 @@ export function CompanyCard({ id: companyId, name, images = [], price }) {
                             No Images Available
                         </div>
                     )}
-                </Link>
-
-                {/* Card content */}
-                <div className="p-6 space-y-4">
-                    <h2 className="text-xl font-semibold text-foreground text-center">{name}</h2>
+                </Link>                {/* Card content */}
+                <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
+                    <h2 className="text-lg sm:text-xl font-semibold text-foreground text-center line-clamp-2">{name}</h2>
                     
                     {/* ✅ Handle undefined price */}
                     {price !== undefined ? (
-                        <p className="text-2xl font-bold text-center text-emerald-500">
+                        <p className="text-xl sm:text-2xl font-bold text-center text-emerald-500">
                             ₹{price.toLocaleString()}
                         </p>
                     ) : (
-                        <p className="text-2xl font-bold text-center text-gray-500">
+                        <p className="text-xl sm:text-2xl font-bold text-center text-gray-500">
                             Price Not Available
                         </p>
                     )}
