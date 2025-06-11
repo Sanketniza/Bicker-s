@@ -38,7 +38,7 @@ export function CompanyCard({ id: companyId, name, images = [], price }) {
         y.set(0);
     }    return (
         <motion.div
-            className="relative w-full max-w-[290px]"
+            className="relative w-full min-w-[250px] lg:min-w-[280px]"
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={handleMouseLeave}
