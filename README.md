@@ -87,6 +87,7 @@ The application features a dual-user system (regular users and shop owners), res
   <details>
     <summary>🛒 Shopping Cart</summary>
     <img src="screenshots/3.png" alt="Shopping Cart" width="800"/>
+    <img src="screenshots/6.png" alt="Shopping Cart" width="800"/>
   </details>
   
   <details>
