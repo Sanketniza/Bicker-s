@@ -75,12 +75,13 @@ The application features a dual-user system (regular users and shop owners), res
   <details>
     <summary>📱 Home Page</summary>
     <img src="screenshots/1 - Copy.png" alt="Home Page" width="800"/>
-    <img src="screenshots/1 - Copy.png" alt="Home Page" width="800"/>
+    <img src="screenshots/2.png" alt="Home Page" width="800"/>
   </details>
   
   <details>
     <summary>🏍️ Product Listings</summary>
-    <img src="screenshots/product-listings.png" alt="Product Listings" width="800"/>
+    <img src="screenshots/4.png" alt="Product Listings" width="800"/>
+    <img src="screenshots/5.png" alt="Product Listings" width="800"/>
   </details>
   
   <details>
@@ -90,12 +91,16 @@ The application features a dual-user system (regular users and shop owners), res
   
   <details>
     <summary>👤 User Profile</summary>
-    <img src="screenshots/user-profile.png" alt="User Profile" width="800"/>
+    <img src="screenshots/8.png" alt="User Profile" width="800"/>
+    <img src="screenshots/7.png" alt="User Profile" width="800"/>
+    <img src="screenshots/9.png" alt="User Profile" width="800"/>
   </details>
   
   <details>
     <summary>👨‍💼 Admin Dashboard</summary>
-    <img src="screenshots/admin-dashboard.png" alt="Admin Dashboard" width="800"/>
+    <img src="screenshots/admin 3.png" alt="Admin Dashboard" width="800"/>
+    <img src="screenshots/admin 1.png" alt="Admin Dashboard" width="800"/>
+    <img src="screenshots/admin 1.png" alt="Admin Dashboard" width="800"/>
   </details>
 </div>
 
