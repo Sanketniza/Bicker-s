@@ -75,6 +75,7 @@ The application features a dual-user system (regular users and shop owners), res
   <details>
     <summary>📱 Home Page</summary>
     <img src="screenshots/1 - Copy.png" alt="Home Page" width="800"/>
+    <img src="screenshots/1 - Copy.png" alt="Home Page" width="800"/>
   </details>
   
   <details>
