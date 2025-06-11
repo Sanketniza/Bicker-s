@@ -41,11 +41,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
-const authenticate = async (req, res, next) => {
-    try {
-        // Get token from cookies        const token = req.cookies.token;
+const isAuthenticated = async (req, res, next) => {try {
+        // Get token from cookies
+        const token = req.cookies.token;
         
-        console.log("Authentication middleware - Cookie token:", token ? "Present" : "Missing");
+        // console.log("Authentication middleware - Cookie token:", token ? "Present" : "Missing");
         
         if (!token) {
             return res.status(401).json({
@@ -104,4 +104,4 @@ const authenticate = async (req, res, next) => {
     }
 };
 
-module.exports = authenticate;
+module.exports = isAuthenticated;
