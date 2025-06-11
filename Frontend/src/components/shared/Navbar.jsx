@@ -314,7 +314,7 @@ function Navbar() {
             {/* Mobile and medium menu */}
             {isMenuOpen && (
                 <div className="lg:hidden bg-[#0F0F0F] border-t border-[#7c5a36]">
-                <motion.ul className="flex flex-col items-center gap-4 py-4">
+                <motion.ul className="mt-5 flex flex-col items-center gap-4 py-4">
                     <motion.li
                     whileHover={{ color: "#6674CC" }}
                     transition={{ delay: 0.011 }}
@@ -336,7 +336,7 @@ function Navbar() {
                     transition={{ delay: 0.011 }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/road"
+                        to="/bikes-list"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                         onClick={() => setIsMenuOpen(false)}
                     >
@@ -351,7 +351,7 @@ function Navbar() {
                     whileHover={{ color: "#6674CC" }}
                     className="cursor-pointer text-white-800">
                     <NavLink 
-                        to="/login"
+                        to="/order-details"
                         className={({isActive}) => (isActive ? "text-red-500" : "text-white-800")}
                         onClick={() => setIsMenuOpen(false)}
                     >  
@@ -379,7 +379,9 @@ function Navbar() {
                     </motion.li>
                 </motion.ul>
                 </div>
-            )}            </div>
+            )}     
+
+            </div>
         </>
     );
 }

@@ -55,8 +55,8 @@ const Navbar = () => {
 //   };
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] shadow-[0px_10px_10px_-5px_rgba(102,116,204,0.5)]">
-      <nav className="flex items-center justify-between h-14 max-w-screen-xl px-5 mx-auto mb-0">
+    <div className=" w-full bg-gradient-to-r from-[#0F0F0F] to-[#0F0F0F] shadow-[0px_10px_10px_-5px_rgba(102,116,204,0.5)]">
+      <nav className="flex items-center justify-between h-14 max-w-screen-xl mx-auto px-5  mb-0">
         <div className="flex items-center lg:hidden">
           <Link to="/" className="text-white font-semibold hover:text-blue-400">
             Home
@@ -111,7 +111,7 @@ const Navbar = () => {
       {/* Mobile and medium menu */}
       {isMenuOpen && (
         <div className="lg:hidden bg-[#0F0F0F] border-t border-[#7c5a36]">
-          <motion.ul className="flex flex-col items-center gap-4 py-4">
+          <motion.ul className="flex flex-col items-center gap-2 py-4">
             {menuItems.map((item, index) => (
               <div key={index} className="relative group mx-4">
                 <button 
