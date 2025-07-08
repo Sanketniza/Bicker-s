@@ -209,7 +209,7 @@ export default function WishlistPage() {
                                                     />
                                                     <Button
                                                         onClick={() => handleRemove(item._id)}
-                                                        className="w-8 h-8 absolute top-7 right-4 sm:right-7 bg-rose-500/10 rounded-full text-rose-500 hover:bg-rose-500/30"
+                                                        className="w-8 h-8 absolute top-7 right-0 sm:right-0 bg-rose-500/10 rounded-full text-rose-500 hover:bg-rose-500/30"
                                                     >
                                                         <X className="h-4 w-4" />
                                                     </Button>

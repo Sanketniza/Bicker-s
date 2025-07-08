@@ -66,23 +66,42 @@ exports.register = async(req, res) => {
 
         // Send verification email with OTP
         const emailTemplate = getEmailVerificationTemplate(otp);
-        await sendEmail({
-            email: user.email,
-            subject: "Email Verification - Bicker's",
-            message: emailTemplate,
-        });
-
-        return res.status(201).json({
-            success: true,
-            user: {
-                id: user._id,
-                fullname: user.fullname,
+        
+        try {
+            await sendEmail({
                 email: user.email,
-                role: user.role,
-                isVerified: user.isVerified
-            },
-            message: "User registered successfully. Please check your email to verify your account.",
-        });
+                subject: "Email Verification - Bicker's",
+                message: emailTemplate,
+            });
+            
+            return res.status(201).json({
+                success: true,
+                user: {
+                    id: user._id,
+                    fullname: user.fullname,
+                    email: user.email,
+                    role: user.role,
+                    isVerified: user.isVerified
+                },
+                message: "User registered successfully. Please check your email to verify your account.",
+            });
+        } catch (emailError) {
+            console.error("Failed to send verification email:", emailError);
+            
+            // User is created but email failed - return appropriate response
+            return res.status(201).json({
+                success: true,
+                user: {
+                    id: user._id,
+                    fullname: user.fullname,
+                    email: user.email,
+                    role: user.role,
+                    isVerified: user.isVerified
+                },
+                emailSent: false,
+                message: "User registered successfully but we couldn't send a verification email. Please request a new verification code.",
+            });
+        }
 
     } catch (error) {
         console.log(error);

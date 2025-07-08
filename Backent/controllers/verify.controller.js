@@ -162,16 +162,27 @@ exports.resendVerificationOTP = async (req, res) => {
 
         // Send email with OTP
         const emailTemplate = getEmailVerificationTemplate(otp);
-        await sendEmail({
-            email: user.email,
-            subject: "Email Verification - Bicker's",
-            message: emailTemplate,
-        });
+        
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: "Email Verification - Bicker's",
+                message: emailTemplate,
+            });
 
-        return res.status(200).json({
-            message: "Verification OTP resent successfully",
-            success: true,
-        });
+            return res.status(200).json({
+                message: "Verification OTP resent successfully",
+                success: true,
+            });
+        } catch (emailError) {
+            console.error("Failed to send verification email:", emailError);
+            
+            return res.status(500).json({
+                message: "Failed to send verification email. Please try again later.",
+                success: false,
+                error: emailError.message
+            });
+        }
     } catch (error) {
         console.error("Error in resendVerificationOTP controller:", error);
         return res.status(500).json({

@@ -46,16 +46,28 @@ exports.forgotPassword = async (req, res) => {
         
         // Send email with OTP
         const emailTemplate = getPasswordResetOTPTemplate(otp);
-        await sendEmail({
-            email: user.email,
-            subject: "Password Reset - Bicker's",
-            message: emailTemplate,
-        });
+        
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: "Password Reset - Bicker's",
+                message: emailTemplate,
+            });
 
-        return res.status(200).json({
-            message: "Password reset instructions sent to your email",
-            success: true,
-        });
+            return res.status(200).json({
+                message: "Password reset instructions sent to your email",
+                success: true,
+            });
+        } catch (emailError) {
+            console.error("Failed to send password reset email:", emailError);
+            
+            return res.status(500).json({
+                message: "Failed to send password reset email. Please try again later.",
+                success: false,
+                error: emailError.message,
+                resetToken: resetToken // Include reset token so it can be used alternatively
+            });
+        }
     } catch (error) {
         console.error("Error in forgotPassword controller:", error);
         return res.status(500).json({

@@ -182,15 +182,15 @@ export default function BikeDetails() {
     };
 
 
-    const { wishList } = useSelector(state => state.wishlist);
+    const { wishlist } = useSelector(state => state.wishlist) || { wishlist: [] };
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-        if (singleProduct) {
-            const exists = wishList.some(item => item._id === singleProduct._id);
+        if (singleProduct && wishlist) {
+            const exists = wishlist.some(item => item._id === singleProduct._id);
             setIsFavorite(exists);
         }
-    }, [wishList, singleProduct]);
+    }, [wishlist, singleProduct]);
 
     const handleWishlist = async () => {
         if (!singleProduct) {
