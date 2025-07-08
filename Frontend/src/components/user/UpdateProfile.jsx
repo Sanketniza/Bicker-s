@@ -114,7 +114,7 @@ const UpdateProfile = ({ onClose }) => {
                 }
             );
 
-            console.log('Response:', response); // Log full response for debugging
+            // console.log('Response:', response); // Log full response for debugging
 
             if (response.status === 200 && response.data.success) {
                 dispatch(setUser(response.data.user));
