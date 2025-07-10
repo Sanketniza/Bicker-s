@@ -80,6 +80,7 @@ export const deleteRating = createAsyncThunk(
                 `http://localhost:8000/api/v1/rating/${ratingId}`,
                 { data: { userId }, withCredentials: true }
             );
+
             console.log(response.data);
             return ratingId;
         } catch (error) {

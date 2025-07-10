@@ -13,7 +13,7 @@ export default function CompaniesPage() {
   
   // Filter products with category "Electric bike"
   const electricProducts = allProducts.filter(product => product.category === 'Electric Bike');
-  console.log("Electric products:", electricProducts.length);
+  // console.log("Electric products:", electricProducts.length);
 
   return (
     <div className="py-1 bg-[#09090B]">

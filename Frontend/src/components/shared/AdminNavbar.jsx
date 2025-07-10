@@ -68,7 +68,7 @@ function AdminNavbar() {
             }
             
     }catch(error){
-        console.log(error)
+        // console.log(error)
         toast.error(error.response.data.message, "admin", {
             style: {
                 color: '#f44336',

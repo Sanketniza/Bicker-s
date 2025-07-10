@@ -384,7 +384,7 @@ const handleDeleteExistingVideo = (index) => {
         setIsDeleting(true);
         
         try {
-            console.log(`Deleting product: ${id} from company: ${form.companyId}`);
+            // console.log(`Deleting product: ${id} from company: ${form.companyId}`);
             
             const response = await axios.delete(`http://localhost:8000/api/v1/product/${id}/${form.companyId}`, {
                 withCredentials: true,

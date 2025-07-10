@@ -15,14 +15,14 @@ import Footer from '../shared/footer';
 export function List() {
 
   const { allProducts } = useSelector(state => state.product);
-    console.log("list allProducts : " , allProducts);
-    allProducts.forEach(product => {
-        console.log("hello" , `${product._id}, 
-                                ${product.title}, 
-                                ${product.description}`, 
-                                `${product.price}`, 
-                                `${product.shopOwnerId}`);
-    });
+    // console.log("list allProducts : " , allProducts);
+    // allProducts.forEach(product => {
+    //     console.log("hello" , `${product._id}, 
+    //                             ${product.title}, 
+    //                             ${product.description}`, 
+    //                             `${product.price}`, 
+    //                             `${product.shopOwnerId}`);
+    // });
 
 
 
@@ -38,7 +38,7 @@ useEffect(() => {
 }, [allProducts]); // Add allProducts as dependency
 
     useEffect(() => {
-        console.log('Current search query:', searchQuery);
+        // console.log('Current search query:', searchQuery);
     }, [searchQuery]);
 
   const filteredProducts = products.filter((product) => {
@@ -53,7 +53,7 @@ useEffect(() => {
         return matchesSearch && matchesPrice;
     });
 
-    console.log("Filtered Products: ", filteredProducts);
+    // console.log("Filtered Products: ", filteredProducts);
 
    
 

@@ -9,8 +9,8 @@ exports.createProduct = async (req, res) => {
     try {
         const { title, description, price, stock, location, category, tags, companyId } = req.body;
         
-        console.log("Request body:", req.body);
-        console.log("Request files:", req.files ? Object.keys(req.files) : "No files");
+        // console.log("Request body:", req.body);
+        // console.log("Request files:", req.files ? Object.keys(req.files) : "No files");
         
         if (req.files && req.files.images) {
             console.log(`Found ${req.files.images.length} images to upload`);
@@ -98,11 +98,11 @@ exports.createProduct = async (req, res) => {
 
             // Process images
             if (req.files.images && req.files.images.length > 0) {
-                console.log(`Processing ${req.files.images.length} images`);
+                // console.log(`Processing ${req.files.images.length} images`);
                 
                 for (const image of req.files.images) {
                     try {
-                        console.log("Processing image:", image.originalname);
+                        // console.log("Processing image:", image.originalname);
                         const imageDataUri = getDataUri(image);
                         
                         if (!imageDataUri || !imageDataUri.content) {
@@ -110,20 +110,20 @@ exports.createProduct = async (req, res) => {
                             continue;
                         }
                         
-                        console.log(`Uploading image: ${image.originalname} to Cloudinary...`);
+                        // console.log(`Uploading image: ${image.originalname} to Cloudinary...`);
                         const imageResult = await cloudinary.uploader.upload(imageDataUri.content, {
                             folder: "product_images",
                             resource_type: "auto"
                         });
                         
                         imageUrls.push(imageResult.secure_url);
-                        console.log("Image uploaded successfully:", imageResult.secure_url);
+                        // console.log("Image uploaded successfully:", imageResult.secure_url);
                     } catch (error) {
                         console.error(`Error uploading image ${image.originalname}:`, error);
                     }
                 }
             } else {
-                console.log("No images found in the request");
+                // console.log("No images found in the request");
             }
 
             // Process videos

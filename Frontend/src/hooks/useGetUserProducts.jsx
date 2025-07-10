@@ -18,7 +18,7 @@ const useGetUserProducts = () => {
                 dispatch(setLoading(true));
                 
                 if (!user || (!user.id && !user._id)) {
-                    console.log("User not logged in or ID not available");
+                    // console.log("User not logged in or ID not available");
                     // Even if user is not available, set products to empty array and loading to false
                     dispatch(setAllProducts([]));
                     dispatch(setLoading(false));
@@ -34,7 +34,7 @@ const useGetUserProducts = () => {
                     
                     // Log a product to check company data structure
                     if (products.length > 0) {
-                        console.log("Sample product with company data:", products[0]);
+                        // console.log("Sample product with company data:", products[0]);
                     }
                     
                     // Apply search filtering if needed
@@ -44,7 +44,7 @@ const useGetUserProducts = () => {
                           )
                         : products;
                     
-                    console.log(`Found ${filteredProducts.length} products for the current user`);
+                    // console.log(`Found ${filteredProducts.length} products for the current user`);
                     dispatch(setAllProducts(filteredProducts));
                 } else {
                     throw new Error(res.data.message || "Failed to fetch products");

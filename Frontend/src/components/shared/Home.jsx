@@ -37,7 +37,7 @@ function Home() {
   }, []);
 
     const scroll = useScroll().scrollYProgress
-    console.log(scroll)
+    // console.log(scroll)
 
 //   function Router() {
 //     return (

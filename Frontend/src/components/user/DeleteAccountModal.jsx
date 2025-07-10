@@ -71,7 +71,7 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
         return;
       }
       
-      console.log("Attempting to delete user with ID:", userId);
+      // console.log("Attempting to delete user with ID:", userId);
       
       const response = await axios.delete(
         `http://localhost:8000/api/v1/user/delete-user/${userId}`,

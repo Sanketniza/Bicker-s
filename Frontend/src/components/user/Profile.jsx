@@ -12,15 +12,15 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
 
   // Debug logging
-  console.log("Full User Object from Redux:", user);
-  console.log("User Information:");
-  console.log("Full Name:", user?.fullname);
-  console.log("Email:", user?.email);
-  console.log("Phone:", user?.phone);
-  console.log("Address:", user?.address);
-  console.log("Bio:", user?.bio);
-  console.log("Social Media Links:", user?.socialMediaLinks);
-  console.log("Payment Info:", user?.paymentInfo);
+//   console.log("Full User Object from Redux:", user);
+//   console.log("User Information:");
+//   console.log("Full Name:", user?.fullname);
+//   console.log("Email:", user?.email);
+//   console.log("Phone:", user?.phone);
+//   console.log("Address:", user?.address);
+//   console.log("Bio:", user?.bio);
+//   console.log("Social Media Links:", user?.socialMediaLinks);
+//   console.log("Payment Info:", user?.paymentInfo);
 
   const handleEdit = () => {
     setIsEditing(true);

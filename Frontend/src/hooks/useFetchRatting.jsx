@@ -19,7 +19,7 @@ const useFetchRatting = () => {
                     withCredentials: true
                 });
 
-                console.log("Response Data:", response.data);
+                // console.log("Response Data:", response.data);
 
                 if(response.data.success){
                     dispatch(setRatings(response.data.ratting));

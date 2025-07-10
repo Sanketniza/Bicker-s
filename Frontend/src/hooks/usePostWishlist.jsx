@@ -18,7 +18,7 @@ const usePostAllWishlist = () => {
                         withCredentials: true
                     });
     
-                    console.log("Response Data:", response.data);
+                    // console.log("Response Data:", response.data);
     
                     if(response.data.success){
                         dispatch(addToWishList(response.data.success));

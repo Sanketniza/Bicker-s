@@ -27,7 +27,7 @@ const getDataUri = (file) => {
         }
         
         // Log file details for debugging
-        console.log(`Processing file in getDataUri: ${file.originalname}, size: ${file.buffer.length} bytes`);
+        // console.log(`Processing file in getDataUri: ${file.originalname}, size: ${file.buffer.length} bytes`);
 
         const parser = new DatauriParser();
         const extName = path.extname(file.originalname).toString();
@@ -38,7 +38,7 @@ const getDataUri = (file) => {
             return null;
         }
         
-        console.log(`DataURI created successfully for ${file.originalname}`);
+        // console.log(`DataURI created successfully for ${file.originalname}`);
         return result;
     } catch (error) {
         console.error(`Error in getDataUri for ${file?.originalname || 'unknown file'}:`, error);

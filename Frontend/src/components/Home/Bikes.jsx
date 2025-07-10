@@ -11,7 +11,7 @@ export default function CompaniesPage() {
   
   // Filter products with category "bike"
   const bikeProducts = allProducts.filter(product => product.category === 'bike' || product.category === 'other');
-  console.log("Bike products:", bikeProducts.length);
+//   console.log("Bike products:", bikeProducts.length);
 
   return (
         <div className="py-1 bg-[#09090B]">

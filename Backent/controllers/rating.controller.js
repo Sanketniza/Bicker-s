@@ -37,8 +37,8 @@ const Product = require('../models/product.model');
 
 exports.addRating = async (req, res) => {
     try {
-        console.log('Request Body:', req.body); // Log request body
-        console.log('Authenticated User:', req.user); // Log authenticated user
+        // console.log('Request Body:', req.body); // Log request body
+        // console.log('Authenticated User:', req.user); // Log authenticated user
 
         const { productId, rating, comment } = req.body;
         const userId = req.user.id; // ✅ Use req.user.id instead of req.user._id

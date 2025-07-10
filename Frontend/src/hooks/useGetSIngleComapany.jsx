@@ -18,7 +18,7 @@ const useGetUserCompanies = () => {
                     withCredentials: true
                 });
 
-                console.log("User companies response:", res.data); // Log the response data
+                // console.log("User companies response:", res.data); // Log the response data
 
                 if (res.data.success) {
                     dispatch(setCompanies(res.data.companies));

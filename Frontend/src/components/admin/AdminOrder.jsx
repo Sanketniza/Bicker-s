@@ -39,7 +39,7 @@ function AdminOrder() {
 
 
 
-    // Fetch orders on component mount
+    // Fetch orders on component mount 
     useEffect(() => {
         fetchOrders();
     }, []);
@@ -49,6 +49,7 @@ function AdminOrder() {
     try {
         console.log("Fetching orders...");
         const response = await axios.get("http://localhost:8000/api/v1/order/shop-owner", {
+        // const response = await axios.get(`${import.meta.env.URL}/order/shop-owner`, {
             withCredentials: true
         });
         
