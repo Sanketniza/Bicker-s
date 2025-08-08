@@ -376,16 +376,16 @@ export default function BikeDetails() {
                         </div>
 
 
-                         {/* // video section     */}
-                        <div className="mt-4 md:mt-6 h-[30px] border border-[#246FAC] rounded-lg overflow-hidden">
+                         {/* //todo: video section     */}
+                        <div className="mt-4 md:mt-6 h-[50px] border border-[#246FAC] rounded-lg overflow-hidden">
                             {
                                    singleProduct?.videos?.length > 0 ? (
                                     <Link to={`/video/${singleProduct?._id}`} className="flex items-center justify-center h-full text-white"> View Video </Link>
                                    ) : (
-                                    <div className="flex items-center justify-center h-full text-white">
-                                        No Video Is Available
-                                    </div>
-                                   )  
+                                        <div className="flex items-center justify-center h-full text-white">
+                                            No Video Is Available
+                                        </div>
+                                    )  
                             }
                         </div>
 
@@ -430,7 +430,8 @@ export default function BikeDetails() {
                             </div>
                         </div>    
 
-                        {/* //*:Rating and Reviews */}                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-lg">
+                        {/* //*:Rating and Reviews */}                       
+                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-lg">
                             <div className="flex items-center gap-2">
                                 <span className="text-yellow-400 text-xl">
                                     {averageRating ? `${averageRating} ★` : 'No ratings yet'}
@@ -482,38 +483,7 @@ export default function BikeDetails() {
 
                         <div className="flex items-center justify-between mx-2 px-4 py-2 bg-white/5 ">
                         <Like className="md:order-2" productId={singleProduct?._id} />
-
-                        {/* <div>
-                            <div className="flex items-center mt-6 mr-4 ">
-                            <Ratting />
-                            </div>
-
-                            <textarea
-                                name="Your Feedback"
-                                id=""
-                                className="w-full border border-[#10B981] rounded-md p-2 mt-4 mb-2 outline-none"
-                                placeholder="Write your feedback here..."
-                            >
-                            </textarea>
-                            <motion.button
-                                type="submit"
-                                className="w-full bg-emerald-500 text-white rounded-md font-medium text-[13px] my-2"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                            Submit Feedback
-                            </motion.button>
-                        </div> */}
-
-                         {/* ✅ Display Average Rating */}
-                    {/* <div className="flex items-center gap-2">
-                        <span className="text-yellow-400 text-xl">
-                        {averageRating ? `${averageRating} ★` : 'No ratings yet'}
-                        </span>
-                        <span className="text-gray-400">
-                        ({ratings.length} reviews)
-                        </span>
-                    </div> */}
+                        
 
                             {/* //* ✅ Rating Component */}
                             <div className="mt-4">
@@ -541,7 +511,7 @@ export default function BikeDetails() {
                     </div>
 
                     {/* Bike Details Section */}
-                    <div className="mt-12 grid md:grid-cols-2 gap-8">
+                    <div className=" grid md:grid-cols-2 gap-8">
                     <div className="space-y-6">
                         <h2 className="text-2xl font-bold text-white">Specifications</h2>
                         <div className="grid grid-cols-2 gap-4">
@@ -580,7 +550,7 @@ export default function BikeDetails() {
                         </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 mt-2">
                         <h2 className="text-2xl font-bold text-white">Key Features</h2>
                         <ul className="space-y-2">
                             {singleProduct?.features?.map((feature, index) => (
