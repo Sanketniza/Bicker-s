@@ -1,7 +1,7 @@
 import '../../App.css';
 
 import google from '../../assets/icons/google.png';
-import instagram from '../../assets/icons/instagram.png';
+// import instagram from '../../assets/icons/instagram.png';
 import eemail from '../../assets/icons/email (1).png';
 import ppassword from '../../assets/icons/pass.png';
 import { motion } from "motion/react";

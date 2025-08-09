@@ -14,7 +14,7 @@ import {
 } from "../ui/sheet";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Moon, Sun, User, LogOut, Package, Settings } from 'lucide-react';
+import {  User, LogOut, Package, Settings } from 'lucide-react';
 import { ModeToggle } from './mode-toggle'; // Import ModeToggle component
 import {USER_API_END_POINT } from '@/utils/api';
 import { useDispatch, useSelector } from 'react-redux';

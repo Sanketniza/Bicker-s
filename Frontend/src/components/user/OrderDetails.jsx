@@ -38,6 +38,10 @@ function OrderDetails() {
         
         if (user && user.id) {
             fetchOrders();
+        } else {
+            // Guest: no fetch and no loader; ensure empty state
+            setOrders([]);
+            setLoading(false);
         }
     }, [user]);
     
@@ -129,10 +133,16 @@ function OrderDetails() {
                     </div>
 
                     <div className="mt-8 overflow-x-auto "> 
-                        {loading ? (
+                        {!user ? (
+                            <div className="text-center text-orange-500 py-10">
+                                <ShoppingBag className="mx-auto text-orange-500 w-16 h-16 mb-4" />
+                                <p>No orders found , please login</p>
+                            </div>
+                        ) : loading ? (
                             <div className="flex items-center justify-center h-40">
                                 <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
-                            </div>                        ) : filteredOrders.length === 0 ? (
+                            </div>
+                        ) : filteredOrders.length === 0 ? (
                             <div className="text-center text-orange-500 py-10">
                                 <ShoppingBag className="mx-auto text-orange-500 w-16 h-16 mb-4" />
                                 <p>No orders found</p>
@@ -182,7 +192,9 @@ function OrderDetails() {
                                                 }`}>
                                                     {order.orderType || "N/A"}
                                                 </span>
-                                            </td>                                            <td className="p-3">
+                                            </td> 
+
+                                            <td className="p-3">
                                                 <button 
                                                     className="flex items-center gap-1 text-sm font-semibold text-rose-500 hover:text-rose-600 transition-colors"
                                                     onClick={() => handleDeleteOrder(order._id)}

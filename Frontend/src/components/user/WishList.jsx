@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CompanyCard } from '../Home/Bikes/CompanyCard';
 import { Button } from '../ui/button';
-import { X } from 'lucide-react';
+import { ShoppingBag, X } from 'lucide-react';
 import Navbar from '../shared/Navbar';
 import { toast } from 'sonner';
 import { useSelector, useDispatch } from 'react-redux';
@@ -220,8 +220,13 @@ export default function WishlistPage() {
                                                 </div>
                                             ))}
                                         </div>
-                                    ) : (
-                                        <p className="text-gray-400 text-center py-10">{user ? 'No items in wishlist' : 'Please login to use wishlist'}</p>
+                                    ) : ( 
+                                        <div>
+                                            <ShoppingBag className="mx-auto text-orange-500 w-16 h-16 mb-4" />
+                                            <p className="text-gray-400 text-center py-10"> 
+                                                {user ? 'No items in wishlist' : 'Please login to use wishlist'}
+                                            </p>
+                                        </div>
                                     )
                                 }
 

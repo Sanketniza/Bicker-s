@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import Navbar from '../shared/Navbar';
 import eemail from '../../assets/icons/email (1).png';
 import { motion } from "motion/react";
+import Footer from '../shared/footer';
 
 function ForgetPassword() {
     const [email, setEmail] = useState('');
@@ -108,9 +109,10 @@ function ForgetPassword() {
                         </div>
 
                     </div>
-                                        {/* Right side form */}
-                    <div className="w-full max-w-md p-6 mt-8 rounded-xl shadow-lg bg-[#16171C] md:mt-0">
-                        <h2 className="mb-4 text-2xl font-bold text-white">Reset Your Password</h2>
+
+                       {/* Right side form */}
+                    <div className="w-full max-w-md p-6 mt-8 border-2 border-[#316370] rounded-xl shadow-lg bg-[#16171C] md:mt-0">
+                        <h2 className="mb-4 text-2xl font-bold text-orange-500">Reset Your Password</h2>
                         <p className="mb-6 text-gray-300">
                             Enter your email address and we'll send you a link to reset your password.
                         </p>
@@ -157,6 +159,8 @@ function ForgetPassword() {
                     </div>
                 </div>
             </div>
+
+            <Footer/>
         </>
     );
 }

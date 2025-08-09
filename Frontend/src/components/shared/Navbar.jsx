@@ -14,14 +14,14 @@ import {
 } from "../ui/sheet";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Moon, Sun, User, LogOut, Package, Settings } from 'lucide-react';
+import {  User, LogOut, Package, Settings } from 'lucide-react';
 import { ModeToggle } from './mode-toggle'; // Import ModeToggle component
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '../../store/authSlice';
 import { clearWishList } from '@/store/wishListSlice';
-import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
+//import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
 import AdminHome from '../admin/AdminHome';
 
 function Navbar() {
