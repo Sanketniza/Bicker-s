@@ -1,2 +1,11 @@
 .qodo
 .vscode
+
+# Ignore environment files repo-wide
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+**/*.env
+!**/.env.example
