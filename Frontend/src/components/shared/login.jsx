@@ -43,7 +43,8 @@ function Login() {
 
         try{
             dispatch(setLoading(true));
-            const res = await axios.post('http://localhost:8000/api/v1/user/login', input , {
+            // const res = await axios.post('http://localhost:8000/api/v1/user/login', input , {
+            const res = await axios.post('https://routers-baking-paragraph-sponsors.trycloudflare.com/api/v1/user/login', {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -101,16 +102,6 @@ function Login() {
                     <div className="flex flex-col items-center space-x-10 md:flex-row md:items-start">
 
                           <div className="cards p-12 ">
-
-                            {/* <div style={{width: '300px', height: '120px'}} className="card red ">
-                              <p className="tip">Hover Me</p>
-                              <p className="second-text">Lorem Ipsum</p>
-                            </div>
-
-                            <div style={{width: '300px', height: '120px'}} className="card blue">
-                              <p className="tip">Hover Me</p>
-                              <p className="second-text">Lorem Ipsum</p>
-                            </div> */}
 
                             <div style={{width: '300px', height: '120px'}} className="card p-3 pink border border-transparent rounded-lg bg-[#0D0D0D] hover:border-t-[#EF4444] hover:border-l-[#EF4444] hover:border-b-transparent hover:border-r-transparent cursor-pointer ">
                             <motion.div 
@@ -188,11 +179,7 @@ function Login() {
                                 <img src={google} className="w-6 h-6 mr-5" alt="google" />
                                 Continue with Google
                             </button>
-
-                            {/* <button style={{width: '80%', margin: '0 auto'}} className="flex items-center justify-center w-full px-4 py-2 mt-3 text-white bg-transparent border-2 border-gray-700 focus:border-pink-600 rounded-full hover:bg-[#3A3C3F]">
-                                <img src={instagram} className="w-6 h-6 mr-5" alt="google" />
-                                Continue with GitHub
-                            </button> */}
+                            
 
                             <div className="flex items-center justify-center my-4">
                                 <hr className="w-8 h-px bg-[#4A4C51]"/>
