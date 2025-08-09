@@ -43,8 +43,8 @@ function Login() {
 
         try{
             dispatch(setLoading(true));
-            // const res = await axios.post('http://localhost:8000/api/v1/user/login', input , {
-            const res = await axios.post('https://routers-baking-paragraph-sponsors.trycloudflare.com/api/v1/user/login', {
+            const res = await axios.post('http://localhost:8000/api/v1/user/login', input , {
+            // const res = await axios.post('https://routers-baking-paragraph-sponsors.trycloudflare.com/api/v1/user/login', {
                 headers: {
                     'Content-Type': 'application/json'
                 },
