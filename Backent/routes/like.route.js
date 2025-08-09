@@ -5,6 +5,7 @@ const authenticate = require('../Middlewares/isAuthenticated');
 const router = express.Router();
 
 router.post('/toggle', authenticate, addLikeOrDislike);
-router.get('/count/:productId', authenticate , getLikesAndDislikesCount);
+// Make counts public so even logged-out users can see like/dislike totals
+router.get('/count/:productId', getLikesAndDislikesCount);
 
 module.exports = router;

@@ -12,10 +12,12 @@ import Footer from '../shared/footer';
 
 export default function WishlistPage() {
     const dispatch = useDispatch();
+    const { user } = useSelector(state => state.auth);
     const { wishlist = [] } = useSelector(state => state.wishlist); // ✅ Fallback to empty array
 
     // console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
-    addToWishList(wishlist);
+    // remove accidental dispatch on render that could duplicate items
+    // addToWishList(wishlist);
     // console.log("Wishlist sdf :", wishlist); // ✅ Log to verify state
     // console.log("Wishlist  :",addToWishList); // ✅ Log to verify state
 
@@ -35,49 +37,51 @@ export default function WishlistPage() {
   
 
 
-      // ✅ Fetch all products from the wishlist
+      // ✅ Fetch all products from the wishlist only if user is logged in
       useEffect(() => {
         const fetchWishList = async () => {
+            if (!user) {
+                // Ensure local wishlist is cleared for guests
+                dispatch(clearWishList());
+                return;
+            }
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/wishlist/', {
                     withCredentials: true
                 });
-        
-                // console.log("Raw Response Data:", response);
-        
-                if (response.data.success && response.data.wishlist?.products?.length) {
-                    const products = response.data.wishlist.products.map(product => ({
+
+                if (response.data.success) {
+                    const items = response.data.wishlist?.products || [];
+                    // reset first then add
+                    dispatch(clearWishList());
+                    const products = items.map(product => ({
                         _id: product._id,
                         title: product.title,
                         price: product.price,
                         images: product.images || [],
                         description: product.description || '',
                     }));
-        
-                    products.forEach(product => {
-                        dispatch(addToWishList(product));
-                    });
-        
-                    // console.log("All Products in Wishlist:", products);
-                    // console.log(`Total Products in Wishlist: ${products.length}`);
+                    products.forEach(product => dispatch(addToWishList(product)));
                 }
             } catch (error) {
                 console.error('Error fetching wishlist:', error.response || error);
-                toast.error("Failed to load wishlist", {
-                    style: {
-                        color: '#ef4444',
-                        backgroundColor: '#09090B',
-                        fontSize: '20px',
-                        borderColor: '#ef4444',
-                        padding: '10px 20px'
-                    }
-                });
+                // Don't show error to guests; only notify logged-in users
+                if (user) {
+                    toast.error("Failed to load wishlist", {
+                        style: {
+                            color: '#ef4444',
+                            backgroundColor: '#09090B',
+                            fontSize: '20px',
+                            borderColor: '#ef4444',
+                            padding: '10px 20px'
+                        }
+                    });
+                }
             }
         };
 
         fetchWishList();
-        
-    }, [dispatch]);
+    }, [dispatch, user]);
 
     // useEffect(() => {
     //     console.log("Updated Wishlist State:", wishlist);
@@ -189,7 +193,7 @@ export default function WishlistPage() {
                                 </Button>
                             </div>                    {/* ✅ Total Price */}
                     {
-                        wishlist.length > 0 && (
+                        user && wishlist.length > 0 && (
                             <div className="mb-6 sm:mb-8 text-lg sm:text-xl text-gray-300">
                                 Total Price: <span className="text-emerald-500 font-bold">₹{totalPrice.toLocaleString()}</span>
                             </div>
@@ -217,7 +221,7 @@ export default function WishlistPage() {
                                             ))}
                                         </div>
                                     ) : (
-                                        <p className="text-gray-400 text-center py-10">No items in wishlist</p>
+                                        <p className="text-gray-400 text-center py-10">{user ? 'No items in wishlist' : 'Please login to use wishlist'}</p>
                                     )
                                 }
 

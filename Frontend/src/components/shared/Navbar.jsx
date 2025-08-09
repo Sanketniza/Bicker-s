@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '../../store/authSlice';
+import { clearWishList } from '@/store/wishListSlice';
 import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
 import AdminHome from '../admin/AdminHome';
 
@@ -52,7 +53,9 @@ function Navbar() {
         console.log("Logout Response:", res.data);
 
         if (res.data.success) {
+            // Clear auth and any user-scoped client state
             dispatch(setUser(null));
+            dispatch(clearWishList());
             navigate("/login");
             toast.success(res.data.message, {
                 style: {

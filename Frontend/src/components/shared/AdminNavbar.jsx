@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '../../store/authSlice';
+import { clearWishList } from '@/store/wishListSlice';
 import {  OpenInBrowserRounded } from '@mui/icons-material';
 
 function AdminNavbar() {
@@ -55,6 +56,7 @@ function AdminNavbar() {
 
             if(res.data.success) {
                 dispatch(setUser(null));
+                dispatch(clearWishList());
                 navigate("/login");
                 toast.success(res.data.message, {
                     style: {
