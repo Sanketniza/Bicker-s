@@ -6,8 +6,8 @@ import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme-provider';
 
 // components
-import Login from './components/shared/Login';
-import Signup from './components/shared/Signup';
+import Login from './components/shared/login';
+import Signup from './components/shared/signup';
 import BikeDetails from './components/Home/Bikes/bike-details';
 import Home from './components/shared/Home';
 import Profile from './components/user/Profile';
