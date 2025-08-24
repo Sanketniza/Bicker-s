@@ -27,13 +27,11 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(cookieParser());
-const corsOptions = {
-    origin: [
-        "http://localhost:5173",
-        "https://routers-baking-paragraph-sponsors.trycloudflare.com",
-    ],
-    credentials: true
-};
+const frontendURL = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const corsOptions = {
+        origin: frontendURL,
+        credentials:true
+    };
 
 
 app.use(cors(corsOptions)); // Enable CORS with options
