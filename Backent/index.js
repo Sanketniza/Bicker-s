@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./utils/db');
+const rateLimit = require('express-rate-limit');
 const app = express();
 
 const userRoutes = require('./routes/user.route');
@@ -21,6 +22,9 @@ dotenv.config(); // Load environment variables
 
 //* Middleware
 app.use(express.json());
+
+
+
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(cookieParser());
 const corsOptions = {
@@ -31,7 +35,16 @@ const corsOptions = {
     credentials: true
 };
 
+
 app.use(cors(corsOptions)); // Enable CORS with options
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP'
+});
+app.use(limiter);
 
 const PORT = process.env.PORT || 3000;
 
