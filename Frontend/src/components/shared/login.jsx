@@ -9,6 +9,7 @@ import {Link, useNavigate}  from 'react-router-dom';
 import Navbar from './Navbar';
 
 import '../../css/Login.css'
+import { USER_API_END_POINT } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setUser } from '@/store/authSlice';
@@ -43,8 +44,7 @@ function Login() {
 
         try{
             dispatch(setLoading(true));
-            const res = await axios.post('http://localhost:8000/api/v1/user/login', input , {
-            // const res = await axios.post('https://routers-baking-paragraph-sponsors.trycloudflare.com/api/v1/user/login', {
+            const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { setUser } from '../../store/authSlice';
 import { clearWishList } from '@/store/wishListSlice';
+import { USER_API_END_POINT } from '@/utils/api';
 //import AdminNavbar from './AdminNavbar'; // Import AdminNavbar component
 import AdminHome from '../admin/AdminHome';
 
@@ -45,8 +46,7 @@ function Navbar() {
 
   const logoutHandler = async () => {
     try {
-        const res = await axios.get("http://localhost:8000/api/v1/user/logout", {
-        // const res = await axios.get("https://routers-baking-paragraph-sponsors.trycloudflare.com/api/v1/user/logout", {
+        const res = await axios.get(`${USER_API_END_POINT}/logout`, {
             withCredentials: true
         });
 

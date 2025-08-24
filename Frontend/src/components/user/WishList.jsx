@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { addToWishList, clearWishList, removeFromWishList } from '@/store/wishListSlice';
+import { WISHLIST_API_END_POINT } from '@/utils/api';
 import Footer from '../shared/footer';
 
 
@@ -46,7 +47,7 @@ export default function WishlistPage() {
                 return;
             }
             try {
-                const response = await axios.get('http://localhost:8000/api/v1/wishlist/', {
+                const response = await axios.get(`${WISHLIST_API_END_POINT}/`, {
                     withCredentials: true
                 });
 
@@ -97,7 +98,7 @@ export default function WishlistPage() {
     // ✅ Remove single product from wishlist
     const handleRemove = async (productId) => {
         try {
-            const res = await axios.delete(`http://localhost:8000/api/v1/wishlist/remove/${productId}`, {
+            const res = await axios.delete(`${WISHLIST_API_END_POINT}/remove/${productId}`, {
                 withCredentials: true
             });
 
@@ -130,7 +131,7 @@ export default function WishlistPage() {
     // ✅ Clear all wishlist items
     const handleClearWishlist = async () => {
         try {
-            const res = await axios.delete('http://localhost:8000/api/v1/wishlist/clear', {
+            const res = await axios.delete(`${WISHLIST_API_END_POINT}/clear`, {
                 withCredentials: true
             });
 
