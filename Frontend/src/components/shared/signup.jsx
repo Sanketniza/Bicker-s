@@ -5,9 +5,6 @@ import userr from '../../assets/icons/user.png';
 import eemail from '../../assets/icons/email (1).png';
 import ppassword from '../../assets/icons/pass.png';
 import pphone from '../../assets/icons/phone.png';
-import aaddress from '../../assets/icons/location.png';
-
-// import cycle from '../../assets/icons/cycling.gif';
 import { motion } from "motion/react";
 import {Link, useNavigate}  from 'react-router-dom';
 import Navbar from './Navbar';
@@ -16,7 +13,7 @@ import { Label, RadioGroup } from '@radix-ui/react-dropdown-menu';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setError, setLoading, setUser } from '@/store/authSlice';
+import {  setLoading } from '@/store/authSlice';
 import { toast } from 'sonner';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
 
@@ -212,7 +209,7 @@ function SignUp() {
                         
                         <div className="w-full max-w-md p-6 mt-8 rounded-xl shadow-lg bg-[#16171C] md:mt-0">
                             <h2 className="mb-4 text-2xl font-bold">Secure Access Made Simple</h2>
-                            <p className="mb-4">Accessing your account is a Biker's. Pick your preferred login method.</p>
+                            <p className="mb-4">Accessing your account is a Biker&apos;s. Pick your preferred login method.</p>
                             
                             <button style={{width: '80%', margin: '10px auto' }} className="flex items-center justify-center w-full px-4 py-2 text-white bg-transparent border-2 border-gray-700 focus:border-pink-600 rounded-full hover:bg-[#3A3C3F]">
                                 <img src={google} className="w-6 h-6 mr-5" alt="google" />
@@ -291,19 +288,6 @@ function SignUp() {
                                         defaultValue="+91"
                                     />
                                 </div>
-{/* 
-                                <div className="relative">
-                                    <img src={aaddress} className="absolute w-5 h-5 left-3 top-8" alt="phone" />
-                                    <input 
-                                        type="text" 
-                                        name="address"
-                                        onChange={changeEventHandler}
-                                        value={input.address}
-                                        placeholder="Enter Your Address" 
-                                        className="w-full p-3 pl-10 mt-4 mb-2 text-white border-2 border-transparent rounded-full" 
-                                        defaultValue="+91"
-                                    />
-                                </div> */}
 
                                 <div className='flex items-center justify-between'>
                                     <RadioGroup className="flex items-end gap-4 my-5 w-full">

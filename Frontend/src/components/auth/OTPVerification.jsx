@@ -179,7 +179,7 @@ function OTPVerification() {
                         <>
                             <h2 className="mb-2 text-2xl font-bold text-center text-white">Verify Your Email</h2>
                             <p className="mb-6 text-center text-gray-300">
-                                We've sent a 6-digit code to <span className="text-emerald-500 font-semibold">{email || 'your email'}</span>. 
+                                We&lsquo;ve sent a 6-digit code to <span className="text-emerald-500 font-semibold">{email || 'your email'}</span>. 
                                 Enter the code below to verify your account.
                             </p>
                             
@@ -200,7 +200,7 @@ function OTPVerification() {
                             </div>
                             
                             <p className="mb-4 text-center text-sm text-gray-400">
-                                Didn't receive the code? {' '}
+                                Didn&apos;t receive the code? {' '}
                                 {countdown > 0 ? (
                                     <span>Resend in {countdown}s</span>
                                 ) : (
