@@ -25,14 +25,14 @@ const optionalAuth = async (req, res, next) => {
             }
         } catch (tokenError) {
             // If token verification fails, continue without authentication
-            console.log("Token verification failed:", tokenError.message);
+            // console.log("Token verification failed:", tokenError.message);
         }
         
         // Continue to the next middleware
         next();
     } catch (error) {
         // Continue without authentication in case of any error
-        console.error('Optional auth error:', error.message);
+        // console.error('Optional auth error:', error.message);
         next();
     }
 };

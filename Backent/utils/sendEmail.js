@@ -36,15 +36,15 @@ exports.sendEmail = async ({email, subject, message}) => {
         await transporter.sendMail(option);
         // console.log(`Email sent to ${email} successfully`);
     } catch (error) {
-        console.error('Error sending email:', error);
+        // console.error('Error sending email:', error);
         
-        // Provide more detailed error information for debugging
-        if (error.code === 'EAUTH') {
-            console.error('Authentication error: Your Gmail credentials are incorrect or not working.');
-            console.error('Make sure you\'re using an App Password if 2FA is enabled on your Google account.');
-        } else if (error.code === 'ESOCKET') {
-            console.error('Socket error: There might be network issues or the SMTP port is blocked.');
-        }
+        // // Provide more detailed error information for debugging
+        // if (error.code === 'EAUTH') {
+        //     console.error('Authentication error: Your Gmail credentials are incorrect or not working.');
+        //     console.error('Make sure you\'re using an App Password if 2FA is enabled on your Google account.');
+        // } else if (error.code === 'ESOCKET') {
+        //     console.error('Socket error: There might be network issues or the SMTP port is blocked.');
+        // }
         
         throw new Error(`Failed to send email: ${error.message}`);
     }
